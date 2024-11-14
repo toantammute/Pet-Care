@@ -37,6 +37,7 @@ export const AuthProvider = ({ children }) => {
 
     const Login = async (username,password) => {
         setIsLoading(true);
+        //Token device
         const deviceToken = await messaging().getToken();
         console.log(deviceToken);
         axios.post(`${API_URL}/user/login`, {
