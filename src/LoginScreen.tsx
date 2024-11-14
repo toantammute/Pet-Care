@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { StyleSheet, Text, TextInput, View, TouchableOpacity, Button } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
+import Icon from "react-native-vector-icons/Ionicons";
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AuthContext } from '../context/AuthContext';
