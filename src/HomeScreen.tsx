@@ -7,13 +7,13 @@ import { AuthContext } from "../context/AuthContext";
 
 
 const HomeScreen = () =>{
-  const {isLoading, logout, userInfo} = useContext(AuthContext);
+  const {isLoading, Logout, userInfo} = useContext(AuthContext);
 
   return (
     <View style={styles.container}>
       <Spinner visible={isLoading} />
       <Text style={styles.welcome}>Welcome to Pet Management {userInfo.user.full_name} </Text>
-      <Button title="Logout" onPress={logout}/>
+      <Button title="Logout" onPress={Logout}/>
     </View>
   );
 };
