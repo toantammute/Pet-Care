@@ -3,6 +3,7 @@ import { createContext, useState } from "react";
 import { API_URL } from "@env";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import messaging from "@react-native-firebase/messaging";
 
 export const AuthContext = createContext();
 
@@ -10,6 +11,7 @@ export const AuthProvider = ({ children }) => {
     const [userInfo, setUserInfo] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [splashLoading, setSplashLoading] = useState(false);
+    console.log(API_URL);
 
     const Register = async (email, password, full_name, username) => {
         setIsLoading(true);
@@ -33,11 +35,16 @@ export const AuthProvider = ({ children }) => {
         });
     };
 
-    const Login = async (email, password, full_name, username) => {
+    const Login = async (username,password) => {
         setIsLoading(true);
+        //Token device
+        const deviceToken = await messaging().getToken();
+        console.log(deviceToken);
         axios.post(`${API_URL}/user/login`, {
             username,
-            password
+            password,
+            token: deviceToken,
+            device_type: 'android'
         })
         .then(response => {
             const userInfo = response.data.data;
@@ -54,11 +61,12 @@ export const AuthProvider = ({ children }) => {
 
     const Logout = async () => {
         setIsLoading(true);
-        axios.post(`${API_URL}/user/logout`,
-            {},
+        const deviceToken = await messaging().getToken();
+        axios.post(`${API_URL}/user/logout`,null,
             {
+                params: {token: deviceToken},
                 headers: {Authorization: `Bearer ${userInfo.access_token}`,},
-            },
+            }
         ).then(res => {
             console.log(res.data);
             AsyncStorage.removeItem("userInfo");
