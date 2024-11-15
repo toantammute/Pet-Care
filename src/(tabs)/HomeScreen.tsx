@@ -4,7 +4,6 @@ import { StyleSheet, SafeAreaView, Text,TextInput, View, Button } from "react-na
 import Spinner from "react-native-loading-spinner-overlay";
 import { AuthContext } from "../../context/AuthContext";
 import Header from "../../components/home/Header";
-import TabLayout from "./_layout";
 
 
 const HomeScreen = () =>{

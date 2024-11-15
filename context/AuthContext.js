@@ -42,7 +42,9 @@ export const AuthProvider = ({ children }) => {
         console.log(deviceToken);
         axios.post(`${API_URL}/user/login`, {
             username,
-            password
+            password,
+            token: deviceToken,
+            device_type: 'android'
         })
         .then(response => {
             const userInfo = response.data.data;
@@ -59,11 +61,12 @@ export const AuthProvider = ({ children }) => {
 
     const Logout = async () => {
         setIsLoading(true);
-        axios.post(`${API_URL}/user/logout`,
-            {},
+        const deviceToken = await messaging().getToken();
+        axios.post(`${API_URL}/user/logout`,null,
             {
+                params: {token: deviceToken},
                 headers: {Authorization: `Bearer ${userInfo.access_token}`,},
-            },
+            }
         ).then(res => {
             console.log(res.data);
             AsyncStorage.removeItem("userInfo");

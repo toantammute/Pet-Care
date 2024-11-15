@@ -1,18 +1,22 @@
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native'
 import NotifyIcon from 'react-native-vector-icons/Ionicons'
-import React from 'react'
+import React, { useContext } from 'react'
+import { AuthContext } from '../../context/AuthContext'
 
 const Header = () => {
+  const { userInfo } = useContext(AuthContext)
+
+  const base64Image = `data:image/png;base64,${userInfo.user.data_image}`;
   return (
     <View style={styles.containerRow}>
       <View style={styles.container}>
         <View style={styles.leftContainer}>
           <Image
-            source={{ uri: 'https://cdn.popsww.com/blog/sites/2/2021/03/doraemon-wiki-mieng-cua-doraemon.png' }}
+            source={{ uri: base64Image }}
             style={styles.profileImage} />
           <View>
             <Text style={styles.name}>Welcome,</Text>
-            <Text>Username</Text>
+            <Text>{userInfo.user.username}</Text>
           </View>
           <View style={styles.rightContainer}>
             <TouchableOpacity>
