@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
         paddingTop: 8,
         paddingBottom: 8,
         height:'auto',
-        gap:120
+        gap:150
     },
     infoContainer:{
         flexDirection: 'row',
