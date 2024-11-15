@@ -1,8 +1,8 @@
 import React from 'react';
-import {StyleSheet, Text, SafeAreaView, View} from 'react-native';
 import Navigation from './components/Navigation';
 import { AuthProvider } from './context/AuthContext';
 import { StatusBar } from 'react-native';
+
 
 const App = () => {
   return (
@@ -12,6 +12,7 @@ const App = () => {
     </AuthProvider>
   );
 };
+
 
 
 export default App;
