@@ -24,8 +24,7 @@ const styles = StyleSheet.create({
   container: {
     flex:1,
     alignItems: 'center',
-    justifyContent: 'center',
-    // marginVertical: 200,
+    // justifyContent: 'center',
   },
   welcome:{
     fontSize: 20,

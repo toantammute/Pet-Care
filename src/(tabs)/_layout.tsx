@@ -15,6 +15,7 @@ const TabLayout = () => {
         <Tab.Navigator>
             <Tab.Screen name="Home" component={HomeScreen} options={{
                 title:'Home',
+                headerShown: false,
                 tabBarIcon: ({color}) => <Icon name="home" size={20} color={color} />
                 }}/>
             <Tab.Screen name="Pet" component={PetScreen} options={{
