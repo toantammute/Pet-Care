@@ -8,22 +8,20 @@ const Header = () => {
 
   const base64Image = `data:image/png;base64,${userInfo.user.data_image}`;
   return (
-    <View style={styles.containerRow}>
-      <View style={styles.container}>
-        <View style={styles.leftContainer}>
-          <Image
-            source={{ uri: base64Image }}
-            style={styles.profileImage} />
-          <View>
-            <Text style={styles.name}>Welcome,</Text>
-            <Text>{userInfo.user.username}</Text>
-          </View>
-          <View style={styles.rightContainer}>
-            <TouchableOpacity>
-              <NotifyIcon name="notifications-outline" size={30} />
-            </TouchableOpacity>
-          </View>
+    <View style={styles.container}>
+      <View style={styles.leftContainer}>
+        <Image
+          source={{ uri: base64Image }}
+          style={styles.profileImage} />
+        <View style={styles.welcomeContainer}>
+          <Text style={styles.welcomeText}>Welcome,</Text>
+          <Text style={styles.usernameText}>{userInfo.user.username}</Text>
         </View>
+      </View>
+      <View style={styles.rightContainer}>
+        <TouchableOpacity>
+          <NotifyIcon name="notifications-outline" size={30} />
+        </TouchableOpacity>
       </View>
     </View>
 
@@ -31,35 +29,52 @@ const Header = () => {
 }
 
 const styles = StyleSheet.create({
-  containerRow:{
-    flexDirection:'row',
-    // flex:1,
-
-  },
   container: {
+    marginTop: 16,
+    display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    backgroundColor: '#fff',
-    elevation: 2,
+    borderRadius: 10,
+    paddingLeft: 16,
+    paddingRight: 16,
+    paddingTop: 8,
+    paddingBottom: 8,
+    backgroundColor: 'white',
+    width: 'auto',
+    height:'auto',
+    gap:160
   },
   leftContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: 16,
+  },
+  welcomeContainer:{
+    flexDirection: 'column',
+    gap: 2,
+    alignItems: 'flex-start',
+  },
+  welcomeText:{
+    fontSize:18,
+    fontWeight:600,
+    fontFamily:'Duplet'
+  },
+  usernameText:{
+    fontSize:25,
+    fontWeight:400,
+    fontFamily:'Duplet'
   },
   profileImage: {
     width: 40,
     height: 40,
     borderRadius: 20,
   },
-  name: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginLeft: 12,
-  },
   rightContainer: {
+    borderWidth: 1,
+    padding: 8,
+    borderRadius: 8,
+    borderColor:'#F2F2F2',
     justifyContent: 'center',
     alignItems: 'center',
   },
