@@ -10,6 +10,7 @@ import {
 import React, {useEffect, useState} from 'react';
 import UserProfile from '../../components/user_profile/UserProfile';
 import useUser from '../../hooks/useUser';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const ProfileScreen = () => {
   const {user, isLoading, getUser} = useUser(); // Destructure the values from the custom hook
@@ -20,16 +21,17 @@ const ProfileScreen = () => {
   }, []); // Empty dependency array means it will run once when the component mounts
 
   // Show a loading indicator while data is being fetched
-  if (isLoading) {
-    return (
-      <View style={styles.container}>
-        <ActivityIndicator size="large" />
-      </View>
-    );
-  }
+
 
   // Show the user profile data once it's fetched
-  return <UserProfile userData={user} />;
+  return (
+    <View>
+      <Spinner visible={isLoading} />
+      <UserProfile userData={user || null} />;
+    </View>
+  );
+
+  
 };
 
 const styles = StyleSheet.create({

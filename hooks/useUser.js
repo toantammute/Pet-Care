@@ -1,29 +1,35 @@
-import {API_URL} from '@env';
+import { API_URL } from '@env';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
+
+
 const useUser = () => {
-    
-    const { userInfo } = useContext(AuthContext) ;  // Fallback value
-    const [user, setUser] = useState<User | null>(null);  // Ensure initial state is null
-    const [isLoading, setIsLoading] = useState(true);
 
-    console.log(userInfo.access_token)
+  const { userInfo } = useContext(AuthContext);  // Fallback value
+  const [user, setUser] = useState();  // Ensure initial state is null
+  const [isLoading, setIsLoading] = useState(false);
 
-    const getUser = async () => {
-      
+  const getUser = async () => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
-        const response = await axios.get(`${API_URL}/user/`, {
+      console.log("Vô đc try",userInfo.access_token)
+      const response = await axios.get(`${API_URL}/user/`, {
         headers: {
           Authorization: `Bearer ${userInfo.access_token}`, // Send the token for authentication
-        },
-        });
-        const data = await response.json();
-        setUser(data); // Assuming response contains the user data
-
+        }
+      });
+      console.log("Vô đc try")
+      console.log(response.data.data.email);
+      setUser(response.data.data);
+      // console.log(response.data);
+      // const data = await response.data.json();
+      // setUser(data); // Assuming response contains the user data
+      // console.log(data);
+      setIsLoading(false);
     } catch (error) {
-      console.error('Error fetching user:', error);
+      console.log('Error fetching user:', error);
+      setIsLoading(false);
     } finally {
       setIsLoading(false);
     }
