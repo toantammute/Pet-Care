@@ -1,12 +1,10 @@
-import React, {useEffect, useContext} from "react";
-import { createContext, useState } from "react";
 import { API_URL } from "@env";
 import axios from "axios";
-import { AuthContext } from "./AuthContext";
+import React, {useEffect, useContext, useState} from "react";
+import { AuthContext } from "../context/AuthContext";
 
-export const PetContext = createContext();
 
-export const PetProvider = ({ children }) => {
+const usePets = () => {
     const {userInfo} = useContext(AuthContext);
     const [pets, setPets] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -20,7 +18,7 @@ export const PetProvider = ({ children }) => {
                 }
             });
             setPets(response.data);
-            console.log(pets);
+            response.data.forEach(pet => console.log(pet.name));
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false);
@@ -35,14 +33,11 @@ export const PetProvider = ({ children }) => {
         getPets();
     },[]);
 
-    return (
-        <PetContext.Provider value={{
-            pets,
-            isLoading,
-            getPets,
-        }}>
-            {children}
-        </PetContext.Provider>
-    );
+    return {
+        pets,
+        isLoading,
+        getPets,
+    };
 };
 
+export default usePets;
