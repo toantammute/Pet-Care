@@ -13,16 +13,14 @@ const useUser = () => {
   const getUser = async () => {
     setIsLoading(true);
     try {
-      console.log("Vô đc try",userInfo.access_token)
       const response = await axios.get(`${API_URL}/user/`, {
         headers: {
           Authorization: `Bearer ${userInfo.access_token}`, // Send the token for authentication
         }
       });
-      console.log("Vô đc try")
-      console.log(response.data.data.email);
+
       setUser(response.data.data);
-      // console.log(response.data);
+      console.log(response.data);
       // const data = await response.data.json();
       // setUser(data); // Assuming response contains the user data
       // console.log(data);
