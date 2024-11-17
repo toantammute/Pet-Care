@@ -4,14 +4,10 @@ import PetCard from '../../components/pet/PetCard'
 import Spinner from 'react-native-loading-spinner-overlay'
 import usePet from '../../hooks/usePets'
 import { useFocusEffect } from '@react-navigation/native'
+import FloatingAddButton from '../../components/pet/FloatingAddButton'
 
 const PetScreen = () => {
   const { pets, isLoading, getPets } = usePet();
-
-  // useEffect(() => {
-  //   console.log('useEffect');
-  //   getPets();
-  // }, []);
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -44,6 +40,8 @@ const PetScreen = () => {
         refreshing={refreshing} // Control the refreshing state
         onRefresh={onRefresh} // Call getPets when pulled down
       />
+      <FloatingAddButton /> {/* Add Floating Button */}
+
     </View>
   )
 }

@@ -9,6 +9,8 @@ import RegisterScreen from '../src/RegisterScreen';
 import { AuthContext } from '../context/AuthContext';
 import SplashScreen from '../src/SplashScreen';
 import TabLayout from '../src/(tabs)/_layout';
+import PetScreen from '../src/(tabs)/PetScreen';
+import AddPetScreen from '../src/(tabs)/NewPetScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -25,12 +27,17 @@ const Navigation = () => {
           <Stack.Screen name='Splash' component={SplashScreen} options={{headerShown:false}}/>
         ) : 
         userInfo.access_token ? (
-          <Stack.Screen name='Tab' component={TabLayout} options={{headerShown:false}}/>
+          <>
+            <Stack.Screen name='Tab' component={TabLayout} options={{ headerShown: false }} />
+            <Stack.Screen name="PetScreen" component={PetScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="AddPetScreen" component={AddPetScreen} />
+          </>
         ) : (
             <>
             <Stack.Screen name='Login' component={LoginScreen} options={{headerShown:false}}/>
             <Stack.Screen name='Register' component={RegisterScreen} options={{headerShown:false}}/>
-            </>
+              </>
+              
         )}
       </Stack.Navigator>
     </NavigationContainer>
