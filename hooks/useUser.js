@@ -10,7 +10,7 @@ const useUser = () => {
   const [user, setUser] = useState();  // Ensure initial state is null
   const [isLoading, setIsLoading] = useState(false);
 
-  const getUser = async () => {
+  const getUser = async () => {    
     setIsLoading(true);
     try {
       const response = await axios.get(`${API_URL}/user/`, {

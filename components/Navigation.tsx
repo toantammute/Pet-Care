@@ -9,6 +9,10 @@ import RegisterScreen from '../src/RegisterScreen';
 import { AuthContext } from '../context/AuthContext';
 import SplashScreen from '../src/SplashScreen';
 import TabLayout from '../src/(tabs)/_layout';
+import NotificationScreen from '../src/NotificationScreen';
+import ReminderStack from './reminder/ReminderStack';
+import PetScreen from '../src/(tabs)/PetScreen';
+import AddPetScreen from '../src/(tabs)/NewPetScreen';
 
 const Stack = createNativeStackNavigator();
 
