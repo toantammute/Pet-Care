@@ -1,21 +1,25 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useContext } from "react";
-import { StyleSheet, SafeAreaView, Text,TextInput, View, Button } from "react-native";
+import { StyleSheet, SafeAreaView, Text,TextInput, View, Button, TouchableOpacity } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay";
 import { AuthContext } from "../../context/AuthContext";
 import Header from "../../components/home/Header";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../../types";
 
 
 const HomeScreen = () =>{
   const {isLoading, Logout, userInfo} = useContext(AuthContext);
+  const navigation = useNavigation<NavigationProp<{ Notification: undefined }>>();
 
   return (
     <View style={styles.container}>
       <Spinner visible={isLoading} />
       <Header />
-      {/* <TabLayout /> */}
-      <Text style={styles.welcome}>Welcome to Pet Management {userInfo.user.full_name} </Text>
-      <Button title="Logout" onPress={Logout}/>
+      {/* <TouchableOpacity onPress={() => navigation.navigate('Notification')}>
+        <Text style={styles.welcome}>Welcome to Pet Management {userInfo.user.full_name}</Text>
+      </TouchableOpacity>
+      <Button title="Logout" onPress={Logout}/> */}
     </View>
   );
 };
