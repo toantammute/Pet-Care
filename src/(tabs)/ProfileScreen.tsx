@@ -31,8 +31,7 @@ const ProfileScreen = () => {
   return (
     <View>
       <Spinner visible={isLoading} />
-      <UserProfile userData={user} />;
-       {/* Logout Button */}
+      <UserProfile userData={user} /> :null;
        <TouchableOpacity 
           style={styles.logoutButton}
           onPress={Logout}>
