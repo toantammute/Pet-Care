@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { ScrollView, View } from 'react-native';
 import { Alert } from 'react-native';
-import useCreatePet, { PetData } from '../../hooks/useCreatePet';
+import useCreatePet, { PetData } from '../hooks/useCreatePet';
 import { Text } from 'react-native';
-import AddPetForm from '../../components/pet/NewPet';
+import AddPetForm from '../components/pet/NewPet';
 
 
 

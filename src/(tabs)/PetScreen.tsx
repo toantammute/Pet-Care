@@ -39,6 +39,7 @@ const PetScreen = () => {
         renderItem={renderItem}
         refreshing={refreshing} // Control the refreshing state
         onRefresh={onRefresh} // Call getPets when pulled down
+        ListEmptyComponent={<Text>No pets available</Text>} // Handle empty list case
       />
       <FloatingAddButton /> {/* Add Floating Button */}
 
@@ -49,7 +50,10 @@ const PetScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+    padding: 10,
+    gap: 10,
+    justifyContent: 'flex-start', 
+    // alignItems: 'center',
   },
 });
 
