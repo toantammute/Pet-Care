@@ -16,10 +16,10 @@ const HomeScreen = () =>{
     <View style={styles.container}>
       <Spinner visible={isLoading} />
       <Header />
-      {/* <TouchableOpacity onPress={() => navigation.navigate('Notification')}>
+      <TouchableOpacity onPress={() => navigation.navigate('Notification')}>
         <Text style={styles.welcome}>Welcome to Pet Management {userInfo.user.full_name}</Text>
       </TouchableOpacity>
-      <Button title="Logout" onPress={Logout}/> */}
+      {/* <Button title="Logout" onPress={Logout}/> */}
     </View>
   );
 };
