@@ -4,68 +4,73 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { Dropdown, MultiSelect } from 'react-native-element-dropdown';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import usePet from '../hooks/usePets'
+import usePetSchedule from '../hooks/usePetSchedule';
 
 const repeatData = [
   {
     value: 'None',
-    label: 'None',
+    label: 'NONE',
   },
   {
-    value: 'Daily',
+    value: 'DAILY',
     label: 'Daily',
   },
   {
-    value: 'Weekly',
+    value: 'WEEKLY',
     label: 'Weekly',
   },
   {
-    value: 'Monthly',
+    value: 'MONTHLY',
     label: 'Monthly',
   },
-  {
-    value: 'Yearly',
-    label: 'Yearly',
-  },
-];
-const data = [
-  { label: 'Item 1', value: '1' },
-  { label: 'Item 2', value: '2' },
-  { label: 'Item 3', value: '3' },
-  { label: 'Item 4', value: '4' },
-  { label: 'Item 5', value: '5' },
-  { label: 'Item 6', value: '6' },
-  { label: 'Item 7', value: '7' },
-  { label: 'Item 8', value: '8' },
+  // {
+  //   value: 'Yearly',
+  //   label: 'Yearly',
+  // },
 ];
 interface Pet {
-  id: number;  // or string
+  petid: string;  // or string
   name: string;
   // other properties
 }
 const CreateReminderScreen = () => {
-  const { pets, isLoading, getPets }: { pets: Pet[]; isLoading: boolean; getPets: () => void } = usePet();
+  const { createPetSchedule } = usePetSchedule();
+  const [title, setTitle] = useState('');
+  const [notes, setNotes] = useState('');
+
+  const { pets, isLoading, getPets } = usePet() as { pets: Pet[], isLoading: boolean, getPets: () => void };
   const [date, setDate] = useState<Date | null>(null);
   const [time, setTime] = useState<Date | null>(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [repeatValue, setRepeatValue] = useState<string | null>(null);
-  const [repeatFocus, setRepeatFocus] = useState(false);
-  const [reminderText, setReminderText] = useState('');
+  const [petChoose, setPetChoose] = useState<string | null>(null);
   const [isFocus, setIsFocus] = useState(false);
+  const [petFocus, setPetFocus] = useState(false);
   const [endOption, setEndOption] = useState<'On' | 'Never'>('Never');
   const [endDatePickerVisible, setEndDatePickerVisible] = useState(false);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [showEndDatePicker, setShowEndDatePicker] = useState(false);
-  const [selected, setSelected] = useState<string[]>([]);
 
-  const petData = pets.map((pet) => ({ label: pet.name, value: pet.id }));
+  const petData = pets.map((pet) => ({ label: pet.name, value: pet.petid }));
 
 
-  const renderLabel = () => {
+  const renderLabelRepeat = () => {
     if (repeatValue || isFocus) {
       return (
         <Text style={[styles.label, isFocus && { color: 'blue' }]}>
           Event repeat
+        </Text>
+      );
+    }
+    return null;
+  };
+
+  const renderLabelPet = () => {
+    if (petChoose || petFocus) {
+      return (
+        <Text style={[styles.label, petFocus && { color: 'blue' }]}>
+          For Pet
         </Text>
       );
     }
@@ -96,40 +101,89 @@ const CreateReminderScreen = () => {
     setShowEndDatePicker(false);
   }
 
+  const formatDateTime = (date: Date | null, time: Date | null) => {
+    if (!date || !time) return null;
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(date.getDate()).padStart(2, '0');
+
+    const hours = String(time.getHours()).padStart(2, '0');
+    const minutes = String(time.getMinutes()).padStart(2, '0');
+    const seconds = String(time.getSeconds()).padStart(2, '0');
+    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`;
+  };
+
+  const formatDate = (date: Date | null): string | null => {
+    if (!date) return null;
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  const reminder_datetime = formatDateTime(date, time);
+  const end_date = formatDate(endDate);
+
+
+  const handleSubmit = () => {
+    const data = {
+      petid: petChoose,
+      title: title,
+      notes: notes,
+      event_type: endOption,
+      reminder_datetime,
+      event_repeat: repeatValue,
+      end_date
+    }
+    createPetSchedule(data);
+  }
+
   return (
     <View>
+
       <View style={styles.inputContainer}>
         <Text >Title</Text>
-        <TextInput style={styles.inputText} placeholder='Reminder me to'></TextInput>
+        <TextInput
+          value={title}
+          style={styles.inputText}
+          placeholder='Reminder me to'
+          onChangeText={(text) => setTitle(text)}
+        >
+        </TextInput>
       </View>
 
       <View style={styles.multiContainer}>
-        <MultiSelect
-          style={styles.dropdown1}
-          placeholderStyle={styles.placeholderStyle1}
-          selectedTextStyle={styles.selectedTextStyle1}
-          inputSearchStyle={styles.inputSearchStyle1}
-          iconStyle={styles.iconStyle1}
-          search
-          data={petData}
-          labelField="label"
-          valueField="value"
-          placeholder="For Pet"
-          searchPlaceholder="Search..."
-          value={selected}
-          onChange={item => {
-            setSelected(item);
-          }}
-          renderLeftIcon={() => (
-            <Icon
-              style={styles.icon}
-              color="black"
-              name="event-repeat"
-              size={20}
-            />
-          )}
-          selectedStyle={styles.selectedStyle}
-        />
+        {/* <View style={{ padding: 10 }}> */}
+          {renderLabelPet()}
+          <Dropdown
+            style={[styles.dropdown, petFocus && { borderColor: 'blue' }]}
+            placeholderStyle={styles.placeholderStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            inputSearchStyle={styles.inputSearchStyle}
+            iconStyle={styles.iconStyle}
+            data={petData}
+            search
+            maxHeight={300}
+            labelField='label'
+            valueField="value"
+            placeholder={!petFocus ? 'For pet' : '...'}
+            searchPlaceholder="Search..."
+            value={petChoose}
+            onFocus={() => setPetFocus(true)}
+            onBlur={() => setPetFocus(false)}
+            onChange={item => {
+              setPetChoose(item.value);
+              setPetFocus(false);
+            }}
+            renderLeftIcon={() => (
+              <Icon
+                style={styles.icon}
+                color={petFocus ? 'blue' : 'black'}
+                name="event-repeat"
+                size={20}
+              />
+            )}
+          />
       </View>
 
       <View style={styles.rowContainer}>
@@ -182,7 +236,7 @@ const CreateReminderScreen = () => {
 
 
       <View style={{ padding: 10 }}>
-        {renderLabel()}
+        {renderLabelRepeat()}
         <Dropdown
           style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
           placeholderStyle={styles.placeholderStyle}
@@ -257,14 +311,16 @@ const CreateReminderScreen = () => {
           numberOfLines={10}
           maxLength={200}
           placeholder='Notes'
+          value={notes}
+          onChangeText={(text) => setNotes(text)}
         />
       </View>
-      <View style={{alignItems:'center'}}>
-        <TouchableOpacity>
+      <View style={{ alignItems: 'center' }}>
+        <TouchableOpacity onPress={handleSubmit}>
           <Text style={styles.saveBtn}>Save</Text>
         </TouchableOpacity>
       </View>
-      
+
     </View>
   );
 };
@@ -293,7 +349,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: 160,
   },
-  inputNotes:{
+  inputNotes: {
     borderWidth: 1,
     borderColor: 'black',
     padding: 10,
@@ -311,9 +367,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'black',
     borderRadius: 5,
-    width:'auto'
+    width: 'auto'
   },
-  saveBtn:{
+  saveBtn: {
     padding: 10,
     backgroundColor: 'blue',
     color: 'white',
