@@ -126,11 +126,12 @@ const CreateReminderScreen = () => {
 
 
   const handleSubmit = () => {
+    // const end_type = endOption === 'On';
     const data = {
       petid: petChoose,
       title: title,
       notes: notes,
-      event_type: endOption,
+      end_type: endOption,
       reminder_datetime,
       event_repeat: repeatValue,
       end_date

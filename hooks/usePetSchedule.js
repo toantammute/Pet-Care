@@ -107,6 +107,25 @@ const usePetSchedule = () => {
         }
 
     };
+    const updateActivePetSchedule = async (schedule_id) => {
+        console.log("Day la schedule_id", schedule_id);
+        setScheduleLoading(true);
+        try {
+            const response = await axios.put(`${API_URL}/pet-schedule/active/${schedule_id}`, {
+                headers: {
+                    Authorization: `Bearer ${userInfo.access_token}`,
+                }
+            });
+            setSchedules(response.data);
+            console.log("Active",response.data);
+            setScheduleLoading(false);
+        } catch (error) {
+            console.log('Error updating schedule:', error);
+            setScheduleLoading(false);
+        } finally {
+            setScheduleLoading(false);
+        }
+    }
     return {
         schedules,
         petScheduleOverview,
@@ -115,6 +134,7 @@ const usePetSchedule = () => {
         getSchedulesOfUser,
         getPetScheduleOverview,
         createPetSchedule,
+        updateActivePetSchedule,
     };
 
 };

@@ -8,11 +8,11 @@ import usePetSchedule from '../../hooks/usePetSchedule';
 import PetReminderCard from '../../components/reminder/PetReminderCard';
 
 const ReminderScreen = () => {
-  const { getSchedulesOfUser, scheduleLoading, schedules,petSchedules } = usePetSchedule();
+  const { getSchedulesOfUser, scheduleLoading, schedules, petSchedules, updateActivePetSchedule } = usePetSchedule();
 
-  // const renderItem = ({ item }: { item: any }) => (
-  //   <ReminderCard schedule={item} />
-  // );
+  const renderItem = ({ item }: { item: any }) => (
+    <PetReminderCard pet_schedule={item} updateActivePetSchedule={updateActivePetSchedule} />
+  );
 
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = async () => {
@@ -74,29 +74,30 @@ const ReminderScreen = () => {
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
+        {/* <PetReminderCard />
         <PetReminderCard />
-        <PetReminderCard />
-        <PetReminderCard />
-        {/* <FlatList
-      scrollEnabled={false}
-      data={schedules}
-      keyExtractor={(item) => item.id.toString()}
-      renderItem={renderItem}
-      ListEmptyComponent={<Text>No reminder.</Text>}/> */}
-        {/* <ReminderCard /> */}
+        <PetReminderCard /> */}
+      <FlatList
+        scrollEnabled={false}
+        data={petSchedules}
+        keyExtractor={(item) => item.pet_id.toString()}
+        renderItem={renderItem}
+        // ItemSeparatorComponent={() => <View style={{height:5}} />}
+        ListEmptyComponent={<Text>No reminder.</Text>} /> 
+      {/* <ReminderCard />
 
 
         {/* <Button
         title="Create Reminder"
         onPress={() => navigation.navigate('Reminders')}
       /> */}
-        {/* <Button
+      {/* <Button
         title="Create Reminder"
         onPress={() => navigation.navigate('Reminders')}
       /> */}
 
 
-        {/* <Text style={styles.title}>Reminders</Text>
+      {/* <Text style={styles.title}>Reminders</Text>
       <Button
         title="Create Reminder"
         onPress={() => navigation.navigate('Reminders')}
