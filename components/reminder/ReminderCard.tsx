@@ -1,29 +1,84 @@
 import { View, Text, Switch, StyleSheet } from 'react-native'
 import React, { useState } from 'react'
 
-export default function ReminderCard() {
-  interface Reminder {
-    title: string,
-    notes: string,
-    event_time: string,
-    is_active: boolean,
-    frequency: string,
+export interface Reminder {
+  id: string,
+  pet_id: string,
+  title: string,
+  notes: string,
+  reminder_datetime: string,
+  is_active: boolean,
+  event_repeat: string,
+  end_type: boolean,
+  end_date: string | null,
+}
+export interface ReminderCardProps {
+  schedule: Reminder;
+}
+
+const ReminderCard:React.FC<ReminderCardProps>=({schedule})=> {
+
+  // Separate reminder_datetime into date and time
+  const reminderDateTime = new Date(schedule.reminder_datetime);
+  // const timeString = reminderDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const timeString = reminderDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+  const dateString = reminderDateTime.toLocaleDateString();
+  // const endDateString = schedule.end_date ? new Date(schedule.end_date).toLocaleDateString() : '';
+  
+  // Initialize switch state based on schedule.is_active
+  const [isEnabled, setIsEnabled] = useState(schedule.is_active);
+
+  const toggleSwitch = async () => {
+    setIsEnabled(previousState => !previousState);
+    try {
+      console.log('Toggling schedule:', schedule.id);
+      await updateActivePetSchedule(schedule.id); // Call the update function with the schedule ID
+    } catch (error) {
+      console.log('Error toggling schedule:', error);
+      // Optionally revert the switch state if the update fails
+      setIsEnabled(previousState => !previousState);
+    }
+  };
+
+  // const toggleSwitch = () => {
+  //   setIsEnabled(previousState => !previousState);
+  //   // Here you would typically handle the state change, e.g., send to API
+  // };
+
+  // Build the end date string if applicable
+  let endDateString = '';
+  if (schedule.end_date && schedule.end_date !== '0001-01-01T00:00:00Z' && schedule.end_type !== false) {
+    const endDate = new Date(schedule.end_date);
+    if (!isNaN(endDate.getTime())) {
+      endDateString = endDate.toLocaleDateString();
+    }
   }
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+
+  // Build the date display string
+  let dateDisplay = dateString;
+  if (endDateString) {
+    dateDisplay += ` - ${endDateString}`;
+  }
+
+  // Build the repeat info string
+  let repeatInfo = '';
+  if (schedule.event_repeat !== 'NONE') {
+    repeatInfo = `, ${schedule.event_repeat}`;
+  }
+
   return (
     <View style={styles.container}>
       {/* View trai */}
       <View style={styles.leftContainer}>
         {/* Trai tren */}
         <View style={styles.timeContainer}>
-          <Text style={styles.time}>04:20</Text>
-          <Text style={styles.date}>18/11/2024 - 33/99/2070, DAILY</Text>
+          <Text style={styles.time}>{timeString}</Text>
+          <Text style={styles.date}>{dateDisplay}{repeatInfo}</Text>
         </View>
         {/* Trai duoi */}
         <View>
-          <Text style={styles.title}>Cho Bê Đê ăn hạt</Text>
-          <Text style={styles.note}>Bê Đê ăn hạt cat eyes</Text>
+          <Text style={styles.title}>{schedule.title}</Text>
+          <Text style={styles.note}>{schedule.notes}</Text>
         </View>
       </View>
       {/* Bottom view phai nut turn on turn off */}
@@ -37,7 +92,7 @@ export default function ReminderCard() {
 }
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#ffffff',
+    backgroundColor: '#F8F9FA',
     borderRadius: 10,
     flexDirection: 'row',
     padding: 10,
@@ -60,8 +115,8 @@ const styles = StyleSheet.create({
   },
   date: {
     fontSize: 14,
-    fontWeight: 400, 
-    color:'#666'
+    fontWeight: 400,
+    color: '#666'
   },
   switchContainer: {
     alignContent: 'center',
@@ -72,14 +127,19 @@ const styles = StyleSheet.create({
   timeContainer: {
     flexDirection: 'column',
     // marginRight: 10,
-  }, 
-  title:{
+  },
+  title: {
     fontSize: 18,
     fontWeight: '600',
   },
-  note:{
+  note: {
     fontSize: 14,
     fontWeight: 400,
-    color:'#666'
+    color: '#666'
   }
 })
+export default ReminderCard
+
+function updateActivePetSchedule(id: string) {
+  throw new Error('Function not implemented.');
+}

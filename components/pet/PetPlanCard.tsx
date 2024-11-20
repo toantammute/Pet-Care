@@ -9,11 +9,11 @@ export interface PetPlan {
   notes: string;
 }
 //  Logs [{"date_time": "2024-11-20T06:57:18Z", "log_id": 9, "notes": "Đưa Bê Đê đi dạo chợ mua cá", "pet_id": 3, "title": "Bê Đê đi chợ"}, {"date_time": "2024-11-20T06:55:10Z", "log_id": 8, "notes": "Đưa Bê Đê đi dạo chợ mua cá", "pet_id": 3, "title": "Bê Đê đi chợ"}, {"date_time": "2024-11-20T06:55:06Z", "log_id": 7, "notes": "Đưa Bê Đê đi dạo chợ mua cá", "pet_id": 3, "title": "Bê Đê đi chợ"}, {"date_time": "2024-11-20T06:55:03Z", "log_id": 6, "notes": "Đưa Bê Đê đi dạo chợ mua cá", "pet_id": 3, "title": "Bê Đê đi chợ"}, {"date_time": "2024-11-20T06:54:58Z", "log_id": 5, "notes": "Đưa Bê Đê đi dạo chợ mua cá", "pet_id": 3, "title": "Bê Đê đi chợ"}]
-export interface ScheduleCardProps {
+export interface LogCardProps {
   log: PetPlan;             // Define the type of the pet prop
 }
 
-const PetPlanCard: React.FC<ScheduleCardProps> =({log})=> {
+const PetPlanCard: React.FC<LogCardProps> =({log})=> {
   return (
     <TouchableOpacity style={[styles.planItem, { backgroundColor: '#F8F9FA' }]}>
       <View style={styles.planContent}>
