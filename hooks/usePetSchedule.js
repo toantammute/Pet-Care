@@ -14,6 +14,7 @@ import { AuthContext } from '../context/AuthContext';
 
 const usePetSchedule = () => {
     const { userInfo } = useContext(AuthContext);
+    const [petSchedules, setPetSchedules] = useState();
     const [schedules, setSchedules] = useState();
     const [petScheduleOverview, setPetScheduleOverview] = useState();
     const [scheduleLoading, setScheduleLoading] = useState(false);
@@ -31,19 +32,40 @@ const usePetSchedule = () => {
                 }
             });
 
-            setSchedules(response.data);
-            // console.log(response.data);
+            const data = response.data.data;
+            if (data.length > 0) {
+              // Log schedules of each pet and store them in petSchedules
+              const petSchedulesData = data.map(pet => {
+                // console.log(`Schedules for ${pet.pet_name}:`, pet.schedules);
+                return {
+                  pet_id: pet.pet_id,
+                  pet_name: pet.pet_name,
+                  schedules: pet.schedules,
+                };
+              });
+      
+              setPetSchedules(petSchedulesData);
+      
+              // Flatten the schedules array and set it to the state
+              const allSchedules = data.flatMap(pet => pet.schedules);
+              console.log("All Schedules:", allSchedules);
+              setSchedules(allSchedules);
+            } else {
+              console.log("No pets found.");
+              setSchedules([]);
+              setPetSchedules([]);
+
+            }
+      
             setScheduleLoading(false);
-        } catch (error) {
+          } catch (error) {
             console.log('Error fetching schedules:', error);
             setScheduleLoading(false);
-        } finally {
-            setScheduleLoading(false);
-        }
+          }
     };
     const createPetSchedule = async (data) => {
         setScheduleLoading(true);
-        console.log("Day la data ",data);
+        console.log("Day la data ", data);
         console.log(`${API_URL}/pet-schedule/pet/${data.petid}`);
         try {
             const response = await axios.post(`${API_URL}/pet-schedule/pet/${data.petid}`, data, {
@@ -76,7 +98,7 @@ const usePetSchedule = () => {
             });
             setPetScheduleOverview(response.data.data);
             console.log(response.data.data);
-            setScheduleLoading(false);            
+            setScheduleLoading(false);
         } catch (error) {
             console.log('Error fetching pet schedule:', error);
             setScheduleLoading(false);
@@ -89,6 +111,7 @@ const usePetSchedule = () => {
         schedules,
         petScheduleOverview,
         scheduleLoading,
+        petSchedules,
         getSchedulesOfUser,
         getPetScheduleOverview,
         createPetSchedule,

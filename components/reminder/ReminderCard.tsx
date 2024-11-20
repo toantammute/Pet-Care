@@ -1,14 +1,24 @@
 import { View, Text, Switch, StyleSheet } from 'react-native'
 import React, { useState } from 'react'
 
-export default function ReminderCard() {
-  interface Reminder {
-    title: string,
-    notes: string,
-    event_time: string,
-    is_active: boolean,
-    frequency: string,
-  }
+export interface Reminder {
+  id: string,
+  pet_id: string,
+  title: string,
+  notes: string,
+  reminder_datetime: string,
+  // is_active: boolean,
+  event_repeat: string,
+  end_type: string,
+  end_date: string,
+}
+export interface ReminderCardProps {
+  schedule: Reminder;
+}
+
+// const ReminderCard:React.FC<ReminderCardProps>=({schedule})=> {
+  const ReminderCard =()=> {
+  
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   return (
@@ -22,8 +32,8 @@ export default function ReminderCard() {
         </View>
         {/* Trai duoi */}
         <View>
-          <Text style={styles.title}>Cho Bê Đê ăn hạt</Text>
-          <Text style={styles.note}>Bê Đê ăn hạt cat eyes</Text>
+          <Text style={styles.title}>Đi Dạo</Text>
+          <Text style={styles.note}>Dẫn Bê Đê dạo công viên</Text>
         </View>
       </View>
       {/* Bottom view phai nut turn on turn off */}
@@ -37,7 +47,7 @@ export default function ReminderCard() {
 }
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#ffffff',
+    backgroundColor: '#F8F9FA',
     borderRadius: 10,
     flexDirection: 'row',
     padding: 10,
@@ -60,8 +70,8 @@ const styles = StyleSheet.create({
   },
   date: {
     fontSize: 14,
-    fontWeight: 400, 
-    color:'#666'
+    fontWeight: 400,
+    color: '#666'
   },
   switchContainer: {
     alignContent: 'center',
@@ -72,14 +82,15 @@ const styles = StyleSheet.create({
   timeContainer: {
     flexDirection: 'column',
     // marginRight: 10,
-  }, 
-  title:{
+  },
+  title: {
     fontSize: 18,
     fontWeight: '600',
   },
-  note:{
+  note: {
     fontSize: 14,
     fontWeight: 400,
-    color:'#666'
+    color: '#666'
   }
 })
+export default ReminderCard
