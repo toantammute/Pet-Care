@@ -7,6 +7,22 @@ import { useRoute } from '@react-navigation/native';
 import usePetSchedule from '../hooks/usePetSchedule';
 import PetPlanCard from '../components/pet/PetPlanCard';
 import Icon from 'react-native-vector-icons/Feather'
+import useLog from '../hooks/useLog';
+import SplashScreen from './SplashScreen';
+
+interface PetDetails {
+    petid: string;
+    username: string;
+    name: string;
+    type: string;
+    breed: string;
+    age: string;
+    birth_date: string;
+    weight: string;
+    data_image: string;
+    original_name: string;
+    microchip_number: string;
+  }
 
 
 const PetDetail = () => {
@@ -15,42 +31,78 @@ const PetDetail = () => {
     const { petidSchedule } = route.params as { petidSchedule: string };
     const { isLoading, petDetails, getPetDetails } = usePets();
     const { getPetScheduleOverview, scheduleLoading, petScheduleOverview } = usePetSchedule();
+    const { getLogsbyPet, logLoading, logs } = useLog();
 
+
+    // const renderItem = ({ item }: { item: any }) => (
+    //     <PetPlanCard schedule={item} />
+    // );
     const renderItem = ({ item }: { item: any }) => (
-        <PetPlanCard schedule={item} />
+        <PetPlanCard log={item} />
     );
+
+    
 
     console.log(petid);
     React.useEffect(() => {
         getPetDetails(petid);
-        getPetScheduleOverview(petid,5,1);
+        getPetScheduleOverview(petid, 3, 1);
+        getLogsbyPet(petid, 3, 1);
     }, [petid]);
 
-    if (isLoading || !petDetails || scheduleLoading || !petScheduleOverview) {
-        return <Text>Loading...</Text>;
+    if (isLoading || !petDetails || scheduleLoading || logLoading ) {
+        return <SplashScreen/>
     }
+    const pet = petDetails as PetDetails;
 
     return (
-        <View style={styles.container}>
-            {/* <ScrollView> */}
-                <PetInfoCard pet={petDetails} />
-                <View style={styles.plansCard}>
-                    <View style={styles.plansHeader}>
-                        <Text style={styles.plansTitle}>Plans With Sky</Text>
-                        <TouchableOpacity style={styles.addButton}>
-                            <Icon name="plus" size={20} color="#000" />
-                        </TouchableOpacity>
-                    </View>
-                    <FlatList
-                        data={petScheduleOverview}
-                        keyExtractor={(item) => item.id.toString()}
-                        renderItem={renderItem}
-                    />
+        <ScrollView style={styles.container}>
+
+            <PetInfoCard pet={petDetails} />
+            {/* <View style={styles.plansCard}>
+                <View style={styles.plansHeader}>
+                    <Text style={styles.plansTitle}>Plans With {pet.name}</Text>
+                    <TouchableOpacity style={styles.addButton}>
+                        <Icon name="plus" size={20} color="#000" />
+                    </TouchableOpacity>
                 </View>
+                <View>
+                <FlatList
+                    scrollEnabled={false}
+                    data={petScheduleOverview}
+                    keyExtractor={(item) => item.id.toString()}
+                    renderItem={renderItem}
+                    ListEmptyComponent={<Text style={{padding:10, textAlign:'center', fontSize:16}}>No log dairy available</Text>} // Handle empty list case
+                />
+                </View>
+                <View style={styles.footerContainer}>
+                    <Text style={{textAlign:'center'}}>See all</Text>
+                </View>
+            </View> */}
+            <View style={styles.plansCard}>
+                <View style={styles.plansHeader}>
+                    <Text style={styles.plansTitle}>{pet.name} 's daily log</Text>
+                    <TouchableOpacity style={styles.addButton}>
+                        <Icon name="plus" size={20} color="#000" />
+                    </TouchableOpacity>
+                </View>
+                <View>
+                <FlatList
+                    scrollEnabled={false}
+                    data={logs}
+                    keyExtractor={(item) => item.log_id.toString()}
+                    renderItem={renderItem}
+                    ItemSeparatorComponent={() => <View style={{height:5}} />}
+                    ListEmptyComponent={<Text style={{padding:10, textAlign:'center', fontSize:16}}>No log dairy available</Text>} // Handle empty list case
+                />
+                </View>
+                <View style={styles.footerContainer}>
+                    <Text style={{textAlign:'center'}}>See all</Text>
+                </View>
+            </View>
 
-            {/* </ScrollView> */}
 
-        </View>
+        </ScrollView>
     )
 }
 const styles = StyleSheet.create({
@@ -59,6 +111,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5F6FA',
         padding: 10,
         gap: 10,
+        marginBottom: 10,
     },
     plansCard: {
         backgroundColor: '#FFFFFF',
@@ -87,5 +140,14 @@ const styles = StyleSheet.create({
     addButton: {
         padding: 8,
     },
+    footerContainer: {
+        borderTopColor: '#E5E7EB',
+        borderTopWidth: 1,
+        paddingTop: 6,
+        // alignItems: 'center',
+        // justifyContent: 'center',
+        // alignContent: 'center',
+    },
 });
 export default PetDetail
+
