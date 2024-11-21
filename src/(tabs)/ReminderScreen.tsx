@@ -6,6 +6,19 @@ import notifee, { RepeatFrequency, TimestampTrigger, TriggerType } from '@notife
 import ReminderCard from '../../components/reminder/ReminderCard';
 import usePetSchedule from '../../hooks/usePetSchedule';
 import PetReminderCard from '../../components/reminder/PetReminderCard';
+import { createNotification, updateNotification, cancelNotification }  from '../../services/Notification';
+
+interface Schedule {
+  id: string,
+  pet_id: string,
+  title: string,
+  notes: string,
+  reminder_datetime: string,
+  is_active: boolean,
+  event_repeat: string,
+  end_type: boolean,
+  end_date: string | null,
+}
 
 const ReminderScreen = () => {
   const { getSchedulesOfUser, scheduleLoading, schedules, petSchedules, updateActivePetSchedule } = usePetSchedule();
@@ -15,6 +28,7 @@ const ReminderScreen = () => {
   );
 
   const [refreshing, setRefreshing] = useState(false);
+
   const onRefresh = async () => {
     setRefreshing(true);
     await getSchedulesOfUser(); // Fetch pets data
@@ -27,6 +41,19 @@ const ReminderScreen = () => {
       getSchedulesOfUser();
     }, [])
   )
+
+  useEffect(() => {
+    const createNotifications = async () => {
+      const activeSchedules = schedules ?? [];
+      for (const schedule of activeSchedules) {
+        if (schedule.is_active) {
+          await createNotification(schedule);
+        }
+      }
+    };
+
+    createNotifications();
+  }, [schedules]);
 
   // const navigation = useNavigation();
   const navigation = useNavigation<NavigationProp<{ Reminders: undefined }>>();
@@ -44,12 +71,12 @@ const ReminderScreen = () => {
   //   // Set the date and time for the notification
   //   const date = new Date(2024, 10, 18, 9, 15, 0); // Note: Month is 0-indexed (10 is November)
 
-  //   // Create a time-based trigger
-  //   const trigger: TimestampTrigger = {
-  //     type: TriggerType.TIMESTAMP,
-  //     timestamp: date.getTime(),
-  //     repeatFrequency: RepeatFrequency.DAILY,
-  //   };
+    // // Create a time-based trigger
+    // const trigger: TimestampTrigger = {
+    //   type: TriggerType.TIMESTAMP,
+    //   timestamp: date.getTime(),
+    //   repeatFrequency: RepeatFrequency.DAILY,
+    // };
 
   //   const notificationId = 'default';
 
@@ -83,7 +110,10 @@ const ReminderScreen = () => {
         keyExtractor={(item) => item.pet_id.toString()}
         renderItem={renderItem}
         // ItemSeparatorComponent={() => <View style={{height:5}} />}
-        ListEmptyComponent={<Text>No reminder.</Text>} /> 
+        ListEmptyComponent={<Text>No reminder.</Text>} 
+        refreshing={refreshing}
+        onRefresh={onRefresh}/> 
+
       {/* <ReminderCard />
 
 

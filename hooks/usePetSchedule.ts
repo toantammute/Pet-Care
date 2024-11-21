@@ -3,19 +3,27 @@ import axios from "axios";
 import React, { useEffect, useContext, useState } from "react";
 import { AuthContext } from '../context/AuthContext';
 
-// export interface ScheduleData {
-//     title: string,
-//     notes: string,
-//     reminder_datetime: string,
-//     event_repeat: string,
-//     end_type: string,
-//     end_date: string,
-// }
+interface Schedule {
+    id: string,
+    pet_id: string,
+    title: string,
+    notes: string,
+    reminder_datetime: string,
+    is_active: boolean,
+    event_repeat: string,
+    end_type: boolean,
+    end_date: string | null,
+}
+interface PetSchedule {
+    pet_id: string;
+    pet_name: string;
+    schedules: Schedule[];
+  }
 
 const usePetSchedule = () => {
     const { userInfo } = useContext(AuthContext);
-    const [petSchedules, setPetSchedules] = useState();
-    const [schedules, setSchedules] = useState();
+    const [petSchedules, setPetSchedules] = useState<PetSchedule[]>([]);
+    const [schedules, setSchedules] = useState<Schedule[]>([]);
     const [petScheduleOverview, setPetScheduleOverview] = useState();
     const [scheduleLoading, setScheduleLoading] = useState(false);
 
@@ -33,9 +41,10 @@ const usePetSchedule = () => {
             });
 
             const data = response.data.data;
-            if (data.length > 0) {
+            console.log("Data:", data);
+            if (data !== null) {
                 // Log schedules of each pet and store them in petSchedules
-                const petSchedulesData = data.map(pet => {
+                const petSchedulesData = data.map((pet: { pet_id: any; pet_name: any; schedules: any; }) => {
                     // console.log(`Schedules for ${pet.pet_name}:`, pet.schedules);
                     return {
                         pet_id: pet.pet_id,
@@ -47,7 +56,7 @@ const usePetSchedule = () => {
                 setPetSchedules(petSchedulesData);
 
                 // Flatten the schedules array and set it to the state
-                const allSchedules = data.flatMap(pet => pet.schedules);
+                const allSchedules = data.flatMap((pet: { schedules: any; }) => pet.schedules);
                 console.log("All Schedules:", allSchedules);
                 setSchedules(allSchedules);
             } else {
@@ -59,11 +68,11 @@ const usePetSchedule = () => {
 
             setScheduleLoading(false);
         } catch (error) {
-            console.log('Error fetching schedules:', error);
+            console.log('Error fetching schedules by User:', error);
             setScheduleLoading(false);
         }
     };
-    const createPetSchedule = async (data) => {
+    const createPetSchedule = async (data: { petid: any; }) => {
         setScheduleLoading(true);
         console.log("Day la data ", data);
         console.log(`${API_URL}/pet-schedule/pet/${data.petid}`);
@@ -84,7 +93,7 @@ const usePetSchedule = () => {
         }
     }
 
-    const getPetScheduleOverview = async (petid, pageSize, pageNum) => {
+    const getPetScheduleOverview = async (petid: any, pageSize: any, pageNum: any) => {
         setScheduleLoading(true);
         try {
             const response = await axios.get(`${API_URL}/pet-schedule/pet/${petid}`, {
@@ -100,14 +109,14 @@ const usePetSchedule = () => {
             console.log(response.data.data);
             setScheduleLoading(false);
         } catch (error) {
-            console.log('Error fetching pet schedule:', error);
+            console.log('Error fetching pet schedule by Pet:', error);
             setScheduleLoading(false);
         } finally {
             setScheduleLoading(false);
         }
 
     };
-    const updateActivePetSchedule = async (schedule_id, is_active) => {
+    const updateActivePetSchedule = async (schedule_id: any, is_active: any) => {
         // console.log("Day la schedule_id", schedule_id);
         // console.log("Day la is_active", is_active);
         // console.log("Day la userInfo", userInfo.access_token);

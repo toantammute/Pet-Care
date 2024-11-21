@@ -21,8 +21,11 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ schedule, updateActivePetSc
 
   // Separate reminder_datetime into date and time
   const reminderDateTime = new Date(schedule.reminder_datetime);
-  // const timeString = reminderDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  const timeString = reminderDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+  const timeString = reminderDateTime.toLocaleTimeString('en-GB', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false
+  });
   const dateString = reminderDateTime.toLocaleDateString();
   // const endDateString = schedule.end_date ? new Date(schedule.end_date).toLocaleDateString() : '';
 
