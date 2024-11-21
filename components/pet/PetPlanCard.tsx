@@ -14,11 +14,16 @@ export interface LogCardProps {
 }
 
 const PetPlanCard: React.FC<LogCardProps> =({log})=> {
+  // Convert the date_time string to a Date object
+  const date = new Date(log.date_time);
+
+  // Format the date to a locale time string
+  const formattedDateTime = date.toLocaleString();
   return (
     <TouchableOpacity style={[styles.planItem, { backgroundColor: '#F8F9FA' }]}>
       <View style={styles.planContent}>
         <Text style={styles.planevent_time}>{log.title}</Text>
-        <Text style={styles.planactivity_type}>{log.date_time}</Text>
+        <Text style={styles.planactivity_type}>{formattedDateTime}</Text>
       </View>
       <Text style={styles.planDate}>{log.notes}</Text>
     </TouchableOpacity>

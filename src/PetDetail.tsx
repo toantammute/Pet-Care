@@ -3,7 +3,7 @@ import React from 'react'
 import PetInfoCard from '../components/pet/PetInfoCard'
 import usePets from '../hooks/usePets'
 import { PetCardProps } from '../components/pet/PetCard';
-import { useRoute } from '@react-navigation/native';
+import { NavigationProp, useNavigation, useRoute } from '@react-navigation/native';
 import usePetSchedule from '../hooks/usePetSchedule';
 import PetPlanCard from '../components/pet/PetPlanCard';
 import Icon from 'react-native-vector-icons/Feather'
@@ -26,12 +26,14 @@ interface PetDetails {
 
 
 const PetDetail = () => {
+    const navigation = useNavigation<any>();
+
     const route = useRoute();
     const { petid } = route.params as { petid: string };
     const { petidSchedule } = route.params as { petidSchedule: string };
     const { isLoading, petDetails, getPetDetails } = usePets();
     const { getPetScheduleOverview, scheduleLoading, petScheduleOverview } = usePetSchedule();
-    const { getLogsbyPet, logLoading, logs } = useLog();
+    const { getLogsbyPet, logLoading, logs, } = useLog();
 
 
     // const renderItem = ({ item }: { item: any }) => (
@@ -82,7 +84,9 @@ const PetDetail = () => {
             <View style={styles.plansCard}>
                 <View style={styles.plansHeader}>
                     <Text style={styles.plansTitle}>{pet.name} 's daily log</Text>
-                    <TouchableOpacity style={styles.addButton}>
+                    <TouchableOpacity
+                    style={styles.addButton}
+                    onPress={() => navigation.navigate('CreateLogsScreen', { petid: pet.petid })}>
                         <Icon name="plus" size={20} color="#000" />
                     </TouchableOpacity>
                 </View>

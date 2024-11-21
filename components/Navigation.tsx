@@ -15,6 +15,7 @@ import PetScreen from '../src/(tabs)/PetScreen';
 import AddPetScreen from '../src/NewPetScreen';
 import PetDetail from '../src/PetDetail';
 import OTPScreen from '../src/OTPScreen';
+import CreateLogsScreen from '../src/CreateLogsScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -41,14 +42,15 @@ const Navigation = () => {
                 <Stack.Screen name="PetScreen" component={PetScreen} options={{ headerShown: false }} />
                 <Stack.Screen name="PetDetail" component={PetDetail} />
                 <Stack.Screen name="AddPetScreen" component={AddPetScreen} />
+                <Stack.Screen name="CreateLogsScreen" component={CreateLogsScreen} />
               </>
             </>
           ) : (
             <>
               <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }} />
               <Stack.Screen name='Register' component={RegisterScreen} options={{ headerShown: false }} />
-              <Stack.Screen name="OTPVerification" component={OTPScreen} options={{ headerShown: false }}/>
-              </>
+              <Stack.Screen name="OTPVerification" component={OTPScreen} options={{ headerShown: false }} />
+            </>
 
           )}
       </Stack.Navigator>

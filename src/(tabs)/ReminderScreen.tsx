@@ -1,9 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text, Button, StyleSheet, TouchableOpacity, FlatList, ScrollView } from 'react-native';
 import { useNavigation, NavigationProp, useFocusEffect } from '@react-navigation/native';
-import CreateReminderScreen from '../CreateReminderScreen';
-import notifee, { RepeatFrequency, TimestampTrigger, TriggerType } from '@notifee/react-native'
-import ReminderCard from '../../components/reminder/ReminderCard';
 import usePetSchedule from '../../hooks/usePetSchedule';
 import PetReminderCard from '../../components/reminder/PetReminderCard';
 import { createNotification, updateNotification, cancelNotification }  from '../../services/Notification';

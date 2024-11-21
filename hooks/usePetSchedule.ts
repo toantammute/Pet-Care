@@ -18,7 +18,7 @@ interface PetSchedule {
     pet_id: string;
     pet_name: string;
     schedules: Schedule[];
-  }
+}
 
 const usePetSchedule = () => {
     const { userInfo } = useContext(AuthContext);
