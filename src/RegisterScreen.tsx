@@ -1,11 +1,12 @@
 import React, { useContext, useState } from "react";
-import { StyleSheet, Text, Button, TextInput, View, SafeAreaView, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, Button, TextInput, View, SafeAreaView, TouchableOpacity, Alert } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AuthContext } from "../context/AuthContext";
 import Spinner from "react-native-loading-spinner-overlay";
+import useImagePicker from "../hooks/useImagePicker";
 
 const RegisterScreen = () => {
     const navigation = useNavigation<NavigationProp<{ Login: undefined }>>();
@@ -18,6 +19,7 @@ const RegisterScreen = () => {
     const [email, setEmail] = useState('');
     const [fullName, setFullName] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const { image, loading, pickImage } = useImagePicker(); // Dùng hook để chọn ảnh
 
     const {isLoading, register} = useContext(AuthContext);
 
@@ -28,7 +30,25 @@ const RegisterScreen = () => {
 
     const toggleConfirmPasswordVisibility = () => {
         setIsConfirmPasswordVisible(!isConfirmPasswordVisible);
-    };
+  };
+  
+    const handleRegister = () => {
+      // Kiểm tra mật khẩu xác nhận có trùng khớp không
+      if (password !== confirmPassword) {
+          Alert.alert('Error', 'Passwords do not match');
+          return;
+      }
+
+      // Kiểm tra các điều kiện khác, ví dụ email hợp lệ
+      if (!email || !fullName || !username || !password) {
+          Alert.alert('Error', 'Please fill in all fields');
+          return;
+      }
+
+      // Gọi hàm đăng ký từ AuthContext
+      register(email, password, fullName, username, image);
+  };
+
 
     return(
         <SafeAreaView style={styles.container}>

@@ -13,8 +13,34 @@ export const AuthProvider = ({ children }) => {
     const [splashLoading, setSplashLoading] = useState(false);
     console.log(API_URL);
 
-    const Register = async (email, password, full_name, username) => {
+    const Register = async (email, password, full_name, username, image) => {
         setIsLoading(true);
+         // Tạo FormData
+        const formData = new FormData();
+
+        // Thêm dữ liệu người dùng vào FormData
+        formData.append('full_name', full_name);
+        formData.append('username', username);
+        formData.append('password', password);
+        formData.append('email', email);
+
+        // Thêm dữ liệu JSON nếu cần
+        const userData = {
+            username,
+            password,
+            full_name,
+            email,
+        };
+        formData.append('data', JSON.stringify(userData));
+
+        if (image) {
+            formData.append('image', {
+              uri: image.uri,
+              type: image.type,
+              name: image.name,
+            });
+        }
+        
         axios.post(`${API_URL}/user/create`, {
             full_name,
             username,
@@ -22,10 +48,7 @@ export const AuthProvider = ({ children }) => {
             email,
         })
         .then((response) => {
-            
             const userInfo = response.data.data;
-            // setUserInfo(userInfo);
-            // AsyncStorage.setItem("userInfo", JSON.stringify(userInfo));
             console.log(userInfo);
             setIsLoading(false);
         })
