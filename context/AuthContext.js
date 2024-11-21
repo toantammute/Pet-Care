@@ -4,6 +4,7 @@ import { API_URL } from "@env";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import messaging from "@react-native-firebase/messaging";
+import { Platform } from "react-native";
 
 export const AuthContext = createContext();
 
@@ -13,7 +14,7 @@ export const AuthProvider = ({ children }) => {
     const [splashLoading, setSplashLoading] = useState(false);
     console.log(API_URL);
 
-    const Register = async (email, password, full_name, username, image) => {
+    const Register = async (email, password, full_name, username  , image) => {
         setIsLoading(true);
          // Tạo FormData
         const formData = new FormData();
@@ -35,27 +36,27 @@ export const AuthProvider = ({ children }) => {
 
         if (image) {
             formData.append('image', {
-              uri: image.uri,
-              type: image.type,
-              name: image.name,
+                uri: Platform.OS === 'android' ? image.uri : image.uri.replace('file://', ''),
+                type: 'image/jpeg',
+                name: 'image.jpg'
             });
         }
+
+        console.log(formData);
         
-        axios.post(`${API_URL}/user/create`, {
-            full_name,
-            username,
-            password,
-            email,
-        })
-        .then((response) => {
-            const userInfo = response.data.data;
-            console.log(userInfo);
-            setIsLoading(false);
-        })
-        .catch((error) => {
-            console.error("Register error:", error.response.data);
-            setIsLoading(false);
+        const response = await axios.post(`${API_URL}/user/create`, formData, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'multipart/form-data'
+            }
         });
+
+        console.log(response.data);
+        if (response.data?.data) {
+            setIsLoading(false);  // Clear loading before alert
+            Alert.alert('Success', 'Registration successful');
+            return response.data.data;
+        }
     };
 
     const Login = async (username,password) => {

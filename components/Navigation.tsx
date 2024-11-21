@@ -14,6 +14,7 @@ import ReminderStack from './reminder/ReminderStack';
 import PetScreen from '../src/(tabs)/PetScreen';
 import AddPetScreen from '../src/NewPetScreen';
 import PetDetail from '../src/PetDetail';
+import OTPScreen from '../src/OTPScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -46,7 +47,8 @@ const Navigation = () => {
             <>
               <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }} />
               <Stack.Screen name='Register' component={RegisterScreen} options={{ headerShown: false }} />
-            </>
+              <Stack.Screen name="OTPVerification" component={OTPScreen} options={{ headerShown: false }}/>
+              </>
 
           )}
       </Stack.Navigator>

@@ -21,100 +21,137 @@ const LoginScreen = () => {
   
     // const val = useContext(AuthContext);
   
-    return(
+    return (
       <View style={styles.container}>
         <Spinner visible={isLoading} />
-        <View style={styles.containerSmall}>
+        <View style={styles.card}>
+          <View style={styles.header}>
+            <Text style={styles.title}>Welcome Back</Text>
+            <Text style={styles.subtitle}>Please sign in to continue</Text>
+          </View>
   
+          <View style={styles.inputContainer}>
+            <Icon name="user" size={20} color="#666" style={styles.inputIcon} />
+            <TextInput
+              style={styles.input}
+              value={username}
+              placeholder="Username"
+              placeholderTextColor="#666"
+              onChangeText={setUsername}
+            />
+          </View>
   
-          <Text style={styles.title}>Login</Text>
+          <View style={styles.inputContainer}>
+            <Icon name="lock" size={20} color="#666" style={styles.inputIcon} />
+            <TextInput
+              style={styles.input}
+              placeholder="Password"
+              placeholderTextColor="#666"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry={!isPasswordVisible}
+            />
+            <TouchableOpacity onPress={() => setIsPasswordVisible(!isPasswordVisible)}>
+              <Icon name={isPasswordVisible ? 'eye-off' : 'eye'} size={20} color="#666" />
+            </TouchableOpacity>
+          </View>
   
-          <TextInput
-            style={styles.input}
-            value={username}
-            placeholder="Username"
-            onChangeText={(text) => setUsername(text)}
-          />
-          <View style={styles.pwdContainer}>
-                <TextInput
-                    style={styles.inputpwd}
-                    placeholder="Password"
-                    value={password}
-                    onChangeText={(text) => setPassword(text)}
-                    secureTextEntry={!isPasswordVisible}
-                />
-                <TouchableOpacity onPress={togglePasswordVisibility} style={styles.iconContainer}>
-                    <Icon name={isPasswordVisible ? 'eye-off' : 'eye'} size={24} color="black" />
-                </TouchableOpacity>
-            </View>
-          {/* <Button title="Login"/> */}
+          <TouchableOpacity 
+            style={styles.loginButton}
+            onPress={() => Login(username, password)}
+          >
+            <Text style={styles.loginButtonText}>Sign In</Text>
+          </TouchableOpacity>
   
-          <Button title="Login" onPress={() =>{Login(username,password);} } />
-          
-          <View style={styles.register}>
-            <Text>Don't have an account? </Text>
+          <View style={styles.registerContainer}>
+            <Text style={styles.registerText}>Don't have an account? </Text>
             <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-              <Text style={{color: 'blue'}}>Sign up?</Text>
+              <Text style={styles.registerLink}>Sign up</Text>
             </TouchableOpacity>
           </View>
         </View>
       </View>
     );
-}
+  };
   
-  
-const styles = StyleSheet.create({
+  const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
+      backgroundColor: '#f5f5f5',
+      padding: 20,
       justifyContent: 'center',
-      padding: 16,
     },
-    containerSmall: {
-      flex: 1,
-      backgroundColor: '#fff',
+    card: {
+      backgroundColor: 'white',
+      borderRadius: 15,
+      padding: 20,
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.1,
+      shadowRadius: 8,
+      elevation: 5,
+    },
+    header: {
       alignItems: 'center',
-      justifyContent: 'center',
-      padding: 16,
-      width: '100%'
+      marginBottom: 30,
     },
     title: {
-      fontSize: 24,
-      marginBottom: 16,
+      fontSize: 28,
+      fontWeight: 'bold',
+      color: '#333',
+      marginBottom: 8,
+    },
+    subtitle: {
+      fontSize: 16,
+      color: '#666',
+    },
+    inputContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: '#f5f5f5',
+      borderRadius: 10,
+      marginBottom: 15,
+      paddingHorizontal: 15,
+      height: 50,
+    },
+    inputIcon: {
+      marginRight: 10,
     },
     input: {
-      width: '100%',
-      padding: 8,
-      marginBottom: 16,
-      borderWidth: 1,
-      borderColor: '#ccc',
-      borderRadius: 4,
+      flex: 1,
+      fontSize: 16,
+      color: '#333',
     },
-    register: {
-      marginTop: 20,
-      flexDirection: 'row',
+    loginButton: {
+      backgroundColor: '#007AFF',
+      borderRadius: 10,
+      height: 50,
       justifyContent: 'center',
       alignItems: 'center',
+      marginTop: 20,
     },
-    pwdContainer: {
+    loginButtonText: {
+      color: 'white',
+      fontSize: 16,
+      fontWeight: '600',
+    },
+    registerContainer: {
       flexDirection: 'row',
-      alignItems: 'center'
+      justifyContent: 'center',
+      marginTop: 20,
     },
-    inputpwd: {
-        width: '80%',
-        padding: 10,
-        marginBottom: 16,
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 4,
-        flex: 1,
-        height: 40
+    registerText: {
+      color: '#666',
+      fontSize: 14,
     },
-    iconContainer: {
-        paddingLeft: 10
-        
-    }
+    registerLink: {
+      color: '#007AFF',
+      fontSize: 14,
+      fontWeight: '500',
+    },
   });
   
 export default LoginScreen;
