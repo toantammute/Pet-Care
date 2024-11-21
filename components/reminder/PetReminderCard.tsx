@@ -13,10 +13,11 @@ export interface PetReminderCardProps {
     updateActivePetSchedule: (schedule_id: any) => Promise<void>;
 }
 
-const PetReminderCard: React.FC<PetReminderCardProps> = ({ pet_schedule }) => {
+const PetReminderCard: React.FC<PetReminderCardProps> = ({ pet_schedule, updateActivePetSchedule }) => {
 
     const renderItem = ({ item }: { item: any }) => (
-        <ReminderCard schedule={item} />
+        <ReminderCard schedule={item}
+        updateActivePetSchedule={updateActivePetSchedule}/>
     );
 
     return (

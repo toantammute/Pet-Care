@@ -14,9 +14,10 @@ export interface Reminder {
 }
 export interface ReminderCardProps {
   schedule: Reminder;
+  updateActivePetSchedule: (schedule_id: string, is_active: boolean) => Promise<void>;
 }
 
-const ReminderCard:React.FC<ReminderCardProps>=({schedule})=> {
+const ReminderCard: React.FC<ReminderCardProps> = ({ schedule, updateActivePetSchedule }) => {
 
   // Separate reminder_datetime into date and time
   const reminderDateTime = new Date(schedule.reminder_datetime);
@@ -24,15 +25,16 @@ const ReminderCard:React.FC<ReminderCardProps>=({schedule})=> {
   const timeString = reminderDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
   const dateString = reminderDateTime.toLocaleDateString();
   // const endDateString = schedule.end_date ? new Date(schedule.end_date).toLocaleDateString() : '';
-  
+
   // Initialize switch state based on schedule.is_active
   const [isEnabled, setIsEnabled] = useState(schedule.is_active);
 
+
   const toggleSwitch = async () => {
-    setIsEnabled(previousState => !previousState);
+    const newState = !isEnabled;
+    setIsEnabled(newState);
     try {
-      console.log('Toggling schedule:', schedule.id);
-      await updateActivePetSchedule(schedule.id); // Call the update function with the schedule ID
+      await updateActivePetSchedule(schedule.id, newState); // Call the function with the schedule ID and new state
     } catch (error) {
       console.log('Error toggling schedule:', error);
       // Optionally revert the switch state if the update fails

@@ -34,34 +34,34 @@ const usePetSchedule = () => {
 
             const data = response.data.data;
             if (data.length > 0) {
-              // Log schedules of each pet and store them in petSchedules
-              const petSchedulesData = data.map(pet => {
-                // console.log(`Schedules for ${pet.pet_name}:`, pet.schedules);
-                return {
-                  pet_id: pet.pet_id,
-                  pet_name: pet.pet_name,
-                  schedules: pet.schedules,
-                };
-              });
-      
-              setPetSchedules(petSchedulesData);
-      
-              // Flatten the schedules array and set it to the state
-              const allSchedules = data.flatMap(pet => pet.schedules);
-              console.log("All Schedules:", allSchedules);
-              setSchedules(allSchedules);
+                // Log schedules of each pet and store them in petSchedules
+                const petSchedulesData = data.map(pet => {
+                    // console.log(`Schedules for ${pet.pet_name}:`, pet.schedules);
+                    return {
+                        pet_id: pet.pet_id,
+                        pet_name: pet.pet_name,
+                        schedules: pet.schedules,
+                    };
+                });
+
+                setPetSchedules(petSchedulesData);
+
+                // Flatten the schedules array and set it to the state
+                const allSchedules = data.flatMap(pet => pet.schedules);
+                console.log("All Schedules:", allSchedules);
+                setSchedules(allSchedules);
             } else {
-              console.log("No pets found.");
-              setSchedules([]);
-              setPetSchedules([]);
+                console.log("No pets found.");
+                setSchedules([]);
+                setPetSchedules([]);
 
             }
-      
+
             setScheduleLoading(false);
-          } catch (error) {
+        } catch (error) {
             console.log('Error fetching schedules:', error);
             setScheduleLoading(false);
-          }
+        }
     };
     const createPetSchedule = async (data) => {
         setScheduleLoading(true);
@@ -107,24 +107,25 @@ const usePetSchedule = () => {
         }
 
     };
-    const updateActivePetSchedule = async (schedule_id) => {
-        console.log("Day la schedule_id", schedule_id);
+    const updateActivePetSchedule = async (schedule_id, is_active) => {
+        // console.log("Day la schedule_id", schedule_id);
+        // console.log("Day la is_active", is_active);
+        // console.log("Day la userInfo", userInfo.access_token);
         setScheduleLoading(true);
-        try {
-            const response = await axios.put(`${API_URL}/pet-schedule/active/${schedule_id}`, {
-                headers: {
-                    Authorization: `Bearer ${userInfo.access_token}`,
-                }
-            });
+        axios.put(`${API_URL}/pet-schedule/active/${schedule_id}`, {
+            is_active
+        }, {
+            headers: {
+                Authorization: `Bearer ${userInfo.access_token}`,
+            }
+        }).then(response => {
             setSchedules(response.data);
-            console.log("Active",response.data);
+            console.log("Active", response.data);
             setScheduleLoading(false);
-        } catch (error) {
-            console.log('Error updating schedule:', error);
+        }).catch(error => {
+            console.log('Error updating schedule:', error.response.data);
             setScheduleLoading(false);
-        } finally {
-            setScheduleLoading(false);
-        }
+        });
     }
     return {
         schedules,
