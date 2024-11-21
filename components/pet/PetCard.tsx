@@ -2,31 +2,48 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
 import GenderIcon from 'react-native-vector-icons/Ionicons'
 import Icon from 'react-native-vector-icons/Feather'
+import { NavigationProp, useNavigation } from '@react-navigation/native'
 
-interface Pet{
+export interface Pet{
+    petid: string,
     name: string,
     breed: string,
+    type: string,
     data_image: string,
     gender: string,
+    age: string,
+    weight: string,
+    healthnotes: string,
+    birth_date: string,
+    microchip_number: string,
+    original_name: string,
 }
 
-interface PetCardProps {
+export interface PetCardProps {
     pet: Pet;             // Define the type of the pet prop
+}
+
+type RootStackParamList = {
+    PetDetail:{petid:string}
 }
 
 const PetCard: React.FC<PetCardProps> = ({ pet }) => {
     const base64Image = `data:image/png;base64,${pet.data_image}`;
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+    const handleEdit = () => {
+        navigation.navigate('PetDetail',{petid:pet.petid});
+    };
     return (
-        <View style={styles.cotainer}>
+        <TouchableOpacity style={styles.cotainer} onPress={handleEdit}>
             <View style={styles.infoContainer}>
                 <Image source={{ uri: base64Image }}
                     style={styles.profileImage} />
                 <View style={styles.information}>
                     <View style={styles.title}>
                         <Text style={styles.name}>{pet.name}</Text>
-                        <GenderIcon
+                        {/* <GenderIcon
                             name={pet.gender === 'male' ? 'male' : 'female'}
-                            size={18} />
+                            size={18} /> */}
                     </View>
                     <Text>{pet.breed}</Text>
                 </View>
@@ -39,27 +56,27 @@ const PetCard: React.FC<PetCardProps> = ({ pet }) => {
                     <Icon name="trash" size={20} />
                 </TouchableOpacity>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 
 const styles = StyleSheet.create({
     cotainer:{
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.2,
+        shadowRadius: 1,
+        elevation: 3,
         marginTop:16,
-        width:'auto',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center',
         padding: 10,
         borderRadius: 10,
         backgroundColor: '#ffffff',
-        display: 'flex',
         paddingLeft: 16,
         paddingRight: 16,
         paddingTop: 8,
         paddingBottom: 8,
-        height:'auto',
-        gap:120
     },
     infoContainer:{
         flexDirection: 'row',
