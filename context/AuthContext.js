@@ -4,6 +4,7 @@ import { API_URL } from "@env";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import messaging from "@react-native-firebase/messaging";
+import { Platform } from "react-native";
 
 export const AuthContext = createContext();
 
@@ -13,26 +14,49 @@ export const AuthProvider = ({ children }) => {
     const [splashLoading, setSplashLoading] = useState(false);
     console.log(API_URL);
 
-    const Register = async (email, password, full_name, username) => {
+    const Register = async (email, password, full_name, username  , image) => {
         setIsLoading(true);
-        axios.post(`${API_URL}/user/create`, {
-            full_name,
+         // Tạo FormData
+        const formData = new FormData();
+
+        // Thêm dữ liệu người dùng vào FormData
+        formData.append('full_name', full_name);
+        formData.append('username', username);
+        formData.append('password', password);
+        formData.append('email', email);
+
+        // Thêm dữ liệu JSON nếu cần
+        const userData = {
             username,
             password,
+            full_name,
             email,
-        })
-        .then((response) => {
-            
-            const userInfo = response.data.data;
-            // setUserInfo(userInfo);
-            // AsyncStorage.setItem("userInfo", JSON.stringify(userInfo));
-            console.log(userInfo);
-            setIsLoading(false);
-        })
-        .catch((error) => {
-            console.error("Register error:", error.response.data);
-            setIsLoading(false);
+        };
+        formData.append('data', JSON.stringify(userData));
+
+        if (image) {
+            formData.append('image', {
+                uri: Platform.OS === 'android' ? image.uri : image.uri.replace('file://', ''),
+                type: 'image/jpeg',
+                name: 'image.jpg'
+            });
+        }
+
+        console.log(formData);
+        
+        const response = await axios.post(`${API_URL}/user/create`, formData, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'multipart/form-data'
+            }
         });
+
+        console.log(response.data);
+        if (response.data?.data) {
+            setIsLoading(false);  // Clear loading before alert
+            Alert.alert('Success', 'Registration successful');
+            return response.data.data;
+        }
     };
 
     const Login = async (username,password) => {
