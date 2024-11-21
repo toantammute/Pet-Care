@@ -101,25 +101,48 @@ const CreateReminderScreen = () => {
     setShowEndDatePicker(false);
   }
 
-  const formatDateTime = (date: Date | null, time: Date | null) => {
+  const formatDateTime = (date: Date | null, time: Date | null): string | null => {
     if (!date || !time) return null;
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-    const day = String(date.getDate()).padStart(2, '0');
-
-    const hours = String(time.getHours()).padStart(2, '0');
-    const minutes = String(time.getMinutes()).padStart(2, '0');
-    const seconds = String(time.getSeconds()).padStart(2, '0');
-    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`;
+    const utcDate = new Date(Date.UTC(
+      date.getUTCFullYear(),
+      date.getUTCMonth(),
+      date.getUTCDate(),
+      time.getUTCHours(),
+      time.getUTCMinutes(),
+      time.getUTCSeconds()
+    ));
+    return utcDate.toISOString();
   };
 
   const formatDate = (date: Date | null): string | null => {
     if (!date) return null;
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
+    const utcDate = new Date(Date.UTC(
+      date.getUTCFullYear(),
+      date.getUTCMonth(),
+      date.getUTCDate()
+    ));
+    return utcDate.toISOString().split('T')[0];
   };
+
+  // const formatDateTime = (date: Date | null, time: Date | null) => {
+  //   if (!date || !time) return null;
+  //   const year = date.getFullYear();
+  //   const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+  //   const day = String(date.getDate()).padStart(2, '0');
+
+  //   const hours = String(time.getHours()).padStart(2, '0');
+  //   const minutes = String(time.getMinutes()).padStart(2, '0');
+  //   const seconds = String(time.getSeconds()).padStart(2, '0');
+  //   return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`;
+  // };
+
+  // const formatDate = (date: Date | null): string | null => {
+  //   if (!date) return null;
+  //   const year = date.getFullYear();
+  //   const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+  //   const day = String(date.getDate()).padStart(2, '0');
+  //   return `${year}-${month}-${day}`;
+  // };
 
   const reminder_datetime = formatDateTime(date, time);
   const end_date = formatDate(endDate);
