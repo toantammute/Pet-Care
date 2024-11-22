@@ -94,10 +94,6 @@ const PetDetail = () => {
                     <Text style={{ textAlign: 'center' }}>See all</Text>
                 </TouchableOpacity>
             </View>
-
-            
-
-
         </ScrollView>
     )
 }
