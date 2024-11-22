@@ -2,9 +2,11 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native'
 import NotifyIcon from 'react-native-vector-icons/Ionicons'
 import React, { useContext } from 'react'
 import { AuthContext } from '../../context/AuthContext'
+import { useNavigation } from '@react-navigation/native'
 
 const Header = () => {
   const { userInfo } = useContext(AuthContext)
+  const navigation = useNavigation<any>();
 
   const base64Image = `data:image/png;base64,${userInfo.user.data_image}`;
   return (
@@ -19,7 +21,7 @@ const Header = () => {
         </View>
       </View>
       <View style={styles.rightContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Notification')}>
           <NotifyIcon name="notifications-outline" size={30} />
         </TouchableOpacity>
       </View>
