@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { StyleSheet, Text, Button, TextInput, View, SafeAreaView, TouchableOpacity, Alert, StatusBar, ScrollView, Image } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
+import Icon from "react-native-vector-icons/Ionicons";
 
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -72,7 +72,7 @@ const RegisterScreen = () => {
                     <Image source={{ uri: image.uri }} style={styles.profileImage} />
                 ) : (
                     <View style={styles.imagePlaceholder}>
-                        <Icon name="" size={30} color="#666" />
+                        <Icon name="camera" size={30} color="#666" />
                     </View>
                 )}
             </TouchableOpacity>
@@ -120,11 +120,7 @@ const RegisterScreen = () => {
                         onPress={togglePasswordVisibility} 
                         style={styles.eyeIcon}
                     >
-                        <Icon 
-                            name={isPasswordVisible ? "visibility-off" : "visibility"} 
-                            size={24} 
-                            color="#666"
-                        />
+                        <Icon name={isPasswordVisible ? 'eye-off' : 'eye'} size={20} color="#666" />
                     </TouchableOpacity>
                 </View>
                 
@@ -141,11 +137,7 @@ const RegisterScreen = () => {
                         onPress={toggleConfirmPasswordVisibility} 
                         style={styles.eyeIcon}
                     >
-                        <Icon 
-                            name={isConfirmPasswordVisible ? "visibility-off" : "visibility"} 
-                            size={24} 
-                            color="#666"
-                        />
+                        <Icon name={isConfirmPasswordVisible ? 'eye-off' : 'eye'} size={20} color="#666" />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -169,11 +161,11 @@ const RegisterScreen = () => {
                 </TouchableOpacity>
               </View>
               <View style={styles.loginContainer}>
-                <Text style={styles.loginText}>OTP</Text>
+                {/* <Text style={styles.loginText}>OTP</Text> */}
                 <TouchableOpacity 
                     onPress={() => navigation.navigate('OTPVerification')}
                 >
-                    <Text style={styles.loginLink}>OTPVerification</Text>
+                    <Text style={styles.loginLink}>OTP Verification</Text>
                 </TouchableOpacity>
             </View>
         </ScrollView>

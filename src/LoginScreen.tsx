@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { StyleSheet, Text, TextInput, View, TouchableOpacity, Button } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import IconInput from "react-native-vector-icons/FontAwesome";
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { AuthContext } from '../context/AuthContext';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -26,12 +27,12 @@ const LoginScreen = () => {
         <Spinner visible={isLoading} />
         <View style={styles.card}>
           <View style={styles.header}>
-            <Text style={styles.title}>Welcome Back</Text>
+            <Text style={styles.title}>Welcome!</Text>
             <Text style={styles.subtitle}>Please sign in to continue</Text>
           </View>
   
           <View style={styles.inputContainer}>
-            <Icon name="user" size={20} color="#666" style={styles.inputIcon} />
+            <IconInput name="user" size={20} color="#666" style={styles.inputIcon} />
             <TextInput
               style={styles.input}
               value={username}
@@ -42,7 +43,7 @@ const LoginScreen = () => {
           </View>
   
           <View style={styles.inputContainer}>
-            <Icon name="lock" size={20} color="#666" style={styles.inputIcon} />
+            <IconInput name="lock" size={20} color="#666" style={styles.inputIcon} />
             <TextInput
               style={styles.input}
               placeholder="Password"

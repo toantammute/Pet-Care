@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
 
 export interface PetPlan {
-  log_id:string;
+  log_id: string;
   pet_id: string;
   date_time: string;
   title: string;
@@ -13,50 +13,77 @@ export interface LogCardProps {
   log: PetPlan;             // Define the type of the pet prop
 }
 
-const PetPlanCard: React.FC<LogCardProps> =({log})=> {
+const PetPlanCard: React.FC<LogCardProps> = ({ log }) => {
   // Convert the date_time string to a Date object
   const date = new Date(log.date_time);
 
-  // Format the date to a locale time string
-  const formattedDateTime = date.toLocaleString();
+  // Format the date and time separately
+  const formattedDate = date.toLocaleDateString();
+  const formattedTime = date.toLocaleTimeString('en-GB', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false
+  });
+
   return (
-    <TouchableOpacity style={[styles.planItem, { backgroundColor: '#F8F9FA' }]}>
-      <View style={styles.planContent}>
-        <Text style={styles.planevent_time}>{log.title}</Text>
-        <Text style={styles.planactivity_type}>{formattedDateTime}</Text>
+    <TouchableOpacity style={styles.card}>
+      <View style={styles.content}>
+        <Text style={styles.title}>{log.title}</Text>
+        <Text style={styles.notes}>{log.notes}</Text>
       </View>
-      <Text style={styles.planDate}>{log.notes}</Text>
+      <View style={styles.dateTimeContainer}>
+        <Text style={styles.time}>{formattedTime}</Text>
+        <Text style={styles.date}>{formattedDate}</Text>
+      </View>
     </TouchableOpacity>
-  )
+  );
 }
 const styles = StyleSheet.create({
-  planItem: {
+  card: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 16,
+    padding: 12,
     borderRadius: 12,
-    backgroundColor: '#F8F9FA',
-    // marginBottom: 12,
+    backgroundColor: '#FFFFFF',
+    elevation: 3, // Adds shadow on Android
+    shadowColor: '#000', // iOS shadow
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    marginBottom: 8,
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
   },
-  planContent: {
+  content: {
     flex: 1,
+    justifyContent: 'center', // Center content vertically
+    // alignItems: 'center', // Center content horizontally
+    paddingRight: 10,
   },
-  planevent_time: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#000',
+  title: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#003366',
     marginBottom: 4,
   },
-  planactivity_type: {
+  notes: {
     fontSize: 14,
     color: '#666',
   },
-  planDate: {
-    fontSize: 14,
+  dateTimeContainer: {
+    alignItems: 'center', // Center items horizontally
+    justifyContent: 'center', // Center items vertically
+    flexDirection: 'column', // Stack time and date vertically
+  },
+  time: {
+    fontSize: 18,
     fontWeight: '500',
     color: '#4A55A2',
-    marginLeft: 12,
+  },
+  date: {
+    fontSize: 14,
+    color: '#333',
   },
 })
 export default PetPlanCard
