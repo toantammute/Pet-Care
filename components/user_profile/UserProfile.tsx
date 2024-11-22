@@ -38,64 +38,64 @@ interface UserCardProps {
 
 const PLACEHOLDER_IMAGE = require('../../assets/images/person.png');
 
-const UserDataProfile: React.FC<UserCardProps> = ({userData}) => {
+const UserDataProfile: React.FC<UserCardProps> = ({ userData }) => {
   const imageSource = userData?.data_image
-    ? {uri: `data:image/jpeg;base64,${userData.data_image}`}
+    ? { uri: `data:image/jpeg;base64,${userData.data_image}` }
     : userData?.original_image
-    ? {uri: userData.original_image}
-    : PLACEHOLDER_IMAGE;
+      ? { uri: userData.original_image }
+      : PLACEHOLDER_IMAGE;
 
-    return (
-      <View style={styles.container}>
-        {/* Profile Header */}
-        <View style={styles.header}>
-          <View style={styles.avatarContainer}>
-            <Image source={imageSource} style={styles.avatar} />
-            {/* Camera Icon for Image Upload */}
-            <TouchableOpacity style={styles.cameraButton}>
-              <Icon name="camera" size={16} color="#FFFFFF" />
-            </TouchableOpacity>
-            {/* Edit Profile Button */}
-            <TouchableOpacity style={styles.editButton}>
-              <Icon name="edit-2" size={16} color="#FFFFFF" />
-            </TouchableOpacity>
-          </View>
-  
-          <Text style={styles.name}>{userData?.full_name || 'User Name'}</Text>
-          <Text style={styles.role}>{userData?.role || 'Role'}</Text>
+  return (
+    <View style={styles.container}>
+      {/* Profile Header */}
+      <View style={styles.header}>
+        <View style={styles.avatarContainer}>
+          <Image source={imageSource} style={styles.avatar} />
+          {/* Camera Icon for Image Upload */}
+          <TouchableOpacity style={styles.cameraButton}>
+            <Icon name="camera" size={16} color="#FFFFFF" />
+          </TouchableOpacity>
+          {/* Edit Profile Button */}
+          <TouchableOpacity style={styles.editButton}>
+            <Icon name="edit-2" size={16} color="#FFFFFF" />
+          </TouchableOpacity>
         </View>
-  
-        {/* Profile Information */}
-        <View style={styles.infoContainer}>
-          <InfoItem
-            icon="mail"
-            label="Email"
-            value={userData?.email || 'Not set'}
-          />
-          <InfoItem
-            icon="phone"
-            label="Phone"
-            value={userData?.phone_number || 'Not set'}
-          />
-          <InfoItem
-            icon="map-pin"
-            label="Address"
-            value={userData?.address || 'Not set'}
-          />
-        </View>
-  
-       
+
+        <Text style={styles.name}>{userData?.full_name || 'User Name'}</Text>
+        <Text style={styles.role}>{userData?.role || 'Role'}</Text>
       </View>
-    );
+
+      {/* Profile Information */}
+      <View style={styles.infoContainer}>
+        <InfoItem
+          icon="mail"
+          label="Email"
+          value={userData?.email || 'Not set'}
+        />
+        <InfoItem
+          icon="phone"
+          label="Phone"
+          value={userData?.phone_number || 'Not set'}
+        />
+        <InfoItem
+          icon="map-pin"
+          label="Address"
+          value={userData?.address || 'Not set'}
+        />
+      </View>
+
+
+    </View>
+  );
 };
-  
+
 interface InfoItemProps {
   icon: string;
   label: string;
   value: string | undefined;  // value can be a string or undefined
 }
 
-const InfoItem: React.FC<InfoItemProps> = ({icon, label, value}) => (
+const InfoItem: React.FC<InfoItemProps> = ({ icon, label, value }) => (
   <View style={styles.infoItem}>
     <Icon name={icon} size={20} color="#6B7280" />
     <View style={styles.infoTextContainer}>
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     ...Platform.select({
       ios: {
         shadowColor: '#000',
-        shadowOffset: {width: 0, height: 2},
+        shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 8,
       },
