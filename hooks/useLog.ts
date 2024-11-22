@@ -1,11 +1,12 @@
 import { API_URL } from "@env";
 import axios from "axios";
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext, useState, useCallback } from "react";
 import { AuthContext } from '../context/AuthContext';
+import { useFocusEffect, useRoute } from "@react-navigation/native";
 
 interface Log {
     log_id: string,
-    petid: string,
+    pet_id: string,
     title: string,
     notes: string,
     date_time: string,
@@ -13,9 +14,19 @@ interface Log {
 
 
 const useLog = () =>{
+    const route = useRoute();
+    const { petid } = route.params as { petid: string };
+
     const {userInfo} = useContext(AuthContext);
-    const [logs, setLogs] = useState();
+    const [logs, setLogs] = useState<Log[]>([]);
     const [logLoading, setLogLoading] = useState(false);
+
+    useFocusEffect(
+        useCallback(() => {
+            console.log('Screen focused, fetching logs');
+            getLogsbyPet(petid, 9999, 1);
+        },[])
+    );
 
     const getLogsbyPet = async (petid: any, pageSize: any, pageNum: any) => {
         setLogLoading(true);
@@ -29,11 +40,6 @@ const useLog = () =>{
                     pageSize
                 }
             });
-            // const logsData = response.data;
-            // logsData.forEach(log => {
-            //     console.log("Log Date:", log.log_id);
-            //   });
-            // console.log("Logs",response.data);
             setLogs(response.data);
             setLogLoading(false);
         } catch (error) {

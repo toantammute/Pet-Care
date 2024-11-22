@@ -16,7 +16,6 @@ interface Pet {
 const CreateLogsScreen = () => {
     const route = useRoute();
     const { petid } = route.params as { petid: string };
-    console.log(petid);
 
     const { pets, isLoading, getPets } = usePet() as { pets: Pet[], isLoading: boolean, getPets: () => void };
     const { createPetLog } = useLog();
@@ -67,7 +66,7 @@ const CreateLogsScreen = () => {
     const handleSubmit = () => {
         const data = {
             pet_id: petid,
-            time,
+            title,
             notes,
             date_time,
         }
