@@ -39,7 +39,7 @@ const Navigation = () => {
                 <Stack.Screen name='Tab' component={TabLayout} options={{ headerShown: false }} />
                 <Stack.Screen name="Notification" component={NotificationScreen} />
                 <Stack.Screen name="CreateReminder" component={CreateReminderScreen} />
-                <Stack.Screen name="PetScreen" component={PetScreen} options={{ headerShown: false }} />
+                {/* <Stack.Screen name="PetScreen" component={PetScreen} options={{ headerShown: false }} /> */}
                 <Stack.Screen name="PetDetail" component={PetDetail} />
                 <Stack.Screen name="AddPetScreen" component={AddPetScreen} />
                 <Stack.Screen name="CreateLogsScreen" component={CreateLogsScreen} />

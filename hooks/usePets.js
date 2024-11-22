@@ -49,9 +49,10 @@ const usePets = () => {
         }
     };
 
-    useEffect(() =>{
-        getPets();
-    },[]);
+    // useEffect(() =>{
+    //     getPets();
+    // },[]);
+    
     // useEffect(() =>{
     //     getPetDetails();
     // },[petid]);

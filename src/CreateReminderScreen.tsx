@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet, TextInput, TouchableOpacity, SectionListComponent, Modal } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Button, StyleSheet, TextInput, TouchableOpacity, SectionListComponent, Modal, Alert } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Dropdown, MultiSelect } from 'react-native-element-dropdown';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import usePet from '../hooks/usePets'
 import usePetSchedule from '../hooks/usePetSchedule';
+import { useNavigation } from '@react-navigation/native';
 
 const repeatData = [
   {
@@ -34,6 +35,8 @@ interface Pet {
   // other properties
 }
 const CreateReminderScreen = () => {
+  const navigation = useNavigation<any>();
+
   const { createPetSchedule } = usePetSchedule();
   const [title, setTitle] = useState('');
   const [notes, setNotes] = useState('');
@@ -52,8 +55,7 @@ const CreateReminderScreen = () => {
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [showEndDatePicker, setShowEndDatePicker] = useState(false);
 
-  const petData = pets.map((pet) => ({ label: pet.name, value: pet.petid }));
-
+  const petData = pets?.map((pet) => ({ label: pet.name, value: pet.petid }));
 
   const renderLabelRepeat = () => {
     if (repeatValue || isFocus) {
