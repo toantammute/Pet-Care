@@ -20,10 +20,6 @@ const useUser = () => {
       });
 
       setUser(response.data.data);
-      console.log(response.data);
-      // const data = await response.data.json();
-      // setUser(data); // Assuming response contains the user data
-      // console.log(data);
       setIsLoading(false);
     } catch (error) {
       console.log('Error fetching user:', error);
