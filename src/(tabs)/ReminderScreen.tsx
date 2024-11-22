@@ -3,7 +3,7 @@ import { View, Text, Button, StyleSheet, TouchableOpacity, FlatList, ScrollView,
 import { useNavigation, NavigationProp, useFocusEffect } from '@react-navigation/native';
 import usePetSchedule from '../../hooks/usePetSchedule';
 import PetReminderCard from '../../components/reminder/PetReminderCard';
-import { createNotification, updateNotification, cancelNotification } from '../../services/Notification';
+import { createNotification, cancelNotification } from '../../services/Notification';
 
 interface Schedule {
   id: string,
@@ -44,7 +44,7 @@ const ReminderScreen = () => {
       const activeSchedules = schedules ?? [];
       for (const schedule of activeSchedules) {
         if (schedule.is_active) {
-          await createNotification(schedule);
+          await createNotification(schedule, updateActivePetSchedule);
         }
       }
     };
@@ -52,7 +52,7 @@ const ReminderScreen = () => {
     createNotifications();
   }, [schedules]);
 
-  const navigation = useNavigation<NavigationProp<{ Reminders: undefined }>>();
+  const navigation = useNavigation<any>();
 
 
   return (
@@ -77,7 +77,7 @@ const ReminderScreen = () => {
 
 
       </ScrollView>
-      <TouchableOpacity style={styles.createButton} onPress={() => navigation.navigate('Reminders')}>
+      <TouchableOpacity style={styles.createButton} onPress={() => navigation.navigate('CreateReminder')}>
         <Text style={styles.buttonText}>+</Text>
       </TouchableOpacity>
 

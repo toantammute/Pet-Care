@@ -1,5 +1,5 @@
 import { View, Text, Switch, StyleSheet } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 export interface Reminder {
   id: string,
@@ -29,9 +29,14 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ schedule, updateActivePetSc
   const dateString = reminderDateTime.toLocaleDateString();
   // const endDateString = schedule.end_date ? new Date(schedule.end_date).toLocaleDateString() : '';
 
+
   // Initialize switch state based on schedule.is_active
   const [isEnabled, setIsEnabled] = useState(schedule.is_active);
 
+  // Update local state when the schedule changes
+  useEffect(() => {
+    setIsEnabled(schedule.is_active);
+  }, [schedule.is_active]);
 
   const toggleSwitch = async () => {
     const newState = !isEnabled;

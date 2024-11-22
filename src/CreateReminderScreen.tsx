@@ -8,8 +8,8 @@ import usePetSchedule from '../hooks/usePetSchedule';
 
 const repeatData = [
   {
-    value: 'None',
-    label: 'NONE',
+    value: 'NONE',
+    label: 'None',
   },
   {
     value: 'DAILY',
@@ -19,10 +19,10 @@ const repeatData = [
     value: 'WEEKLY',
     label: 'Weekly',
   },
-  {
-    value: 'MONTHLY',
-    label: 'Monthly',
-  },
+  // {
+  //   value: 'MONTHLY',
+  //   label: 'Monthly',
+  // },
   // {
   //   value: 'Yearly',
   //   label: 'Yearly',
@@ -160,6 +160,15 @@ const CreateReminderScreen = () => {
       end_date
     }
     createPetSchedule(data);
+    // Clear the form
+    setTitle('');
+    setNotes('');
+    setDate(null);
+    setTime(null);
+    setEndOption('Never');
+    setRepeatValue(null);
+    setPetChoose(null);
+    setEndDate(null);
   }
 
   return (
@@ -291,7 +300,7 @@ const CreateReminderScreen = () => {
           )}
         />
       </View>
-      {repeatValue && repeatValue !== 'None' && (<View style={styles.endContainer}>
+      {repeatValue && repeatValue !== 'NONE' && (<View style={styles.endContainer}>
         <Text>Ends</Text>
 
         <View style={styles.endOptionCon}>
