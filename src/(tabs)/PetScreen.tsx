@@ -25,6 +25,7 @@ const PetScreen = () => {
     }, [])
   );
 
+
   const renderItem = ({ item }: { item: any }) => (
     <PetCard pet={item} />
   );

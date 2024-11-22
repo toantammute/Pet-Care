@@ -50,11 +50,6 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ schedule, updateActivePetSc
     }
   };
 
-  // const toggleSwitch = () => {
-  //   setIsEnabled(previousState => !previousState);
-  //   // Here you would typically handle the state change, e.g., send to API
-  // };
-
   // Build the end date string if applicable
   let endDateString = '';
   if (schedule.end_date && schedule.end_date !== '0001-01-01T00:00:00Z' && schedule.end_type !== false) {
