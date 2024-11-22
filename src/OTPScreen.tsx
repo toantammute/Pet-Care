@@ -1,6 +1,6 @@
 import { NavigationProp, RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import React, { useEffect, useRef, useState } from 'react'
-import { Text, TouchableOpacity } from 'react-native';
+import { Alert, Text, TouchableOpacity } from 'react-native';
 import { StyleSheet, TextInput, View } from 'react-native';
 import useOTP from '../hooks/useOTP';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -20,7 +20,8 @@ const OTPScreen = () => {
         // Load username when component mounts
         const loadUsername = async () => {
         try {
-            const savedUsername = await AsyncStorage.getItem('username');
+          const savedUsername = await AsyncStorage.getItem('username');
+          console.log('Loaded username:', savedUsername);
             if (savedUsername) {
             setUsername(savedUsername);
             }
@@ -50,22 +51,27 @@ const OTPScreen = () => {
         }
     };
 
-    
-    
-  
-  
     const handleKeyPress = (e: any, index: number) => {
       if (e.nativeEvent.key === 'Backspace' && !otp[index] && index > 0) {
         inputs.current[index - 1]?.focus();
       }
     };
   
-    const handleVerifyOTP = () => {
-        const otpString = otp.join('');
-        // Add your OTP verification logic here
-        verifyOTP(otpString, username);
+    const handleVerifyOTP = async () => {
+      const otpString = otp.join('');
+      if (username) {
+        const result = await verifyOTP(otpString, username);
+  
+        if (result.success) {
+          Alert.alert('Success', result.message);
+          navigation.navigate('Login'); // Navigate to the login screen after successful OTP verification
+        } else {
+          Alert.alert('Error', result.message);
+        }
+      } else {
+        Alert.alert('Error', 'Username not found');
+      }
     
-        console.log('Verifying OTP:', otpString);
       };
     
       const handleResendOTP = () => {
