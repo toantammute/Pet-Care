@@ -4,8 +4,11 @@ import Icon from 'react-native-vector-icons/FontAwesome5'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import Fontisto from 'react-native-vector-icons/Fontisto'
+import { useNavigation } from '@react-navigation/native'
 
 const HealthCard = () => {
+    const navigation = useNavigation<any>();
+
     return (
         <View style={styles.container}>
             <View style={styles.titleContainer}>
@@ -17,21 +20,29 @@ const HealthCard = () => {
             </View>
             <View style={styles.serviceContainer}>
                 <View style={styles.rowServiceContainer}>
-                    <TouchableOpacity style={StyleSheet.compose(styles.serviceBtn, { backgroundColor: '#EAF9F2' })}>
+                    <TouchableOpacity
+                    style={StyleSheet.compose(styles.serviceBtn, { backgroundColor: '#EAF9F2' })}
+                    onPress={() => navigation.navigate('DiseaseScreen')}>
                         <Icon name='viruses' size={30} color='#7AB06C' />
                         <Text style={styles.text}>Disease</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={StyleSheet.compose(styles.serviceBtn, { backgroundColor: '#E8F7FE' })}>
+                    <TouchableOpacity
+                    style={StyleSheet.compose(styles.serviceBtn, { backgroundColor: '#E8F7FE' })}
+                    >
                         <MaterialCommunityIcons name='pill' size={30} color='#71A8B6' />
                         <Text style={styles.text}>Medicine</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.rowServiceContainer}>
-                    <TouchableOpacity style={StyleSheet.compose(styles.serviceBtn, { backgroundColor: '#FAF2EB' })}>
+                    <TouchableOpacity
+                    style={StyleSheet.compose(styles.serviceBtn, { backgroundColor: '#FAF2EB' })}
+                    onPress={() => navigation.navigate('AppointmentScreen')}>
                         <Ionicons name='calendar-outline' size={30} color='#BD6565' />
-                        <Text style={styles.text}>Appoinment</Text>
+                        <Text style={styles.text}>Appointment</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={StyleSheet.compose(styles.serviceBtn, { backgroundColor: '#F0F3FE' })}>
+                    <TouchableOpacity
+                    style={StyleSheet.compose(styles.serviceBtn, { backgroundColor: '#F0F3FE' })}
+                    onPress={() => navigation.navigate('ServiceScreen')}>
                         <Fontisto name='stethoscope' size={30} color='#927EC9' />
                         <Text style={styles.text}>Service</Text>
                     </TouchableOpacity>
@@ -68,7 +79,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         padding: 5,
         borderWidth: 1,
-        borderColor: '#F2F2F2',
+        borderColor: '#ccc',
     },
     seeAllText: {
         color: '#000',
@@ -101,6 +112,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: 160,
         padding: 10,
+        height: 90,
     },
     text: {
         color: '#000',
