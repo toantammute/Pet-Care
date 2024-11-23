@@ -20,6 +20,7 @@ import CreateVaccinationScreen from '../src/CreateVaccinationScreen';
 import AppointmentScreen from '../src/AppointmentScreen';
 import ServiceScreen from '../src/ServiceScreen';
 import DiseaseScreen from '../src/DiseaseScreen';
+import AI_Chat from '../src/AI_Chat';
 
 const Stack = createNativeStackNavigator();
 
@@ -52,6 +53,7 @@ const Navigation = () => {
                 <Stack.Screen name="AppointmentScreen" component={AppointmentScreen} />
                 <Stack.Screen name="ServiceScreen" component={ServiceScreen} />
                 <Stack.Screen name="DiseaseScreen" component={DiseaseScreen} />
+                <Stack.Screen name="AI_Chat" component={AI_Chat} />
               </>
             </>
           ) : (
