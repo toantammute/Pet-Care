@@ -33,7 +33,7 @@ const PetScreen = () => {
   return (
     <View style={styles.container}>
       <Spinner visible={isLoading} />
-      <StatusBar barStyle="dark-content" />
+      {/* <StatusBar barStyle="dark-content" /> */}
       <FlatList
         data={pets}
         keyExtractor={(item) => item.petid.toString()} // Adjust based on your pet's unique ID

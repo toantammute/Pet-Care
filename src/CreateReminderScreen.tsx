@@ -55,6 +55,10 @@ const CreateReminderScreen = () => {
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [showEndDatePicker, setShowEndDatePicker] = useState(false);
 
+  useEffect(() => {
+    getPets();
+  }, []);
+
   const petData = pets?.map((pet) => ({ label: pet.name, value: pet.petid }));
 
   const renderLabelRepeat = () => {

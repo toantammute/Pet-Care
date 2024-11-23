@@ -15,15 +15,18 @@ export interface LogCardProps {
 
 const PetPlanCard: React.FC<LogCardProps> = ({ log }) => {
   // Convert the date_time string to a Date object
-  const date = new Date(log.date_time);
+  const date = new Date(`${log.date_time}`);
+  // console.log(date.toLocaleString());
+  
 
   // Format the date and time separately
   const formattedDate = date.toLocaleDateString();
-  const formattedTime = date.toLocaleTimeString('en-GB', {
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false
-  });
+  const formattedTime = date.toLocaleTimeString();
+  // const formattedTime = date.toLocaleTimeString('en-GB', {
+  //   hour: '2-digit',
+  //   minute: '2-digit',
+  //   hour12: false
+  // });
 
   return (
     <TouchableOpacity style={styles.card}>
