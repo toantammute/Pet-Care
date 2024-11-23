@@ -1,3 +1,4 @@
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import React from 'react';
 import {
   Image,
@@ -8,6 +9,7 @@ import {
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
+import useImagePicker from '../../hooks/useImagePicker';
 
 export interface User {
   full_name: string;
@@ -39,25 +41,39 @@ interface UserCardProps {
 const PLACEHOLDER_IMAGE = require('../../assets/images/person.png');
 
 const UserDataProfile: React.FC<UserCardProps> = ({ userData }) => {
+  const { image, pickImage } = useImagePicker(); // Dùng hook để chọn ảnh
+
+  const navigation = useNavigation<NavigationProp<{ UpdateUserScreen: undefined }>>();
+
   const imageSource = userData?.data_image
     ? { uri: `data:image/jpeg;base64,${userData.data_image}` }
     : userData?.original_image
       ? { uri: userData.original_image }
       : PLACEHOLDER_IMAGE;
+  
+  const handleEditPress = () => {
+    navigation.navigate('UpdateUserScreen');
+  };
+
+
 
   return (
     <View style={styles.container}>
       {/* Profile Header */}
       <View style={styles.header}>
         <View style={styles.avatarContainer}>
-          <Image source={imageSource} style={styles.avatar} />
-          {/* Camera Icon for Image Upload */}
-          <TouchableOpacity style={styles.cameraButton}>
-            <Icon name="camera" size={16} color="#FFFFFF" />
-          </TouchableOpacity>
+        {image ? (
+          <Image source={{ uri: image.uri }} style={styles.avatar} />
+        ) : (
+          <Icon name="user" size={100} color="#ccc" />
+        )}          {/* Camera Icon for Image Upload */}
+          <TouchableOpacity style={styles.cameraButton} onPress={pickImage}>
+          <Icon name="camera" size={16} color="#FFFFFF" />
+        </TouchableOpacity>
+
           {/* Edit Profile Button */}
           <TouchableOpacity style={styles.editButton}>
-            <Icon name="edit-2" size={16} color="#FFFFFF" />
+            <Icon name="edit-2" size={16} color="#FFFFFF" onPress={handleEditPress}/>
           </TouchableOpacity>
         </View>
 
@@ -139,17 +155,15 @@ const styles = StyleSheet.create({
   },
   cameraButton: {
     position: 'absolute',
-    right: 0,
-    bottom: 0,
-    backgroundColor: '#3B82F6',
-    borderRadius: 15,
-    width: 30,
-    height: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 2,
-    borderColor: '#FFFFFF',
+    bottom: 10,
+    right: 10,
+    backgroundColor: '#007AFF',
+    borderRadius: 20,
+    padding: 8,
+    zIndex: 10, // Đảm bảo ở trên cùng
+    elevation: 10, // Đối với Android
   },
+  
   editButton: {
     position: 'absolute',
     right: -40,

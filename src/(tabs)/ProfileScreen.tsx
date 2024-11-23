@@ -13,19 +13,26 @@ import useUser from '../../hooks/useUser';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { AuthContext } from '../../context/AuthContext';
 import Icon from 'react-native-vector-icons/Feather';
+import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native';
 
 const ProfileScreen = () => {
   const {user, isLoading: userLoading, getUser} = useUser(); // Destructure the values from the custom hook
   const { Logout, isLoading: authLoading } = useContext(AuthContext); // Access Logout and isLoading from AuthContext
 
-  // If you want to fetch user data only once when the component mounts, you can use this effect
-  useEffect(() => {
-    getUser(); // Call the custom hook's function to fetch user data
-  }, []); // Empty dependency array means it will run once when the component mounts
+  useFocusEffect(
+    React.useCallback(() => {
+      getUser(); // Fetch user data when screen is focused
+    }, [])
+  ); // Empty dependency array means it will run once when the component mounts
 
-  // Show a loading indicator while data is being fetched
   const isLoading = userLoading || authLoading;
-
+  if (isLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
 
   // Show the user profile data once it's fetched
   return (
@@ -74,6 +81,10 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
+  },loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

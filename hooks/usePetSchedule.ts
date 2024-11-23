@@ -14,6 +14,7 @@ interface Schedule {
     end_type: boolean,
     end_date: string | null,
 }
+
 interface PetSchedule {
     pet_id: string;
     pet_name: string;

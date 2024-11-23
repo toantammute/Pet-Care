@@ -16,6 +16,9 @@ import OTPScreen from '../src/OTPScreen';
 import CreateLogsScreen from '../src/CreateLogsScreen';
 import LogsScreen from '../src/LogsScreen';
 import CreateReminderScreen from '../src/CreateReminderScreen';
+import UpdateUserScreen from '../src/UpdateUserScreen';
+import UpdatePetScreen from '../src/UpdatePetScreen';
+import ProfileScreen from '../src/(tabs)/ProfileScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -39,11 +42,13 @@ const Navigation = () => {
                 <Stack.Screen name='Tab' component={TabLayout} options={{ headerShown: false }} />
                 <Stack.Screen name="Notification" component={NotificationScreen} />
                 <Stack.Screen name="CreateReminder" component={CreateReminderScreen} />
-                {/* <Stack.Screen name="PetScreen" component={PetScreen} options={{ headerShown: false }} /> */}
+                <Stack.Screen name="UpdatePetScreen" component={UpdatePetScreen} />
                 <Stack.Screen name="PetDetail" component={PetDetail} />
                 <Stack.Screen name="AddPetScreen" component={AddPetScreen} />
                 <Stack.Screen name="CreateLogsScreen" component={CreateLogsScreen} />
                 <Stack.Screen name="LogsScreen" component={LogsScreen} />
+                <Stack.Screen name="UpdateUserScreen" component={UpdateUserScreen} />
+
               </>
             </>
           ) : (

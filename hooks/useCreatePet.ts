@@ -64,7 +64,6 @@ const useCreatePet = () => {
                 microchip_number: petData.microchip_number,
             }));
 
-
             // Append the image file, if provided
             if (imageFile) {
                 formData.append('image', {
@@ -73,9 +72,6 @@ const useCreatePet = () => {
                     type: imageFile.type,
                 });
             }
-
-            console.log('Access token:', userInfo?.access_token);
-            console.log('API URL:', `${API_URL}/pet/create`);
 
             const response = await axios.post(`${API_URL}/pet/create`, formData, {
                 headers: {
