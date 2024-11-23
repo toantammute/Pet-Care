@@ -1,12 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity, FlatList, ScrollView } from 'react-native';
+import { View, Text, Button, StyleSheet, TouchableOpacity, FlatList, ScrollView, RefreshControl } from 'react-native';
 import { useNavigation, NavigationProp, useFocusEffect } from '@react-navigation/native';
-import CreateReminderScreen from '../CreateReminderScreen';
-import notifee, { RepeatFrequency, TimestampTrigger, TriggerType } from '@notifee/react-native'
-import ReminderCard from '../../components/reminder/ReminderCard';
 import usePetSchedule from '../../hooks/usePetSchedule';
 import PetReminderCard from '../../components/reminder/PetReminderCard';
-import { createNotification, updateNotification, cancelNotification }  from '../../services/Notification';
+import { createNotification, cancelNotification } from '../../services/Notification';
 
 interface Schedule {
   id: string,
@@ -47,7 +44,7 @@ const ReminderScreen = () => {
       const activeSchedules = schedules ?? [];
       for (const schedule of activeSchedules) {
         if (schedule.is_active) {
-          await createNotification(schedule);
+          await createNotification(schedule, updateActivePetSchedule);
         }
       }
     };
@@ -55,86 +52,32 @@ const ReminderScreen = () => {
     createNotifications();
   }, [schedules]);
 
-  // const navigation = useNavigation();
-  const navigation = useNavigation<NavigationProp<{ Reminders: undefined }>>();
+  const navigation = useNavigation<any>();
 
-  // async function onDisplayNotification() {
-  //   // Request permissions (required for iOS)
-  //   await notifee.requestPermission();
-
-  //   // Create a channel (required for Android)
-  //   const channelId = await notifee.createChannel({
-  //     id: 'default',
-  //     name: 'Default Channel',
-  //   });
-
-  //   // Set the date and time for the notification
-  //   const date = new Date(2024, 10, 18, 9, 15, 0); // Note: Month is 0-indexed (10 is November)
-
-    // // Create a time-based trigger
-    // const trigger: TimestampTrigger = {
-    //   type: TriggerType.TIMESTAMP,
-    //   timestamp: date.getTime(),
-    //   repeatFrequency: RepeatFrequency.DAILY,
-    // };
-
-  //   const notificationId = 'default';
-
-  //   // Create a trigger notification
-  //   await notifee.createTriggerNotification(
-  //     {
-  //       id: notificationId,
-  //       title: '09:15 DAILY',
-  //       body: `This is a scheduled notification for 9:15 PM on November 18, 2024: ${notificationId}`,
-  //       android: {
-  //         channelId,
-  //         smallIcon: 'ic_launcher', // optional, defaults to 'ic_launcher'.
-  //         pressAction: {
-  //           id: 'default',
-  //         },
-  //       },
-  //     },
-  //     trigger,
-  //   );
-  // }
 
   return (
-    <View style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {/* <PetReminderCard />
-        <PetReminderCard />
-        <PetReminderCard /> */}
-      <FlatList
-        scrollEnabled={false}
-        data={petSchedules}
-        keyExtractor={(item) => item.pet_id.toString()}
-        renderItem={renderItem}
-        // ItemSeparatorComponent={() => <View style={{height:5}} />}
-        ListEmptyComponent={<Text>No reminder.</Text>} 
-        refreshing={refreshing}
-        onRefresh={onRefresh}/> 
-
-      {/* <ReminderCard />
-
-
-        {/* <Button
-        title="Create Reminder"
-        onPress={() => navigation.navigate('Reminders')}
-      /> */}
-      {/* <Button
-        title="Create Reminder"
-        onPress={() => navigation.navigate('Reminders')}
-      /> */}
+    <View
+      style={styles.container}
+    >
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+        }>
+        <FlatList
+          scrollEnabled={false}
+          data={petSchedules}
+          keyExtractor={(item) => item.pet_id.toString()}
+          renderItem={renderItem}
+          // ItemSeparatorComponent={() => <View style={{height:5}} />}
+          ListEmptyComponent={<Text>No reminder.</Text>} />
 
 
-      {/* <Text style={styles.title}>Reminders</Text>
-      <Button
-        title="Create Reminder"
-        onPress={() => navigation.navigate('Reminders')}
-      />
-      <Button title="Create Trigger Notification" onPress={() => onDisplayNotification()} /> */}
       </ScrollView>
-      <TouchableOpacity style={styles.createButton} onPress={() => navigation.navigate('Reminders')}>
+      <TouchableOpacity style={styles.createButton} onPress={() => navigation.navigate('CreateReminder')}>
         <Text style={styles.buttonText}>+</Text>
       </TouchableOpacity>
 

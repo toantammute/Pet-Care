@@ -18,7 +18,7 @@ interface PetSchedule {
     pet_id: string;
     pet_name: string;
     schedules: Schedule[];
-  }
+}
 
 const usePetSchedule = () => {
     const { userInfo } = useContext(AuthContext);
@@ -63,7 +63,6 @@ const usePetSchedule = () => {
                 console.log("No pets found.");
                 setSchedules([]);
                 setPetSchedules([]);
-
             }
 
             setScheduleLoading(false);

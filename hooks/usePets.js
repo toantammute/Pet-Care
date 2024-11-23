@@ -19,7 +19,6 @@ const usePets = () => {
                 }
             });
             setPets(response.data);
-            response.data.forEach(pet => console.log("ID cuar pet",pet.petid));
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false);
@@ -49,9 +48,10 @@ const usePets = () => {
         }
     };
 
-    useEffect(() =>{
-        getPets();
-    },[]);
+    // useEffect(() =>{
+    //     getPets();
+    // },[]);
+    
     // useEffect(() =>{
     //     getPetDetails();
     // },[petid]);

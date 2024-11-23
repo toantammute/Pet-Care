@@ -54,10 +54,10 @@ const PetInfoCard: React.FC<PetCardProps> = ({pet}) => {
                     <Text style={styles.infoLabel}>Birth Date</Text>
                     <Text style={styles.infoValue}>{pet.birth_date}</Text>
                 </View>
-                <View style={styles.infoRow}>
+                {/* <View style={styles.infoRow}>
                     <Text style={styles.infoLabel}>ID</Text>
                     <Text style={styles.infoValue}>#{pet.petid}</Text>
-                </View>
+                </View> */}
             </View>
         </View>
     )
