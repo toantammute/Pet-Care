@@ -2,13 +2,13 @@ import { View, Text, StyleSheet, TouchableOpacity, FlatList, ScrollView, Refresh
 import React, { useState, useCallback, useEffect } from 'react'
 import PetInfoCard from '../components/pet/PetInfoCard'
 import usePets from '../hooks/usePets'
-import { PetCardProps } from '../components/pet/PetCard';
-import { NavigationProp, useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
+import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import PetPlanCard from '../components/pet/PetPlanCard';
+import VaccinationCard from '../components/vaccination/VaccinationCard';
 import Icon from 'react-native-vector-icons/Feather'
 import useLog from '../hooks/useLog';
+import useVaccination from '../hooks/useVaccination';
 import SplashScreen from './SplashScreen';
-import LogsScreen from './LogsScreen';
 
 interface PetDetails {
     petid: string;
@@ -33,12 +33,15 @@ const PetDetail = () => {
     // const { petidSchedule } = route.params as { petidSchedule: string };
     const { isLoading, petDetails, getPetDetails } = usePets();
     const { getLogsbyPet, logLoading, logs, } = useLog();
+    const { getVaccinationsByPet, vaccinationLoading, vaccinations } = useVaccination();
+    
 
     const [refreshing, setRefreshing] = useState(false);
     const onRefresh = async () => {
         setRefreshing(true);
         await getPetDetails(petid); // Fetch pets data
         await getLogsbyPet(petid, 3, 1);
+        await getVaccinationsByPet(petid);
         setRefreshing(false);
     }
 
@@ -47,6 +50,7 @@ const PetDetail = () => {
             console.log('Screen focused, fetching pet detail');
             getPetDetails(petid);
             getLogsbyPet(petid, 3, 1);
+            getVaccinationsByPet(petid);
         }, [])
     );
 
@@ -54,7 +58,7 @@ const PetDetail = () => {
         <PetPlanCard log={item} />
     );
 
-    if (isLoading || !petDetails  || logLoading) {
+    if (isLoading || !petDetails  || logLoading ||vaccinationLoading) {
         return <SplashScreen />
     }
     const pet = petDetails as PetDetails;
@@ -94,6 +98,32 @@ const PetDetail = () => {
                     <Text style={{ textAlign: 'center' }}>See all</Text>
                 </TouchableOpacity>
             </View>
+
+            <View style={styles.plansCard}>
+                <View style={styles.plansHeader}>
+                    <Text style={styles.plansTitle}>{pet.name} 's vaccination</Text>
+                    <TouchableOpacity
+                        style={styles.addButton}
+                        onPress={() => navigation.navigate('CreateVaccinationScreen', { petid: pet.petid })}>
+                        <Icon name="plus" size={20} color="#000" />
+                    </TouchableOpacity>
+                </View>
+                <VaccinationCard vaccination={vaccinations[0]} />
+ 
+                {/* <FlatList
+                    scrollEnabled={false}
+                    data={logs}
+                    keyExtractor={(item) => item.log_id.toString()}
+                    renderItem={renderItem}
+                    ItemSeparatorComponent={() => <View style={{ height: 5 }} />}
+                    ListEmptyComponent={<Text style={{ padding: 10, textAlign: 'center', fontSize: 16 }}>No log dairy available</Text>} // Handle empty list case
+                /> */}
+
+                <TouchableOpacity style={styles.footerContainer}
+                onPress={() => navigation.navigate('LogsScreen', { petid: pet.petid })}>
+                    <Text style={{ textAlign: 'center' }}>See all</Text>
+                </TouchableOpacity>
+            </View>
         </ScrollView>
     )
 }
@@ -118,7 +148,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.05,
         shadowRadius: 4,
         elevation: 3,
-        marginBottom: 20,
+        marginBottom: 14,
     },
     plansHeader: {
         flexDirection: 'row',

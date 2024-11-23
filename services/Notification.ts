@@ -58,7 +58,7 @@ export const createNotification = async (
             };
             await notifee.createTriggerNotification(
                 {
-                    id: schedule.id.toString(),
+                    id: `SCHE${schedule.id.toString()}`,
                     title: schedule.title,
                     body: schedule.notes,
                     android: {
@@ -90,7 +90,7 @@ export const createNotification = async (
                     };
                     await notifee.createTriggerNotification(
                         {
-                            id: schedule.id.toString(),
+                            id: `SCHE${schedule.id.toString()}`,
                             title: schedule.title,
                             body: schedule.notes,
                             android: {
@@ -108,7 +108,7 @@ export const createNotification = async (
                 else {
                     if (schedule.event_repeat === 'DAILY') {
                         console.log('Notification date is in the past but have daily', schedule);
-                        date.setDate(date.getDate() + 1);
+                        date.setDate(currentDate.getDate() + 1);
                         const trigger: TimestampTrigger = {
                             type: TriggerType.TIMESTAMP,
                             timestamp: date.getTime(),
@@ -116,7 +116,7 @@ export const createNotification = async (
                         };
                         await notifee.createTriggerNotification(
                             {
-                                id: schedule.id.toString(),
+                                id: `SCHE${schedule.id.toString()}`,
                                 title: schedule.title,
                                 body: schedule.notes,
                                 android: {
@@ -151,7 +151,7 @@ export const createNotification = async (
                             };
                             await notifee.createTriggerNotification(
                                 {
-                                    id: schedule.id.toString(),
+                                    id: `SCHE${schedule.id.toString()}`,
                                     title: schedule.title,
                                     body: schedule.notes,
                                     android: {

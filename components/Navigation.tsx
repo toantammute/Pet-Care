@@ -16,6 +16,11 @@ import OTPScreen from '../src/OTPScreen';
 import CreateLogsScreen from '../src/CreateLogsScreen';
 import LogsScreen from '../src/LogsScreen';
 import CreateReminderScreen from '../src/CreateReminderScreen';
+import CreateVaccinationScreen from '../src/CreateVaccinationScreen';
+import AppointmentScreen from '../src/AppointmentScreen';
+import ServiceScreen from '../src/ServiceScreen';
+import DiseaseScreen from '../src/DiseaseScreen';
+import AI_Chat from '../src/AI_Chat';
 import UpdateUserScreen from '../src/UpdateUserScreen';
 import UpdatePetScreen from '../src/UpdatePetScreen';
 import ProfileScreen from '../src/(tabs)/ProfileScreen';
@@ -47,6 +52,11 @@ const Navigation = () => {
                 <Stack.Screen name="AddPetScreen" component={AddPetScreen} />
                 <Stack.Screen name="CreateLogsScreen" component={CreateLogsScreen} />
                 <Stack.Screen name="LogsScreen" component={LogsScreen} />
+                <Stack.Screen name="CreateVaccinationScreen" component={CreateVaccinationScreen} />
+                <Stack.Screen name="AppointmentScreen" component={AppointmentScreen} />
+                <Stack.Screen name="ServiceScreen" component={ServiceScreen} />
+                <Stack.Screen name="DiseaseScreen" component={DiseaseScreen} />
+                <Stack.Screen name="AI_Chat" component={AI_Chat} />
                 <Stack.Screen name="UpdateUserScreen" component={UpdateUserScreen} />
 
               </>

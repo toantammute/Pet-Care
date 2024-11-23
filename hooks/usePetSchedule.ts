@@ -64,7 +64,6 @@ const usePetSchedule = () => {
                 console.log("No pets found.");
                 setSchedules([]);
                 setPetSchedules([]);
-
             }
 
             setScheduleLoading(false);

@@ -20,11 +20,19 @@ const Header = () => {
           <Text style={styles.usernameText}>{userInfo.user.username}</Text>
         </View>
       </View>
-      <View style={styles.rightContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Notification')}>
-          <NotifyIcon name="notifications-outline" size={30} />
-        </TouchableOpacity>
+      <View style={styles.control}>
+        <View style={styles.rightContainer}>
+          <TouchableOpacity onPress={() => navigation.navigate('AI_Chat')}>
+            <NotifyIcon name="chatbox-outline" size={30} />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.rightContainer}>
+          <TouchableOpacity onPress={() => navigation.navigate('Notification')}>
+            <NotifyIcon name="notifications-outline" size={30} />
+          </TouchableOpacity>
+        </View>
       </View>
+
     </View>
 
   )
@@ -43,29 +51,28 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     paddingBottom: 8,
     backgroundColor: 'white',
-    width: 'auto',
-    height:'auto',
-    gap:160
+    width: '100%',
+    height: 'auto',
   },
   leftContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 16,
   },
-  welcomeContainer:{
+  welcomeContainer: {
     flexDirection: 'column',
     gap: 2,
     alignItems: 'flex-start',
   },
-  welcomeText:{
-    fontSize:18,
-    fontWeight:600,
-    fontFamily:'Duplet'
+  welcomeText: {
+    fontSize: 18,
+    fontWeight: 600,
+    fontFamily: 'Duplet'
   },
-  usernameText:{
-    fontSize:25,
-    fontWeight:400,
-    fontFamily:'Duplet'
+  usernameText: {
+    fontSize: 25,
+    fontWeight: 400,
+    fontFamily: 'Duplet'
   },
   profileImage: {
     width: 40,
@@ -76,7 +83,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 8,
     borderRadius: 8,
-    borderColor:'#F2F2F2',
+    borderColor: '#F2F2F2',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -85,6 +92,10 @@ const styles = StyleSheet.create({
     height: 24,
     marginLeft: 16,
   },
+  control:{
+    flexDirection: 'row',
+    gap: 6
+  }
 });
 
 export default Header

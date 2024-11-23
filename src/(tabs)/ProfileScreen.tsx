@@ -7,16 +7,18 @@ import {
   Button,
   ActivityIndicator,
 } from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import UserProfile from '../../components/user_profile/UserProfile';
 import useUser from '../../hooks/useUser';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { AuthContext } from '../../context/AuthContext';
 import Icon from 'react-native-vector-icons/Feather';
+import SplashScreen from '../SplashScreen';
+import { useFocusEffect } from '@react-navigation/native';
 import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native';
 
 const ProfileScreen = () => {
-  const {user, isLoading: userLoading, getUser} = useUser(); // Destructure the values from the custom hook
+  const { user, isLoading: userLoading, getUser } = useUser(); // Destructure the values from the custom hook
   const { Logout, isLoading: authLoading } = useContext(AuthContext); // Access Logout and isLoading from AuthContext
 
   useFocusEffect(
@@ -25,30 +27,32 @@ const ProfileScreen = () => {
     }, [])
   ); // Empty dependency array means it will run once when the component mounts
 
-  const isLoading = userLoading || authLoading;
-  if (isLoading) {
+  // Show a loading indicator while data is being fetched
+  // const isLoading = userLoading || authLoading;
+
+  if (userLoading || authLoading) {
     return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
+      // <Text>Loading...</Text>
+      <SplashScreen />
     );
   }
+
 
   // Show the user profile data once it's fetched
   return (
     <View>
-      <Spinner visible={isLoading} />
+      {/* <Spinner visible={isLoading} /> */}
       <UserProfile userData={user} /> :null;
-       <TouchableOpacity 
-          style={styles.logoutButton}
-          onPress={Logout}>
-          <Icon name="log-out" size={20} color="#FFFFFF" style={styles.logoutIcon} />
-          <Text style={styles.logoutText}>Logout</Text>
-        </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.logoutButton}
+        onPress={Logout}>
+        <Icon name="log-out" size={20} color="#FFFFFF" style={styles.logoutIcon} />
+        <Text style={styles.logoutText}>Logout</Text>
+      </TouchableOpacity>
     </View>
   );
 
-  
+
 };
 
 const styles = StyleSheet.create({
