@@ -44,7 +44,7 @@ const usePetSchedule = () => {
             console.log("Data:", data);
             if (data !== null) {
                 // Log schedules of each pet and store them in petSchedules
-                const petSchedulesData = data.map((pet: { pet_id: any; pet_name: any; schedules: any; }) => {
+                const petSchedulesData = data.map((pet: PetSchedule) => {
                     // console.log(`Schedules for ${pet.pet_name}:`, pet.schedules);
                     return {
                         pet_id: pet.pet_id,
