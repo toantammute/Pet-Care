@@ -17,6 +17,9 @@ import CreateLogsScreen from '../src/CreateLogsScreen';
 import LogsScreen from '../src/LogsScreen';
 import CreateReminderScreen from '../src/CreateReminderScreen';
 import CreateVaccinationScreen from '../src/CreateVaccinationScreen';
+import AppointmentScreen from '../src/AppointmentScreen';
+import ServiceScreen from '../src/ServiceScreen';
+import DiseaseScreen from '../src/DiseaseScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -46,6 +49,9 @@ const Navigation = () => {
                 <Stack.Screen name="CreateLogsScreen" component={CreateLogsScreen} />
                 <Stack.Screen name="LogsScreen" component={LogsScreen} />
                 <Stack.Screen name="CreateVaccinationScreen" component={CreateVaccinationScreen} />
+                <Stack.Screen name="AppointmentScreen" component={AppointmentScreen} />
+                <Stack.Screen name="ServiceScreen" component={ServiceScreen} />
+                <Stack.Screen name="DiseaseScreen" component={DiseaseScreen} />
               </>
             </>
           ) : (
