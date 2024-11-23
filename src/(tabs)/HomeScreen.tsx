@@ -8,6 +8,7 @@ import { NavigationProp, useFocusEffect, useNavigation } from "@react-navigation
 import { RootStackParamList } from "../../types";
 import usePetSchedule from "../../hooks/usePetSchedule";
 import { createNotification } from "../../services/Notification";
+import HealthCard from "../../components/home/HealthCard";
 
 interface Schedule {
   id: string,
@@ -51,14 +52,19 @@ const HomeScreen = () =>{
     <View style={styles.container}>
       <Spinner visible={isLoading} />
       <Header />
+      <HealthCard/>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    flexDirection: 'column',
+    paddingLeft:10,
+    paddingRight:10,
     flex:1,
     alignItems: 'center',
+    gap: 10,
     // justifyContent: 'center',
   },
   welcome:{

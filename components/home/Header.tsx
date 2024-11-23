@@ -43,9 +43,8 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     paddingBottom: 8,
     backgroundColor: 'white',
-    width: 'auto',
+    width: '100%',
     height:'auto',
-    gap:160
   },
   leftContainer: {
     flexDirection: 'row',
