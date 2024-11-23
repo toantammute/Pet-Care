@@ -58,7 +58,7 @@ export const createNotification = async (
             };
             await notifee.createTriggerNotification(
                 {
-                    id: schedule.id.toString(),
+                    id: `SCHE${schedule.id.toString()}`,
                     title: schedule.title,
                     body: schedule.notes,
                     android: {
@@ -90,7 +90,7 @@ export const createNotification = async (
                     };
                     await notifee.createTriggerNotification(
                         {
-                            id: schedule.id.toString(),
+                            id: `SCHE${schedule.id.toString()}`,
                             title: schedule.title,
                             body: schedule.notes,
                             android: {
@@ -116,7 +116,7 @@ export const createNotification = async (
                         };
                         await notifee.createTriggerNotification(
                             {
-                                id: schedule.id.toString(),
+                                id: `SCHE${schedule.id.toString()}`,
                                 title: schedule.title,
                                 body: schedule.notes,
                                 android: {
@@ -151,7 +151,7 @@ export const createNotification = async (
                             };
                             await notifee.createTriggerNotification(
                                 {
-                                    id: schedule.id.toString(),
+                                    id: `SCHE${schedule.id.toString()}`,
                                     title: schedule.title,
                                     body: schedule.notes,
                                     android: {

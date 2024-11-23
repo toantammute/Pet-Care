@@ -52,7 +52,7 @@ notifee.onBackgroundEvent(async ({ type, detail }) => {
     }
 
     if (type === EventType.DELIVERED) {
-        console.log('Notification delivered in background with title:', notification.title);
+        console.log('Notification delivered in background with title:', notification.id);
     }
 });
 

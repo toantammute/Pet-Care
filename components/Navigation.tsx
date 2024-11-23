@@ -16,6 +16,7 @@ import OTPScreen from '../src/OTPScreen';
 import CreateLogsScreen from '../src/CreateLogsScreen';
 import LogsScreen from '../src/LogsScreen';
 import CreateReminderScreen from '../src/CreateReminderScreen';
+import CreateVaccinationScreen from '../src/CreateVaccinationScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -44,6 +45,7 @@ const Navigation = () => {
                 <Stack.Screen name="AddPetScreen" component={AddPetScreen} />
                 <Stack.Screen name="CreateLogsScreen" component={CreateLogsScreen} />
                 <Stack.Screen name="LogsScreen" component={LogsScreen} />
+                <Stack.Screen name="CreateVaccinationScreen" component={CreateVaccinationScreen} />
               </>
             </>
           ) : (
