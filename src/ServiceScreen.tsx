@@ -35,6 +35,9 @@ const ServiceScreen = () => {
   const renderItem = ({ item }: { item: any }) => (
     <TypeService serviceType={item} />
   )
+  // const keyExtractor = (item: any) => {
+  //   return item.id ? item.id.toString() : Math.random().toString();
+  // };
   return (
     <View style={styles.container}>
             {serviceLoading ? (
@@ -42,7 +45,7 @@ const ServiceScreen = () => {
             ) : (
                 <FlatList
                     data={serviceByType}
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item) => item.id.toString()} // Assuming id is unique
                     renderItem={renderItem}
                     ItemSeparatorComponent={() => <View style={styles.separator} />}
                     ListEmptyComponent={<Text style={styles.emptyText}>No services available.</Text>}

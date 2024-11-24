@@ -2,7 +2,7 @@ import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
 
 interface Service {
-    sêrvice_id: string,
+    service_id: string,
     type_id: string,
     name: string,
     price: number,

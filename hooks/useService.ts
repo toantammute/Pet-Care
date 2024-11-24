@@ -4,7 +4,7 @@ import axios from "axios";
 import { AuthContext } from '../context/AuthContext';
 
 interface Service {
-    sêrvice_id: string,
+    service_id: string,
     type_id: string,
     name: string,
     price: number,
@@ -12,7 +12,7 @@ interface Service {
     description: string,
     isavailable: boolean
 }
-interface ServiceOverview {
+interface ServiceType {
     id: string,
     type_name: string,
     services: Service[]
@@ -23,11 +23,14 @@ const useService = () => {
     const { userInfo } = useContext(AuthContext);
     const [services, setServices] = useState<Service[]>([]);
     const [serviceLoading, setServiceLoading] = useState(false);
-    const [serviceByType, setServiceByType] = useState<ServiceOverview[]>([]);
+    const [serviceByType, setServiceByType] = useState<ServiceType[]>([]);
 
     const getServices = async () => {
         setServiceLoading(true);
         try {
+            const formData = new FormData();
+            formData.append('data', JSON.stringify({
+            }));
             const response = await axios.get(`${API_URL}/service/list`, {
                 headers: {
                     Authorization: `Bearer ${userInfo.access_token}`,
@@ -36,15 +39,15 @@ const useService = () => {
             const data = response.data;
             console.log("Service response:",data);
             if (data !== null) {
-                const servicesTypeData = data.map((service: ServiceOverview) => {
+                const servicesTypeData = data.map((servicetype: ServiceType) => {
                     return {
-                        type_id: service.id,
-                        type_name: service.type_name,
-                        services: service.services,
+                        id: servicetype.id,
+                        type_name: servicetype.type_name,
+                        services: servicetype.services,
                     };
                 });
                 setServiceByType(servicesTypeData);
-                const allServices = data.flatMap((service: { services: any; }) => service.services);
+                const allServices = data.flatMap((servicetype: { services: any; }) => servicetype.services);
                 console.log("All Services:", allServices);
                 setServices(allServices);
                 setServiceLoading(false);

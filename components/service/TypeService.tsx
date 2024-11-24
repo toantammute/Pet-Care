@@ -20,6 +20,7 @@ const TypeService: React.FC<ServiceTypeCardProps> = ({ serviceType }) => {
         <View style={styles.container}>
             <Text style={styles.title}>{serviceType.type_name}</Text>
             <FlatList
+                scrollEnabled={false}
                 data={serviceType.services}
                 keyExtractor={(item) => item.service_id} // Assuming service_id is unique
                 renderItem={renderItem}
