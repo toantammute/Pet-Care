@@ -1,6 +1,7 @@
 import { View, Text, Switch, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Swipeable } from 'react-native-gesture-handler';
+import { cancelNotification } from '../../services/Notification';
 
 export interface Reminder {
   id: string,
@@ -78,6 +79,11 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ schedule, updateActivePetSc
   const handleDelete = async (schedule_id: string) => {
     try {
       await deletePetSchedule(schedule_id);
+      // if (deleteSchedule ==='200'){
+      //   console.log('Delete schedule success =200');
+      //   
+      // }
+      await cancelNotification(schedule_id);
       await refreshLogs();
     } catch (error) {
       console.log('Error deleting schedule:', error);

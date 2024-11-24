@@ -27,6 +27,7 @@ const usePetSchedule = () => {
     const [schedules, setSchedules] = useState<Schedule[]>([]);
     const [petScheduleOverview, setPetScheduleOverview] = useState();
     const [scheduleLoading, setScheduleLoading] = useState(false);
+    const [deleteSchedule, setDeleteSchedule] = useState();
 
     const getSchedulesOfUser = async () => {
         setScheduleLoading(true);
@@ -144,7 +145,8 @@ const usePetSchedule = () => {
                     Authorization: `Bearer ${userInfo.access_token}`,
                 }
             });
-            console.log(response.data);
+            setDeleteSchedule(response.data.data);
+            console.log(deleteSchedule);
             setScheduleLoading(false);
         } catch (error) {
             console.log('Error deleting schedule:', error);
@@ -158,6 +160,7 @@ const usePetSchedule = () => {
         petScheduleOverview,
         scheduleLoading,
         petSchedules,
+        deleteSchedule,
         getSchedulesOfUser,
         getPetScheduleOverview,
         createPetSchedule,
