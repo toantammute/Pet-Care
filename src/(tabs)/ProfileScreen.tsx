@@ -14,7 +14,6 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { AuthContext } from '../../context/AuthContext';
 import Icon from 'react-native-vector-icons/Feather';
 import SplashScreen from '../SplashScreen';
-import { useFocusEffect } from '@react-navigation/native';
 import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native';
 
 const ProfileScreen = () => {
