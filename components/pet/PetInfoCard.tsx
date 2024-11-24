@@ -3,8 +3,17 @@ import React from 'react'
 import { PetCardProps } from './PetCard'
 import { StyleSheet } from 'react-native'
 import Icon from 'react-native-vector-icons/Feather'
+import { NavigationProp, useNavigation } from '@react-navigation/native'
 
-const PetInfoCard: React.FC<PetCardProps> = ({pet}) => {
+const PetInfoCard: React.FC<PetCardProps> = ({ pet }) => {
+    
+    const navigation = useNavigation<NavigationProp<{ UpdatePetScreen: { petid: string } }>>();
+
+
+    const handleEditPress = () => {
+        navigation.navigate('UpdatePetScreen', { petid : pet.petid });
+    };
+
     const base64Image = `data:image/png;base64,${pet.data_image}`;
     return (
         <View style={styles.cardContainer}>
@@ -24,7 +33,7 @@ const PetInfoCard: React.FC<PetCardProps> = ({pet}) => {
                     </View>
                 </View>
                 <TouchableOpacity style={styles.editButton}>
-                    <Icon name="edit-2" size={20} color="#666" />
+                    <Icon name="edit-2" size={20} color="#666" onPress={handleEditPress} />
                 </TouchableOpacity>
             </View>
 

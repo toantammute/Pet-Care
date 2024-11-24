@@ -11,6 +11,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const RegisterScreen = () => {
     const navigation = useNavigation<NavigationProp<{ OTPVerification: undefined }>>();
     const navigation2 = useNavigation<NavigationProp<{ Login: undefined }>>();
+    
 
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);

@@ -27,7 +27,24 @@ type RootStackParamList = {
     PetDetail:{petid:string}
 }
 
+const getBackgroundColor = (type: string) => {
+    switch (type) {
+      case 'dog': return '#E3EDFF';
+      case 'cat': return '#E8FFE3';
+      case 'fish': return '#EEE3FF';
+      case 'hamster': return '#FFE3E3';
+      default: return '#E3EDFF';
+    }
+  };
+
 const PetCard: React.FC<PetCardProps> = ({ pet }) => {
+
+    const navigation1 = useNavigation<NavigationProp<{ UpdatePetScreen: { petid: string } }>>();
+
+    const handleEditPress = () => {
+        navigation1.navigate('UpdatePetScreen', { petid : pet.petid });
+    };
+
     const base64Image = `data:image/png;base64,${pet.data_image}`;
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const handleEdit = () => {
@@ -41,16 +58,13 @@ const PetCard: React.FC<PetCardProps> = ({ pet }) => {
                 <View style={styles.information}>
                     <View style={styles.title}>
                         <Text style={styles.name}>{pet.name}</Text>
-                        {/* <GenderIcon
-                            name={pet.gender === 'male' ? 'male' : 'female'}
-                            size={18} /> */}
                     </View>
                     <Text>{pet.breed}</Text>
                 </View>
             </View>
             <View style={styles.controlContainer}>
                 <TouchableOpacity style={styles.controlIcon}>
-                    <Icon name="edit" size={20} />
+                    <Icon name="edit" size={20} onPress={handleEditPress} />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.controlIcon}>
                     <Icon name="trash" size={20} />

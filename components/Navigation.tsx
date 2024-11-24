@@ -21,6 +21,9 @@ import AppointmentScreen from '../src/AppointmentScreen';
 import ServiceScreen from '../src/ServiceScreen';
 import DiseaseScreen from '../src/DiseaseScreen';
 import AI_Chat from '../src/AI_Chat';
+import UpdateUserScreen from '../src/UpdateUserScreen';
+import UpdatePetScreen from '../src/UpdatePetScreen';
+import ProfileScreen from '../src/(tabs)/ProfileScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -44,7 +47,7 @@ const Navigation = () => {
                 <Stack.Screen name='Tab' component={TabLayout} options={{ headerShown: false }} />
                 <Stack.Screen name="Notification" component={NotificationScreen} />
                 <Stack.Screen name="CreateReminder" component={CreateReminderScreen} />
-                {/* <Stack.Screen name="PetScreen" component={PetScreen} options={{ headerShown: false }} /> */}
+                <Stack.Screen name="UpdatePetScreen" component={UpdatePetScreen} />
                 <Stack.Screen name="PetDetail" component={PetDetail} />
                 <Stack.Screen name="AddPetScreen" component={AddPetScreen} />
                 <Stack.Screen name="CreateLogsScreen" component={CreateLogsScreen} />
@@ -54,6 +57,8 @@ const Navigation = () => {
                 <Stack.Screen name="ServiceScreen" component={ServiceScreen} />
                 <Stack.Screen name="DiseaseScreen" component={DiseaseScreen} />
                 <Stack.Screen name="AI_Chat" component={AI_Chat} />
+                <Stack.Screen name="UpdateUserScreen" component={UpdateUserScreen} />
+
               </>
             </>
           ) : (
