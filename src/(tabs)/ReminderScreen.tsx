@@ -18,10 +18,14 @@ interface Schedule {
 }
 
 const ReminderScreen = () => {
-  const { getSchedulesOfUser, scheduleLoading, schedules, petSchedules, updateActivePetSchedule } = usePetSchedule();
+  const { getSchedulesOfUser, scheduleLoading, schedules, petSchedules, updateActivePetSchedule,deletePetSchedule } = usePetSchedule();
 
   const renderItem = ({ item }: { item: any }) => (
-    <PetReminderCard pet_schedule={item} updateActivePetSchedule={updateActivePetSchedule} />
+    <PetReminderCard
+    pet_schedule={item}
+    updateActivePetSchedule={updateActivePetSchedule}
+    deletePetSchedule={deletePetSchedule}
+    refreshLogs={onRefresh}/>
   );
 
   const [refreshing, setRefreshing] = useState(false);

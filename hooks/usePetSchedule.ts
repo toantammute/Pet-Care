@@ -135,6 +135,23 @@ const usePetSchedule = () => {
             setScheduleLoading(false);
         });
     }
+    const deletePetSchedule = async (schedule_id: any) => {
+        setScheduleLoading(true);
+        try {
+            const response = await axios.delete(`${API_URL}/pet-schedule/${schedule_id}`, {
+                headers: {
+                    Authorization: `Bearer ${userInfo.access_token}`,
+                }
+            });
+            console.log(response.data);
+            setScheduleLoading(false);
+        } catch (error) {
+            console.log('Error deleting schedule:', error);
+            setScheduleLoading(false);
+        } finally {
+            setScheduleLoading(false);
+        }
+    };
     return {
         schedules,
         petScheduleOverview,
@@ -144,6 +161,7 @@ const usePetSchedule = () => {
         getPetScheduleOverview,
         createPetSchedule,
         updateActivePetSchedule,
+        deletePetSchedule,
     };
 
 };
