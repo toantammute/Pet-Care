@@ -1,8 +1,9 @@
 import { API_URL } from "@env";
-import axios from "axios";
+import axios, { formToJSON } from "axios";
 import React, {useEffect, useContext, useState} from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Alert } from "react-native";
+import { ImageFile } from "./useCreatePet";
 
 
 interface UpdatePetRequest {
@@ -98,6 +99,45 @@ const usePets = () => {
         } finally {
           setIsLoading(false);
         }
+    };
+
+    // update pet
+    const updatePetAvatar = async (petid: string, imageFile: ImageFile | null) => {
+        setIsLoading(true);
+        console.log("petId", petid);
+
+        try {
+            const formData = new FormData();
+
+            if (imageFile) {
+              formData.append('image', {
+                  uri: imageFile.uri.startsWith('file://') ? imageFile.uri : `file://${imageFile.uri}`, // Ensure proper URI format
+                  name: imageFile.name,
+                  type: imageFile.type,
+              });
+            }
+        
+      
+              await axios.put(`${API_URL}/pet/avatar/${petid}`, formData, {
+              headers: {
+                Authorization: `Bearer ${userInfo.access_token}`,
+                'Content-Type': 'multipart/form-data',
+      
+              },
+            });
+                  
+            Alert.alert('Success', 'Avatar updated successfully!');
+            setIsLoading(false);
+        } catch (error) {
+          Alert.alert("Error", "Failed to update avatar. Please try again later.");
+          if (axios.isAxiosError(error) && error.response) {
+            console.error("Update pet error:", error.response.data);
+          } else {
+            console.error("Update pet error:", error);
+          }
+        } finally {
+          setIsLoading(false);
+        }
       };
 
     return {
@@ -106,7 +146,8 @@ const usePets = () => {
         isLoading,
         getPets,
         getPetDetails,
-        updatePet
+        updatePet,
+        updatePetAvatar
     };
 };
 

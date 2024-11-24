@@ -23,19 +23,6 @@ export interface PetCardProps {
     pet: Pet;             // Define the type of the pet prop
 }
 
-type RootStackParamList = {
-    PetDetail:{petid:string}
-}
-
-const getBackgroundColor = (type: string) => {
-    switch (type) {
-      case 'dog': return '#E3EDFF';
-      case 'cat': return '#E8FFE3';
-      case 'fish': return '#EEE3FF';
-      case 'hamster': return '#FFE3E3';
-      default: return '#E3EDFF';
-    }
-  };
 
 const PetCard: React.FC<PetCardProps> = ({ pet }) => {
 
@@ -46,10 +33,15 @@ const PetCard: React.FC<PetCardProps> = ({ pet }) => {
     };
 
     const base64Image = `data:image/png;base64,${pet.data_image}`;
-    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+    console.log(pet.petid);
+    
+    const navigation = useNavigation<NavigationProp<{ PetDetail: { petid: string } }>>();
+    
     const handleEdit = () => {
-        navigation.navigate('PetDetail',{petid:pet.petid});
+        navigation.navigate('PetDetail', {petid : pet.petid });
     };
+    
     return (
         <TouchableOpacity style={styles.cotainer} onPress={handleEdit}>
             <View style={styles.infoContainer}>

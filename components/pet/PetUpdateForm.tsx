@@ -4,6 +4,7 @@ import { Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import usePets from '../../hooks/usePets';
+import useImagePicker from '../../hooks/useImagePicker';
 
 const PetUpdateForm = () => {
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -45,6 +46,8 @@ const PetUpdateForm = () => {
       setIsLoading(false);
     }
   };
+
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>

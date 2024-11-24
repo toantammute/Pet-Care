@@ -72,7 +72,7 @@ const useUser = () => {
     }
   };
 
-  const updateUserAvater = async (imageFile: ImageFile) => {
+  const updateUserAvatar = async (imageFile: ImageFile | null) => {
     setIsLoading(true);
     try {
 
@@ -87,16 +87,15 @@ const useUser = () => {
       }
   
 
-      const response = await axios.put(`${API_URL}/user/avatar`, formData, {
+        await axios.put(`${API_URL}/user/avatar`, formData, {
         headers: {
           Authorization: `Bearer ${userInfo.access_token}`,
-          'Content-Type': 'application/json',
+          'Content-Type': 'multipart/form-data',
+
         },
       });
 
       // Update local user state with the updated data
-      setUser(response.data.data);
-      console.log('User updated successfully:', response.data.data);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error('Error updating user:', error.response?.data || error.message);
@@ -107,16 +106,21 @@ const useUser = () => {
       setIsLoading(false);
     }
   };
+              
 
   useEffect(() => {
     getUser();
+
   }, []);
+
+  // Remove this useEffect if imageFile is not defined
 
   return {
     user,
     isLoading,
     getUser,
     updateUser,
+    updateUserAvatar
   };
 };
 
