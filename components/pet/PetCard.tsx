@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.2,
         shadowRadius: 1,
         elevation: 3,
-        marginTop:16,
+        marginTop:8,
         flexDirection: 'row',
         justifyContent: 'space-between',
         padding: 10,
