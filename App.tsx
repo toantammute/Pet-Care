@@ -3,6 +3,8 @@ import Navigation from './components/Navigation';
 import { AuthProvider } from './context/AuthContext';
 import { StatusBar } from 'react-native';
 import notifee, { AuthorizationStatus, EventType } from '@notifee/react-native'
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
 
 
 const App = () => {
@@ -19,7 +21,7 @@ const App = () => {
     }
     requestUserPermission();
   }, []);
-  
+
   useEffect(() => {
     return notifee.onForegroundEvent(({ type, detail }) => {
       switch (type) {
@@ -33,10 +35,13 @@ const App = () => {
     });
   }, []);
   return (
-    <AuthProvider>
-      <StatusBar backgroundColor='#06bcee' />
-      <Navigation />
-    </AuthProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <AuthProvider>
+        <StatusBar backgroundColor='#06bcee' />
+        <Navigation />
+      </AuthProvider>
+    </GestureHandlerRootView>
+
   );
 };
 

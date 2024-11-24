@@ -71,12 +71,31 @@ const useLog = () =>{
             setLogLoading(false);
         }
     }
+    const deletePetLog = async (log_id: any) => {
+        setLogLoading(true);
+        try {
+            const response = await axios.delete(`${API_URL}/pet/logs/${log_id}`, {
+                headers: {
+                    Authorization: `Bearer ${userInfo.access_token}`,
+                }
+            });
+            // setLogs(response.data);
+            console.log(response.data);
+            setLogLoading(false);
+        } catch (error) {
+            console.log('Error deleting log:', error);
+            setLogLoading(false);
+        } finally {
+            setLogLoading(false);
+        }
+    }
 
     return {
         logs,
         logLoading,
         getLogsbyPet,
-        createPetLog
+        createPetLog,
+        deletePetLog
     }
 }
 export default useLog;

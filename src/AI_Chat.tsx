@@ -61,7 +61,7 @@ const AI_Chat = () => {
 
   const messageSave = (text: string) => {
     setMsg(text);
-    console.log(text);
+    // console.log(text);
   };
 
   const renderItem = ({ item }: { item: Message }) => (
