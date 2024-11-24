@@ -57,6 +57,9 @@ const PetDetail = () => {
     const renderItem = ({ item }: { item: any }) => (
         <PetPlanCard log={item} />
     );
+    const renderVaccinationItem = ({ item }: { item: any }) => (
+        <VaccinationCard vaccination={item} />
+    );
 
     if (isLoading || !petDetails  || logLoading ||vaccinationLoading) {
         return <SplashScreen />
@@ -108,16 +111,16 @@ const PetDetail = () => {
                         <Icon name="plus" size={20} color="#000" />
                     </TouchableOpacity>
                 </View>
-                <VaccinationCard vaccination={vaccinations[0]} />
+                {/* <VaccinationCard vaccination={vaccinations[0]} /> */}
  
-                {/* <FlatList
+                <FlatList
                     scrollEnabled={false}
-                    data={logs}
-                    keyExtractor={(item) => item.log_id.toString()}
-                    renderItem={renderItem}
+                    data={vaccinations}
+                    keyExtractor={(item) => item.vaccination_id.toString()}
+                    renderItem={renderVaccinationItem}
                     ItemSeparatorComponent={() => <View style={{ height: 5 }} />}
-                    ListEmptyComponent={<Text style={{ padding: 10, textAlign: 'center', fontSize: 16 }}>No log dairy available</Text>} // Handle empty list case
-                /> */}
+                    ListEmptyComponent={<Text style={{ padding: 10, textAlign: 'center', fontSize: 16 }}>No vaccination available</Text>} // Handle empty list case
+                />
 
                 <TouchableOpacity style={styles.footerContainer}
                 onPress={() => navigation.navigate('LogsScreen', { petid: pet.petid })}>
