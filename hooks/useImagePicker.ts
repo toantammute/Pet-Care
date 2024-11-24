@@ -10,7 +10,8 @@ interface Image {
 const useImagePicker = () => {
     const [loading, setLoading] = useState(false);
     const [image, setImage] = useState<Image | null>(null);
-  
+    const [imageFile, setImageFile] = useState<Image | null>(null);
+
     const requestPermissions = async () => {
         if (Platform.OS === 'android') {
             // For Android 13+ (API level 33+)
@@ -53,50 +54,55 @@ const useImagePicker = () => {
         return true; // iOS doesn't need runtime permissions
     };
 
-const pickImage = useCallback(async () => {
-    // Prevent multiple calls while loading
-    if (loading) return;
+    const pickImage = useCallback(async () => {
+        // Prevent multiple calls while loading
+        if (loading) return;
 
-    setLoading(true);
+        setLoading(true);
 
-    try {
-        const hasPermission = await requestPermissions();
+        try {
+            const hasPermission = await requestPermissions();
 
-        if (!hasPermission) {
-        Alert.alert(
-            'Permission Required',
-            'Please grant storage permission from app settings to select images'
-        );
-        return;
+            if (!hasPermission) {
+            Alert.alert(
+                'Permission Required',
+                'Please grant storage permission from app settings to select images'
+            );
+            return;
+            }
+
+            const options = {
+            mediaType: 'photo' as const,
+            includeBase64: false,
+            maxHeight: 2000,
+            maxWidth: 2000,
+            };
+
+            const response = await launchImageLibrary(options);
+            if (response.didCancel) {
+            console.log('User cancelled image picker');
+            } else if (response.assets && response.assets[0]) {
+            const selectedImage = response.assets[0];
+            setImage({
+                uri: selectedImage.uri || '',
+                type: selectedImage.type || 'image/jpeg',
+                name: selectedImage.fileName || 'image.jpg',
+            });
+            setImageFile({
+                uri: selectedImage.uri || '',
+                name: selectedImage.fileName || 'image.jpg',
+                type: selectedImage.type || 'image/jpeg',
+              });
+            }
+        } catch (error) {
+            console.log('Error picking image:', error);
+            Alert.alert('Error', 'Failed to pick image');
+        } finally {
+            setLoading(false);
         }
-
-        const options = {
-        mediaType: 'photo' as const,
-        includeBase64: false,
-        maxHeight: 2000,
-        maxWidth: 2000,
-        };
-
-        const response = await launchImageLibrary(options);
-        if (response.didCancel) {
-        console.log('User cancelled image picker');
-        } else if (response.assets && response.assets[0]) {
-        const selectedImage = response.assets[0];
-        setImage({
-            uri: selectedImage.uri || '',
-            type: selectedImage.type || 'image/jpeg',
-            name: selectedImage.fileName || 'image.jpg',
-        });
-        }
-    } catch (error) {
-        console.log('Error picking image:', error);
-        Alert.alert('Error', 'Failed to pick image');
-    } finally {
-        setLoading(false);
-    }
     }, [loading]); // Add loading to dependencies
 
-    return { image, loading, pickImage };
+    return { image, loading, pickImage ,imageFile };
 };
 
 export default useImagePicker;

@@ -1,5 +1,5 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Image,
   Platform,
@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import useImagePicker from '../../hooks/useImagePicker';
+import useUser from '../../hooks/useUser';
 
 export interface User {
   full_name: string;
@@ -41,19 +42,41 @@ interface UserCardProps {
 const PLACEHOLDER_IMAGE = require('../../assets/images/person.png');
 
 const UserDataProfile: React.FC<UserCardProps> = ({ userData }) => {
-  const { image, pickImage } = useImagePicker(); // Dùng hook để chọn ảnh
-
+  const { image, imageFile, pickImage } = useImagePicker(); // Dùng hook để chọn ảnh
+  const { updateUserAvatar } = useUser();
   const navigation = useNavigation<NavigationProp<{ UpdateUserScreen: undefined }>>();
 
-  const imageSource = userData?.data_image
-    ? { uri: `data:image/jpeg;base64,${userData.data_image}` }
-    : userData?.original_image
-      ? { uri: userData.original_image }
-      : PLACEHOLDER_IMAGE;
-  
+
+
+  const getImageSource = () => {
+    try {
+        if (image && typeof image === 'string') {
+            return { uri: image };
+        }
+        if (userData?.data_image && typeof userData.data_image === 'string') {
+            return { uri: `data:image/jpeg;base64,${userData.data_image}` };
+        }
+        if (userData?.original_image && typeof userData.original_image === 'string') {
+            return { uri: userData.original_image };
+        }
+        return PLACEHOLDER_IMAGE; // Đảm bảo PLACEHOLDER_IMAGE là require('./path/to/image.png')
+    } catch (error) {
+          console.log('Error processing image source:', error);
+          return PLACEHOLDER_IMAGE;
+      }
+  };
+
+  const imageSource = getImageSource();
+
   const handleEditPress = () => {
     navigation.navigate('UpdateUserScreen');
   };
+
+  useEffect(() => {
+    if (imageFile) {
+      updateUserAvatar(imageFile);
+    }
+  }, [imageFile]);
 
 
 
@@ -62,14 +85,15 @@ const UserDataProfile: React.FC<UserCardProps> = ({ userData }) => {
       {/* Profile Header */}
       <View style={styles.header}>
         <View style={styles.avatarContainer}>
-        {image ? (
-          <Image source={{ uri: image.uri }} style={styles.avatar} />
-        ) : (
-          <Icon name="user" size={100} color="#ccc" />
-        )}          {/* Camera Icon for Image Upload */}
+        <Image source={imageSource} 
+              style={styles.avatar}
+              resizeMode="cover"
+              defaultSource={PLACEHOLDER_IMAGE} // Fallback image
+          />
+          {/* Camera Icon for Image Upload */}
           <TouchableOpacity style={styles.cameraButton} onPress={pickImage}>
-          <Icon name="camera" size={16} color="#FFFFFF" />
-        </TouchableOpacity>
+            <Icon name="camera" size={16} color="#FFFFFF" />
+          </TouchableOpacity>
 
           {/* Edit Profile Button */}
           <TouchableOpacity style={styles.editButton}>
