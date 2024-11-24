@@ -1,5 +1,6 @@
-import { View, Text, Switch, StyleSheet } from 'react-native'
+import { View, Text, Switch, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
+import { Swipeable } from 'react-native-gesture-handler';
 
 export interface Reminder {
   id: string,
@@ -15,9 +16,12 @@ export interface Reminder {
 export interface ReminderCardProps {
   schedule: Reminder;
   updateActivePetSchedule: (schedule_id: string, is_active: boolean) => Promise<void>;
+  deletePetSchedule: (schedule_id: string) => Promise<void>;
+  refreshLogs: () => Promise<void>;
+
 }
 
-const ReminderCard: React.FC<ReminderCardProps> = ({ schedule, updateActivePetSchedule }) => {
+const ReminderCard: React.FC<ReminderCardProps> = ({ schedule, updateActivePetSchedule, deletePetSchedule, refreshLogs}) => {
 
   // Separate reminder_datetime into date and time
   const reminderDateTime = new Date(schedule.reminder_datetime);
@@ -71,28 +75,48 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ schedule, updateActivePetSc
     repeatInfo = `, ${schedule.event_repeat}`;
   }
 
+  const handleDelete = async (schedule_id: string) => {
+    try {
+      await deletePetSchedule(schedule_id);
+      await refreshLogs();
+    } catch (error) {
+      console.log('Error deleting schedule:', error);
+    }
+  }
+
+  const renderRightActions = () => {
+    return (
+      <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(schedule.id)}>
+        <Text style={styles.deleteText}>Delete</Text>
+      </TouchableOpacity>
+    );
+  }
+
   return (
-    <View style={styles.container}>
-      {/* View trai */}
-      <View style={styles.leftContainer}>
-        {/* Trai tren */}
-        <View style={styles.timeContainer}>
-          <Text style={styles.time}>{timeString}</Text>
-          <Text style={styles.date}>{dateDisplay}{repeatInfo}</Text>
+    <Swipeable renderRightActions={renderRightActions}>
+      <TouchableOpacity style={styles.container}>
+        {/* View trai */}
+        <View style={styles.leftContainer}>
+          {/* Trai tren */}
+          <View style={styles.timeContainer}>
+            <Text style={styles.time}>{timeString}</Text>
+            <Text style={styles.date}>{dateDisplay}{repeatInfo}</Text>
+          </View>
+          {/* Trai duoi */}
+          <View>
+            <Text style={styles.title}>{schedule.title}</Text>
+            <Text style={styles.note}>{schedule.notes}</Text>
+          </View>
         </View>
-        {/* Trai duoi */}
-        <View>
-          <Text style={styles.title}>{schedule.title}</Text>
-          <Text style={styles.note}>{schedule.notes}</Text>
+        {/* Bottom view phai nut turn on turn off */}
+        <View style={styles.switchContainer}>
+          <Switch
+            value={isEnabled} onValueChange={toggleSwitch}
+          />
         </View>
-      </View>
-      {/* Bottom view phai nut turn on turn off */}
-      <View style={styles.switchContainer}>
-        <Switch
-          value={isEnabled} onValueChange={toggleSwitch}
-        />
-      </View>
-    </View>
+      </TouchableOpacity>
+    </Swipeable>
+
   )
 }
 const styles = StyleSheet.create({
@@ -141,7 +165,21 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 400,
     color: '#666'
-  }
+  },
+  deleteButton: {
+    backgroundColor: '#FF4D4D',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 100,
+    height: '100%',
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
+  },
+  deleteText: {
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
 })
 export default ReminderCard
 
