@@ -51,14 +51,14 @@ const CreateLogsScreen = () => {
 
     const formatDateTime = (date: Date | null, time: Date | null): string | null => {
         if (!date || !time) return null;
-        const utcDate = new Date(Date.UTC(
-            date.getUTCFullYear(),
-            date.getUTCMonth(),
-            date.getUTCDate(),
-            time.getUTCHours(),
-            time.getUTCMinutes(),
-            time.getUTCSeconds()
-        ));
+        const utcDate = new Date(
+            date.getFullYear(),
+            date.getMonth(),
+            date.getDate(),
+            time.getHours(),
+            time.getMinutes(),
+            time.getSeconds()
+        );
         return utcDate.toISOString();
     };
     const date_time = formatDateTime(date, time);

@@ -24,7 +24,7 @@ const LogsScreen = () => {
     const { petid } = route.params as { petid: string };
 
     // Adjust the types according to your useLog hook
-    const { getLogsbyPet, logLoading, logs } = useLog();
+    const { getLogsbyPet, logLoading, logs, deletePetLog } = useLog();
     const [refreshing, setRefreshing] = useState(false);
 
     useFocusEffect(
@@ -69,16 +69,21 @@ const LogsScreen = () => {
 
     return (
         <ScrollView style={styles.container}
-        refreshControl={
-            <RefreshControl
-                refreshing={refreshing}
-                onRefresh={onRefresh} />
-        }>
+            refreshControl={
+                <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefresh} />
+            }>
             {sections.map(section => (
                 <View key={section.date} style={styles.section}>
                     <Text style={styles.dateHeader}>{section.date}</Text>
                     {section.items.map(item => (
-                        <PetPlanCard key={item.log_id} log={item} />
+                        <PetPlanCard
+                            key={item.log_id}
+                            log={item}
+                            deletePetLog={deletePetLog}
+                            refreshLogs={onRefresh}
+                        />
                     ))}
                 </View>
             ))}
