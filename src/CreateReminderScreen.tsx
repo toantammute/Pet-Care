@@ -243,6 +243,7 @@ const CreateReminderScreen = () => {
                 mode='date'
                 display='default'
                 onChange={onDateChange}
+                minimumDate={new Date()}
               />
             )}
           </View>

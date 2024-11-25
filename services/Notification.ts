@@ -177,17 +177,7 @@ export const createNotification = async (
     }
 }
 
-// export const updateNotification = async (schedule: Schedule): Promise<void> => {
-//     try {
-//         // Cancel the existing notification
-//         await notifee.cancelNotification(schedule.id.toString());
 
-//         // Create a new notification with updated details
-//         await createNotification(schedule);
-//     } catch (error) {
-//         console.error('Error updating notification:', error);
-//     }
-// }
 
 export const cancelNotification = async (schedule_id:String): Promise<void> => {
     try {
