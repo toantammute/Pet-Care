@@ -25,6 +25,27 @@ const useService = () => {
     const [serviceLoading, setServiceLoading] = useState(false);
     const [serviceByType, setServiceByType] = useState<ServiceType[]>([]);
 
+    const getServicesList = async () => {
+        setServiceLoading(true);
+        try {
+            const response = await axios.get(`${API_URL}/service/`, {
+                headers: {
+                    Authorization: `Bearer ${userInfo.access_token}`,
+                }
+            });
+            setServices(response.data);
+            console.log("Services:", services);
+            setServiceLoading(false);
+        }
+        catch (error) {
+            console.log('Error fetching services:', error);
+            setServiceLoading(false);
+        }
+        finally {
+            setServiceLoading(false);
+        }
+    }
+
     const getServices = async () => {
         setServiceLoading(true);
         try {
@@ -70,7 +91,8 @@ const useService = () => {
         services,
         serviceLoading,
         serviceByType,
-        getServices
+        getServices,
+        getServicesList
     };
 
 }
