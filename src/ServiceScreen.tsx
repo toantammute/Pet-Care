@@ -54,7 +54,7 @@ const ServiceScreen = () => {
                     contentContainerStyle={styles.listContent}
                 />
             )}
-            <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('AddService')}>
+            <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('CreateAppointmentScreen')}>
                 <Ionicons name="add" size={24} color="#fff" />
             </TouchableOpacity>
         </View>
