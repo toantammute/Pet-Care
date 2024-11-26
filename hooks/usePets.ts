@@ -17,7 +17,19 @@ interface UpdatePetRequest {
   birth_date?: string;
   microchip_number?: string;
 }
-
+interface PetDetails{
+  petid: string,
+  username: string,
+  name: string,
+  breed: string,
+  type: string,
+  data_image: string,
+  age: string,
+  weight: string
+  birth_date: string,
+  original_name: string,
+  microchip_number: string,
+}
 const usePets = () => {
   const { userInfo } = useContext(AuthContext);
   const [pets, setPets] = useState([]);
@@ -139,6 +151,25 @@ const usePets = () => {
       setIsLoading(false);
     }
   };
+  const deletePet = async (petId: string) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.delete(`${API_URL}/pet/delete/${petId}`, {
+        headers: {
+          Authorization: `Bearer ${userInfo.access_token}`,
+        }
+      });
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+        Alert.alert("Error", "Failed to delete pet. Please try again later.");
+        if (axios.isAxiosError(error) && error.response) {
+          console.error("Delete pet error:", error.response.data);
+        } else {
+          console.error("Delete pet error:", error);
+        }
+      }
+  }
 
   return {
     pets,
@@ -147,7 +178,8 @@ const usePets = () => {
     getPets,
     getPetDetails,
     updatePet,
-    updatePetAvatar
+    updatePetAvatar,
+    deletePet
   };
 };
 

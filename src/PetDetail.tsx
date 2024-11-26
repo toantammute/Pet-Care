@@ -31,7 +31,7 @@ const PetDetail = () => {
     const route = useRoute();
     const { petid } = route.params as { petid: string };
     // const { petidSchedule } = route.params as { petidSchedule: string };
-    const { isLoading, petDetails, getPetDetails } = usePets();
+    const { isLoading, petDetails, getPetDetails,deletePet } = usePets();
     const { getLogsbyPet, logLoading, logs, deletePetLog } = useLog();
     const { getVaccinationsByPet, vaccinationLoading, vaccinations } = useVaccination();
     
@@ -75,7 +75,7 @@ const PetDetail = () => {
                     onRefresh={onRefresh} />
             }>
 
-            <PetInfoCard pet={petDetails} />
+            <PetInfoCard pet={petDetails} deletePet={deletePet} refreshLogs={onRefresh}/>
 
             <View style={styles.plansCard}>
                 <View style={styles.plansHeader}>

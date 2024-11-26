@@ -21,16 +21,28 @@ export interface Pet{
 
 export interface PetCardProps {
     pet: Pet;             // Define the type of the pet prop
+    deletePet: (petid: string) => void; // Define the type of the deletePet function
+    refreshLogs: () => Promise<void>;
 }
 
 
-const PetCard: React.FC<PetCardProps> = ({ pet }) => {
+const PetCard: React.FC<PetCardProps> = ({ pet, deletePet, refreshLogs }) => {
 
     const navigation1 = useNavigation<NavigationProp<{ UpdatePetScreen: { petid: string } }>>();
 
     const handleEditPress = () => {
         navigation1.navigate('UpdatePetScreen', { petid : pet.petid });
     };
+    const handleDeletePress = async () => {
+        try {
+            await deletePet(pet.petid);
+            await refreshLogs();
+
+        } catch (error) {
+            console.log('Error deleting pet:', error);
+        }
+        
+    }
 
     const base64Image = `data:image/png;base64,${pet.data_image}`;
 
@@ -56,10 +68,10 @@ const PetCard: React.FC<PetCardProps> = ({ pet }) => {
             </View>
             <View style={styles.controlContainer}>
                 <TouchableOpacity style={styles.controlIcon}>
-                    <Icon name="edit" size={20} onPress={handleEditPress} />
+                    <Icon name="edit" size={18} onPress={handleEditPress} />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.controlIcon}>
-                    <Icon name="trash" size={20} />
+                <TouchableOpacity style={styles.controlIcon} onPress={handleDeletePress}>
+                    <Icon name="trash" size={18} />
                 </TouchableOpacity>
             </View>
         </TouchableOpacity>
@@ -113,11 +125,11 @@ const styles = StyleSheet.create({
     controlIcon:{
         borderWidth: 1,
         padding: 5,
-        borderRadius: 8,
-        borderColor:'#000000',
+        borderRadius: 10,
+        borderColor:'#F2F2F2',
         justifyContent: 'center',
         alignItems: 'center',
-        width: 35
+
     }
 });
 export default PetCard;
