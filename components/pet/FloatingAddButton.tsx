@@ -4,13 +4,12 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 const FloatingAddButton: React.FC = () => {
     const navigation = useNavigation<any>();
-  
+
     return (
-        <TouchableOpacity 
+        <TouchableOpacity
             style={styles.floatingButton}
             activeOpacity={0.8}
-            onPress={() => navigation.navigate('AddPetScreen')}
-        >
+            onPress={() => navigation.navigate('AddPetScreen')}>
             <View style={styles.plusSign}>
                 <View style={styles.horizontalLine} />
                 <View style={styles.verticalLine} />
@@ -22,10 +21,10 @@ const FloatingAddButton: React.FC = () => {
 const styles = StyleSheet.create({
     floatingButton: {
         position: 'absolute',
-        bottom: 30,
-        right: 20,
-        width: 60,
-        height: 60,
+        bottom: 20,
+        right: 15,
+        width: 50,
+        height: 50,
         borderRadius: 30,
         backgroundColor: '#2ECC71',
         justifyContent: 'center',

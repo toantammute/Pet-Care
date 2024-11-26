@@ -18,6 +18,7 @@ const useVaccination = () => {
     const { userInfo } = useContext(AuthContext);
     const [vaccinations, setVaccinations] = useState<Vaccination[]>([]);
     const [vaccinationLoading, setVaccinationLoading] = useState(false);
+    const [vaccination, setVaccination] = useState<Vaccination | null>(null);
 
     // useEffect(() => {
     //     console.log('Fetching vaccinations');
@@ -65,12 +66,32 @@ const useVaccination = () => {
             setVaccinationLoading(false);
         }
     };
+    const getVaccinationDetail = async (vaccination_id:String) => {
+        setVaccinationLoading(true);
+        try {
+            const response = await axios.get(`${API_URL}/vaccination/${vaccination_id}`, {
+                headers: {
+                    Authorization: `Bearer ${userInfo.access_token}`,
+                }
+            });
+            console.log('Vaccination:', response.data);
+            setVaccination(response.data);
+            setVaccinationLoading(false);
+        } catch (error) {
+            console.log('Error fetching vaccination:', error);
+            setVaccinationLoading(false);
+        } finally {
+            setVaccinationLoading(false);
+        }
+    }
 
     return {
         vaccinations,
         vaccinationLoading,
+        vaccination,
         getVaccinationsByPet,
-        createVaccination
+        createVaccination,
+        getVaccinationDetail
     };
 }
 export default useVaccination;

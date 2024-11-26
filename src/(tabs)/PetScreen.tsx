@@ -38,6 +38,9 @@ const PetScreen = () => {
       {/* <StatusBar barStyle="dark-content" /> */}
       <FlatList
         data={pets}
+
+        numColumns={2}
+        columnWrapperStyle={styles.row}
         keyExtractor={(item) => item.petid.toString()} // Adjust based on your pet's unique ID
         renderItem={renderItem}
         refreshing={refreshing} // Control the refreshing state
@@ -53,10 +56,14 @@ const PetScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
-    gap: 10,
-    justifyContent: 'flex-start', 
-    // alignItems: 'center',
+    paddingLeft:15,
+    paddingRight:15,
+    paddingTop:8,
+  },
+  row: {
+    flex: 1,
+    justifyContent: 'space-between',
+    marginBottom: 10,
   },
 });
 
