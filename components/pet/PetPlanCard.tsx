@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { Swipeable } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
 export interface PetPlan {
   log_id: string;
@@ -14,9 +15,12 @@ export interface LogCardProps {
   log: PetPlan;             // Define the type of the pet prop
   deletePetLog: (log_id: string) => Promise<void>;
   refreshLogs: () => Promise<void>;
+  // updat
 }
 
-const PetPlanCard: React.FC<LogCardProps> = ({ log, deletePetLog, refreshLogs }) => {
+const PetPlanCard: React.FC<LogCardProps> = ({ log, deletePetLog, refreshLogs}) => {
+  const navigation = useNavigation<any>();
+
   // Convert the date_time string to a Date object
   const date = new Date(`${log.date_time}`);
   // console.log(date.toLocaleString());
@@ -42,6 +46,16 @@ const PetPlanCard: React.FC<LogCardProps> = ({ log, deletePetLog, refreshLogs })
       console.log('Error deleting log:', error);
     }
   }
+  const handleEdit = () => {
+    navigation.navigate('CreateLogsScreen', {
+      petid: log.pet_id,
+      log_id: log.log_id,
+      title: log.title,
+      notes: log.notes,
+      date_time: log.date_time,
+    });
+  };
+
   const renderRightActions = () => {
     return (
       <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(log.log_id)}>
@@ -52,7 +66,7 @@ const PetPlanCard: React.FC<LogCardProps> = ({ log, deletePetLog, refreshLogs })
 
   return (
     <Swipeable renderRightActions={renderRightActions}>
-      <TouchableOpacity style={styles.card}>
+      <TouchableOpacity style={styles.card} onPress={handleEdit}>
         <View style={styles.content}>
           <Text style={styles.title}>{log.title}</Text>
           <Text style={styles.notes}>{log.notes}</Text>

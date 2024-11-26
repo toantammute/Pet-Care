@@ -16,22 +16,36 @@ interface Pet {
 const CreateLogsScreen = () => {
     const route = useRoute();
     const { petid } = route.params as { petid: string };
+    const { log_id, title: initialTitle, notes: initialNotes, date_time: initialDateTime } = route.params as { petid: string; log_id: string; title: string; notes: string; date_time: string; };
 
     const { pets, isLoading, getPets } = usePet() as { pets: Pet[], isLoading: boolean, getPets: () => void };
-    const { createPetLog } = useLog();
+    const { createPetLog, updatePetLog } = useLog();
 
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [showTimePicker, setShowTimePicker] = useState(false);
 
-    const [title, setTitle] = useState('');
-    const [notes, setNotes] = useState('');
+    const [title, setTitle] = useState(initialTitle || '');
+    const [notes, setNotes] = useState(initialNotes || '');
     const [date, setDate] = useState<Date | null>(null);
     const [time, setTime] = useState<Date | null>(null);
+    const isEditing = !!log_id;
 
+    // useEffect(() => {
+    //     // Set the date state to the current local date when the component mounts
+    //     setDate(new Date());
+    // }, []);
     useEffect(() => {
-        // Set the date state to the current local date when the component mounts
-        setDate(new Date());
-    }, []);
+        if (initialDateTime) {
+            const dateTime = new Date(initialDateTime);
+            setDate(dateTime);
+            setTime(dateTime);
+        } else {
+            // Default to the current date and time if no initialDateTime is provided
+            const now = new Date();
+            setDate(now);
+            setTime(now);
+        }
+    }, [initialDateTime]);
 
     const onDateChange = (event: any, selectedDate?: Date) => {
         if (event.type === 'set') {
@@ -64,13 +78,18 @@ const CreateLogsScreen = () => {
     const date_time = formatDateTime(date, time);
 
     const handleSubmit = () => {
+        console.log('Submitting new log:', { title, notes, date_time });
         const data = {
             pet_id: petid,
             title,
             notes,
             date_time,
         }
-        createPetLog(data);
+        if (log_id) {
+            updatePetLog(log_id, data); // Call update function if log_id exists
+        } else {
+            createPetLog(data); // Otherwise, create a new log
+        }
     };
 
     return (
@@ -87,15 +106,14 @@ const CreateLogsScreen = () => {
             <View style={styles.rowContainer}>
                 <View style={styles.dateContainer}>
                     <View style={styles.dateBox}>
-                        <TouchableOpacity style={{ flexDirection: 'column', gap: 5 }} onPress={() => setShowDatePicker(true)}>
-                            <Text>
-                                {`Date:`}
-                            </Text>
-                            <Text>
-                                {` ${date ? date.toLocaleDateString() : ''}`}
-                            </Text>
-                        </TouchableOpacity>
-
+                        <Text>Date:</Text>
+                        {isEditing ? (
+                            <Text>{date ? date.toLocaleDateString() : ''}</Text>
+                        ) : (
+                            <TouchableOpacity onPress={() => setShowDatePicker(true)}>
+                                <Text>{date ? date.toLocaleDateString() : 'Select Date'}</Text>
+                            </TouchableOpacity>
+                        )}
                         {showDatePicker && (
                             <DateTimePicker
                                 value={date || new Date()}
@@ -108,17 +126,16 @@ const CreateLogsScreen = () => {
                     </View>
                 </View>
 
-
                 <View style={styles.dateContainer}>
                     <View style={styles.timeBox}>
-                        <TouchableOpacity style={{ flexDirection: 'column', gap: 5 }} onPress={() => setShowTimePicker(true)}>
-                            <Text>
-                                {`Time:`}
-                            </Text>
-                            <Text>
-                                {`${time ? time.toLocaleTimeString() : ''}`}
-                            </Text>
-                        </TouchableOpacity>
+                        <Text>Time:</Text>
+                        {isEditing ? (
+                            <Text>{time ? time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''}</Text>
+                        ) : (
+                            <TouchableOpacity onPress={() => setShowTimePicker(true)}>
+                                <Text>{time ? time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Select Time'}</Text>
+                            </TouchableOpacity>
+                        )}
                         {showTimePicker && (
                             <DateTimePicker
                                 value={time || new Date()}
@@ -129,7 +146,6 @@ const CreateLogsScreen = () => {
                         )}
                     </View>
                 </View>
-
             </View>
             <View style={styles.inputContainer}>
                 <TextInput

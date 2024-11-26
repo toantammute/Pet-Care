@@ -25,6 +25,7 @@
     "@ui-kitten/components": "^5.3.1",
     "axios": "^1.7.7",
     "expo-image-picker": "^16.0.2",
+    "jwt-decode": "^4.0.0",
     "lodash.filter": "^4.6.0",
     "lucide-react": "^0.460.0",
     "lucide-react-native": "^0.460.0",

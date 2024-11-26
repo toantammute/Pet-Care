@@ -11,6 +11,7 @@ interface Appointment {
     notes: string,
     doctor_name: string,
     date: string,
+    status: string,
 }
 
 const useAppointment = () =>{
@@ -19,6 +20,25 @@ const useAppointment = () =>{
     const [appointmentList, setAppointmentList] = useState<Appointment[]>([]);
     const [appointmentLoading, setAppointmentLoading] = useState(false);
     const [responseStatus, setResponseStatus] = useState<number>(0);
+
+    const getAppointmentList = async () => {
+        setAppointmentLoading(true);
+        try {
+            const response = await axios.get(`${API_URL}/appointment`, {
+                headers: {
+                    Authorization: `Bearer ${userInfo.access_token}`,
+                }
+            });
+            console.log('Get appointment response:', response.data.data);
+            setAppointmentList(response.data.data);
+            setAppointmentLoading(false);
+        } catch (error) {
+            console.log('Error fetching appointment:', error);
+            setAppointmentLoading(false);
+        } finally {
+            setAppointmentLoading(false);
+        }
+    }
 
     const createAppointment = async (data: any) => {
         setAppointmentLoading(true);
@@ -43,6 +63,13 @@ const useAppointment = () =>{
             setAppointmentLoading(false);
         }
     }
-    return {createAppointment,responseStatus, appointment, appointmentList, appointmentLoading};
+    return {
+        createAppointment,
+        getAppointmentList,
+        responseStatus,
+        appointment,
+        appointmentList,
+        appointmentLoading
+    };
 }
 export default useAppointment;

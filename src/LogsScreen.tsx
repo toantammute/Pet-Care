@@ -24,7 +24,7 @@ const LogsScreen = () => {
     const { petid } = route.params as { petid: string };
 
     // Adjust the types according to your useLog hook
-    const { getLogsbyPet, logLoading, logs, deletePetLog } = useLog();
+    const { getLogsbyPet, logLoading, logs, deletePetLog, updatePetLog } = useLog();
     const [refreshing, setRefreshing] = useState(false);
 
     useFocusEffect(
@@ -83,6 +83,7 @@ const LogsScreen = () => {
                             log={item}
                             deletePetLog={deletePetLog}
                             refreshLogs={onRefresh}
+    
                         />
                     ))}
                 </View>

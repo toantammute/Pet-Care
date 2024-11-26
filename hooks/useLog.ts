@@ -71,6 +71,24 @@ const useLog = () =>{
             setLogLoading(false);
         }
     }
+    const updatePetLog = async (log_id: any, data: any) => {    
+        setLogLoading(true);
+        try {
+            const response = await axios.put(`${API_URL}/pet/logs/${log_id}`, data, {
+                headers: {
+                    Authorization: `Bearer ${userInfo.access_token}`,
+                }
+            });
+            // setLogs(response.data);
+            console.log(response.data);
+            setLogLoading(false);
+        } catch (error) {
+            console.log('Error updating log:', error);
+            setLogLoading(false);
+        } finally {
+            setLogLoading(false);
+        }
+    }
     const deletePetLog = async (log_id: any) => {
         setLogLoading(true);
         try {
@@ -95,7 +113,8 @@ const useLog = () =>{
         logLoading,
         getLogsbyPet,
         createPetLog,
-        deletePetLog
+        deletePetLog, 
+        updatePetLog
     }
 }
 export default useLog;

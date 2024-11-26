@@ -25,6 +25,7 @@ import UpdateUserScreen from '../src/UpdateUserScreen';
 import UpdatePetScreen from '../src/UpdatePetScreen';
 import ProfileScreen from '../src/(tabs)/ProfileScreen';
 import CreateAppointmentScreen from '../src/CreateAppointmentScreen';
+import DiseaseDetailScreen from '../src/DiseaseDetailScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -60,6 +61,7 @@ const Navigation = () => {
                 <Stack.Screen name="AI_Chat" component={AI_Chat} />
                 <Stack.Screen name="UpdateUserScreen" component={UpdateUserScreen} />
                 <Stack.Screen name="CreateAppointmentScreen" component={CreateAppointmentScreen} />
+                <Stack.Screen name="DiseaseDetailScreen" component={DiseaseDetailScreen} />
               </>
             </>
           ) : (
