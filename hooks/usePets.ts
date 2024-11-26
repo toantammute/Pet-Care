@@ -89,7 +89,7 @@ const usePets = () => {
   // update pet
   const updatePet = async (petId: string, updateData: UpdatePetRequest) => {
     setIsLoading(true);
-    console.log("petId", petId);
+    // console.log("petId", petId);
 
     try {
 
@@ -118,7 +118,7 @@ const usePets = () => {
   // update pet
   const updatePetAvatar = async (petid: string, imageFile: ImageFile | null) => {
     setIsLoading(true);
-    console.log("petId", petid);
+    // console.log("petId", petid);
 
     try {
       const formData = new FormData();

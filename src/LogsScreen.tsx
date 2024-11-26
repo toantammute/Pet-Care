@@ -1,133 +1,179 @@
-import { View, Text, StyleSheet, ActivityIndicator, ScrollView, RefreshControl } from 'react-native';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import useLog from '../hooks/useLog';
-import PetPlanCard from '../components/pet/PetPlanCard';
-import SplashScreen from './SplashScreen';
-import { useFocusEffect, useRoute } from '@react-navigation/native';
+import React, { useCallback, useState } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, RefreshControl } from "react-native";
+import { Agenda, AgendaSchedule, DateData } from 'react-native-calendars';
+import { Card, Avatar } from 'react-native-paper';
+import useLog from "../hooks/useLog";
+import { useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { Swipeable } from 'react-native-gesture-handler';
+
 
 interface Log {
-    pet_id: string;
-    log_id: string;
-    date_time: string; // ISO 8601 format
-    title: string;
-    notes: string;
+  log_id: string,
+  pet_id: string,
+  title: string,
+  notes: string,
+  date_time: string,
 }
 
-// Define a type for the sections
-interface LogSection {
-    date: string;
-    items: Log[];
-}
-
-const LogsScreen = () => {
-    const route = useRoute();
-    const { petid } = route.params as { petid: string };
-
-    // Adjust the types according to your useLog hook
-    const { getLogsbyPet, logLoading, logs, deletePetLog, updatePetLog } = useLog();
-    const [refreshing, setRefreshing] = useState(false);
-
-    useFocusEffect(
-        useCallback(() => {
-            console.log('Screen focused, fetching logs');
-            getLogsbyPet(petid, null, null);
-        }, [])
-    );
-
-    const onRefresh = async () => {
-        setRefreshing(true);
-        await getLogsbyPet(petid, null, null);
-        setRefreshing(false);
-    };
-
-    // Memoized sectioning logic
-    const sections: LogSection[] = useMemo(() => {
-        if (!logs) return [];
-
-        const sectionsMap: Record<string, Log[]> = logs.reduce((acc, item) => {
-            const date = new Date(item.date_time).toLocaleDateString(); // Get 'YYYY-MM-DD'
-            if (!acc[date]) {
-                acc[date] = [];
-            }
-            acc[date].push(item);
-            return acc;
-        }, {} as Record<string, Log[]>);
-
-        return Object.entries(sectionsMap)
-            .map(([date, items]) => ({
-                date,
-                items,
-            }))
-            .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-    }, [logs]);
-
-    if (logLoading) {
-        return (
-            <SplashScreen />
-        );
-    }
-
-    return (
-        <ScrollView style={styles.container}
-            refreshControl={
-                <RefreshControl
-                    refreshing={refreshing}
-                    onRefresh={onRefresh} />
-            }>
-            {sections.map(section => (
-                <View key={section.date} style={styles.section}>
-                    <Text style={styles.dateHeader}>{section.date}</Text>
-                    {section.items.map(item => (
-                        <PetPlanCard
-                            key={item.log_id}
-                            log={item}
-                            deletePetLog={deletePetLog}
-                            refreshLogs={onRefresh}
-    
-                        />
-                    ))}
-                </View>
-            ))}
-        </ScrollView>
-    );
+const timeToString = (time: number) => {
+  const date = new Date(time);
+  return date.toISOString().split('T')[0];
 };
 
+
+const LogsScreen: React.FC = () => {
+  const navigation = useNavigation<any>();
+
+  const route = useRoute();
+  const { petid } = route.params as { petid: string };
+
+  const { getLogsbyPet, logLoading, logs, deletePetLog, updatePetLog } = useLog();
+  const [refreshing, setRefreshing] = useState(false);
+
+  useFocusEffect(
+    useCallback(() => {
+      console.log('Screen focused, fetching logs');
+      getLogsbyPet(petid, null, null);
+    }, [])
+  );
+  console.log("1", logs);
+
+  const [items, setItems] = React.useState<Record<string, any>>({});
+
+  const loadItems = (day: any) => {
+    if (!day) return; // Ensure day is defined
+
+    setTimeout(() => {
+      const newItems: Record<string, any[]> = {};
+
+      for (let i = -25; i < 10; i++) {
+        const time = day.timestamp + i * 24 * 60 * 60 * 1000;
+        const strTime = timeToString(time);
+        const localeStrTime = new Date(strTime).toLocaleDateString();
+
+        if (!newItems[strTime]) {
+          newItems[strTime] = [];
+        }
+
+        logs.forEach(log => {
+          // const logDate = new Date(log.date_time).toISOString().split('T')[0];
+          const logDate = new Date(log.date_time).toLocaleDateString();
+          // const logTime = new Date(log.date_time).toLocaleTimeString();
+          if (logDate === localeStrTime) {
+            newItems[strTime].push({
+              log_id: log.log_id,
+              pet_id: log.pet_id,
+              title: log.title,
+              time: new Date(log.date_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+              date: logDate,
+              date_time : log.date_time,
+              notes: log.notes,
+            });
+          }
+        });
+
+      }
+
+      setItems(newItems);
+    }, 1000);
+  };
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await getLogsbyPet(petid, null, null);
+    await loadItems(new Date());
+    setRefreshing(false);
+  };
+  
+
+  const handleDelete = async (logId: number) => {
+    await deletePetLog(logId);
+    await getLogsbyPet(petid, null, null); // Reload the logs after deletion
+  };
+
+  const renderItem = (items: any) => {
+    const renderRightActions = () => (
+      <TouchableOpacity
+        style={styles.deleteButton}
+        onPress={() => handleDelete(items.id)}
+      >
+        <Text style={styles.deleteButtonText}>Delete</Text>
+      </TouchableOpacity>
+    );
+    const handleEdit = () => {
+      navigation.navigate('CreateLogsScreen', {
+        petid: items.pet_id,
+        log_id: items.log_id,
+        title: items.title,
+        notes: items.notes,
+        date_time: items.date_time,
+      });
+    };
+
+    return (
+      <Swipeable renderRightActions={renderRightActions}>
+        <TouchableOpacity onPress={handleEdit} style={{ marginRight: 10, marginTop: 17 }}>
+          <Card>
+            <Card.Content>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',}}>
+                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{items.title}</Text>
+                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{items.time}</Text>
+              </View>
+              <Text style={{ marginTop: 10, fontSize: 16 }}>{items.notes}</Text>
+            </Card.Content>
+          </Card>
+        </TouchableOpacity>
+      </Swipeable>
+
+    )
+  };
+
+
+  const today = new Date().toLocaleDateString('en-CA'); // Use toLocaleDateString with 'en-CA' for YYYY-MM-DD format
+  return (
+    <View style={{ flex: 1 }}>
+      <Agenda
+        items={items}
+        loadItemsForMonth={loadItems}
+        selected={today}
+        renderItem={renderItem}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+      />
+      <TouchableOpacity
+        style={styles.fab}
+        onPress={() => navigation.navigate('CreateLogsScreen', { petid })}>
+        <Icon name="add" size={24} color="#fff" />
+      </TouchableOpacity>
+    </View>
+  )
+};
 const styles = StyleSheet.create({
-    container: {
-        paddingLeft: 12,
-        paddingRight: 12,
-        // padding: 12,
-        flex: 1,
-        backgroundColor: '#fff',
-    },
-    loadingContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    header: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 10,
-    },
-    section: {
-        // marginBottom: 15,
-    },
-    dateHeader: {
-        fontWeight: 'bold',
-        fontSize: 18,
-        marginVertical: 10,
-    },
-    logItem: {
-        marginVertical: 5,
-        padding: 10,
-        backgroundColor: '#f4f4f4',
-        borderRadius: 8,
-    },
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
+    backgroundColor: '#6200ea', // Change to the color you want
+    padding: 16,
+    borderRadius: 30,
+    elevation: 8, // Add shadow for Android
+  },
+  deleteButton: {
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop:10,
+    width: 80,
+    height: '90%',
+  },
+  deleteButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
 });
-
 export default LogsScreen;
-
-function setRefreshing(arg0: boolean) {
-    throw new Error('Function not implemented.');
-}

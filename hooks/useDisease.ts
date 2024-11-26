@@ -42,7 +42,7 @@ const useDisease = () => {
     const [medicine, setMedicine] = React.useState<Medicine | null>(null);
 
     const getDiseases = async () => {
-        console.log(`${API_URL}/disease/`)
+        // console.log(`${API_URL}/disease/`)
         setDiseaseLoading(true);
         try {
             const response = await axios.get(`${API_URL}/disease/`,{
@@ -50,7 +50,7 @@ const useDisease = () => {
                     Authorization: `Bearer ${userInfo.access_token}`,
                 }
             });
-            console.log('Diseases:', response.data.data);
+            // console.log('Diseases:', response.data.data);
             setDiseases(response.data.data);
             setDiseaseLoading(false);
         } catch (error) {
@@ -61,7 +61,7 @@ const useDisease = () => {
         }
     };
     const getTreatmentbyDisease = async (disease_id: string) => {
-        console.log(`${API_URL}/disease/treatment/${disease_id}`)
+        // console.log(`${API_URL}/disease/treatment/${disease_id}`)
         setDiseaseLoading(true);
         try {
             const response = await axios.get(`${API_URL}/disease/treatment/${disease_id}`,{
@@ -69,7 +69,7 @@ const useDisease = () => {
                     Authorization: `Bearer ${userInfo.access_token}`,
                 }
             });
-            console.log('Diseases:', response.data.data);
+            // console.log('Diseases:', response.data.data);
             // const diseaseData = response.data.data;
             // setDisease(diseaseData);
             // setTreatmentPhases(diseaseData.treatment_phases);

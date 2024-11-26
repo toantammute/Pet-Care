@@ -24,12 +24,12 @@ const useAppointment = () =>{
     const getAppointmentList = async () => {
         setAppointmentLoading(true);
         try {
-            const response = await axios.get(`${API_URL}/appointment`, {
+            const response = await axios.get(`${API_URL}/appointment/`, {
                 headers: {
                     Authorization: `Bearer ${userInfo.access_token}`,
                 }
             });
-            console.log('Get appointment response:', response.data.data);
+            // console.log('Get appointment response:', response.data.data);
             setAppointmentList(response.data.data);
             setAppointmentLoading(false);
         } catch (error) {
@@ -42,7 +42,7 @@ const useAppointment = () =>{
 
     const createAppointment = async (data: any) => {
         setAppointmentLoading(true);
-        console.log("Day la data ", data);
+        // console.log("Day la data ", data);
         try {
             const response = await axios.post(`${API_URL}/appointment/create`, data, {
                 headers: {
