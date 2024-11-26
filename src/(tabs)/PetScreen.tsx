@@ -7,7 +7,7 @@ import { useFocusEffect } from '@react-navigation/native'
 import FloatingAddButton from '../../components/pet/FloatingAddButton'
 
 const PetScreen = () => {
-  const { pets, isLoading, getPets } = usePet();
+  const { pets, isLoading, getPets, deletePet } = usePet();
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -27,7 +27,9 @@ const PetScreen = () => {
 
 
   const renderItem = ({ item }: { item: any }) => (
-    <PetCard pet={item} />
+    <PetCard pet={item}
+    deletePet={deletePet}
+    refreshLogs={onRefresh}/>
   );
 
   return (
