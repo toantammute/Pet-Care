@@ -80,7 +80,7 @@ const useCreatePet = () => {
                 }
             });
     
-            console.log('Pet created:', response.data);
+            // console.log('Pet created:', response.data);
             setResponseData(response.data);
             setIsLoading(false);
             return response.data

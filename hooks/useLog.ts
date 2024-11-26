@@ -40,6 +40,7 @@ const useLog = () =>{
                     pageSize
                 }
             });
+            console.log(response.data);
             setLogs(response.data);
             setLogLoading(false);
         } catch (error) {
@@ -52,8 +53,8 @@ const useLog = () =>{
 
     const createPetLog = async (data: any) => {
         setLogLoading(true);
-        console.log("Day la data ", data);
-        console.log(`${API_URL}/pet/logs`);
+        // console.log("Day la data ", data);
+        // console.log(`${API_URL}/pet/logs`);
         try {
             const response = await axios.post(`${API_URL}/pet/logs`, data, {
                 headers: {
@@ -61,7 +62,7 @@ const useLog = () =>{
                 }
             });
             setLogs(response.data);
-            console.log(response.data);
+            // console.log(response.data);
             setLogLoading(false);
         } catch (error) {
             console.log('Error creating log:', error);
@@ -80,7 +81,7 @@ const useLog = () =>{
                 }
             });
             // setLogs(response.data);
-            console.log(response.data);
+            // console.log(response.data);
             setLogLoading(false);
         } catch (error) {
             console.log('Error updating log:', error);
@@ -98,7 +99,7 @@ const useLog = () =>{
                 }
             });
             // setLogs(response.data);
-            console.log(response.data);
+            // console.log(response.data);
             setLogLoading(false);
         } catch (error) {
             console.log('Error deleting log:', error);

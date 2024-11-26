@@ -29,6 +29,7 @@ const CreateLogsScreen = () => {
     const [date, setDate] = useState<Date | null>(null);
     const [time, setTime] = useState<Date | null>(null);
     const isEditing = !!log_id;
+    
 
     // useEffect(() => {
     //     // Set the date state to the current local date when the component mounts
@@ -78,6 +79,7 @@ const CreateLogsScreen = () => {
     const date_time = formatDateTime(date, time);
 
     const handleSubmit = () => {
+        console.log('isEditing:', isEditing);
         console.log('Submitting new log:', { title, notes, date_time });
         const data = {
             pet_id: petid,

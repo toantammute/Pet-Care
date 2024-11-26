@@ -24,7 +24,7 @@ const useDoctors = () =>{
                     Authorization: `Bearer ${userInfo.access_token}`,
                 }
             });
-            console.log('Get doctors response:', response.data.data);
+            // console.log('Get doctors response:', response.data.data);
             setDoctors(response.data.data);
             setDoctorsLoading(false);
         } catch (error) {

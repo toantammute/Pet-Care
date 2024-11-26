@@ -43,7 +43,7 @@ const usePetSchedule = () => {
             });
 
             const data = response.data.data;
-            console.log("Data:", data);
+            // console.log("Data:", data);
             if (data !== null) {
                 // Log schedules of each pet and store them in petSchedules
                 const petSchedulesData = data.map((pet: PetSchedule) => {
@@ -59,7 +59,7 @@ const usePetSchedule = () => {
 
                 // Flatten the schedules array and set it to the state
                 const allSchedules = data.flatMap((pet: { schedules: any; }) => pet.schedules);
-                console.log("All Schedules:", allSchedules);
+                // console.log("All Schedules:", allSchedules);
                 setSchedules(allSchedules);
             } else {
                 console.log("No pets found.");
@@ -75,8 +75,8 @@ const usePetSchedule = () => {
     };
     const createPetSchedule = async (data: { petid: any; }) => {
         setScheduleLoading(true);
-        console.log("Day la data ", data);
-        console.log(`${API_URL}/pet-schedule/pet/${data.petid}`);
+        // console.log("Day la data ", data);
+        // console.log(`${API_URL}/pet-schedule/pet/${data.petid}`);
         try {
             const response = await axios.post(`${API_URL}/pet-schedule/pet/${data.petid}`, data, {
                 headers: {
@@ -84,7 +84,7 @@ const usePetSchedule = () => {
                 }
             });
             setSchedules(response.data);
-            console.log(response.data);
+            // console.log(response.data);
             setScheduleLoading(false);
         } catch (error) {
             console.log('Error creating schedule:', error);
@@ -107,7 +107,7 @@ const usePetSchedule = () => {
                 },
             });
             setPetScheduleOverview(response.data.data);
-            console.log(response.data.data);
+            // console.log(response.data.data);
             setScheduleLoading(false);
         } catch (error) {
             console.log('Error fetching pet schedule by Pet:', error);
@@ -130,7 +130,7 @@ const usePetSchedule = () => {
             }
         }).then(response => {
             setSchedules(response.data);
-            console.log("Active", response.data);
+            // console.log("Active", response.data);
             setScheduleLoading(false);
         }).catch(error => {
             console.log('Error updating schedule:', error.response.data);
@@ -146,7 +146,7 @@ const usePetSchedule = () => {
                 }
             });
             setDeleteSchedule(response.data.data);
-            console.log(deleteSchedule);
+            // console.log(deleteSchedule);
             setScheduleLoading(false);
         } catch (error) {
             console.log('Error deleting schedule:', error);
