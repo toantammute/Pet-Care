@@ -23,9 +23,9 @@ import DiseaseScreen from '../src/DiseaseScreen';
 import AI_Chat from '../src/AI_Chat';
 import UpdateUserScreen from '../src/UpdateUserScreen';
 import UpdatePetScreen from '../src/UpdatePetScreen';
-import ProfileScreen from '../src/(tabs)/ProfileScreen';
 import CreateAppointmentScreen from '../src/CreateAppointmentScreen';
 import DiseaseDetailScreen from '../src/DiseaseDetailScreen';
+import VaccinationDetailScreen from '../src/VaccinationDetailScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -50,18 +50,19 @@ const Navigation = () => {
                 <Stack.Screen name="Notification" component={NotificationScreen} />
                 <Stack.Screen name="CreateReminder" component={CreateReminderScreen} />
                 <Stack.Screen name="UpdatePetScreen" component={UpdatePetScreen} />
-                <Stack.Screen name="PetDetail" component={PetDetail} />
+                <Stack.Screen name="PetDetail" component={PetDetail} options={{title:'Pet Detail'}} />
                 <Stack.Screen name="AddPetScreen" component={AddPetScreen} />
-                <Stack.Screen name="CreateLogsScreen" component={CreateLogsScreen} />
-                <Stack.Screen name="LogsScreen" component={LogsScreen} />
-                <Stack.Screen name="CreateVaccinationScreen" component={CreateVaccinationScreen} />
-                <Stack.Screen name="AppointmentScreen" component={AppointmentScreen} />
-                <Stack.Screen name="ServiceScreen" component={ServiceScreen} />
-                <Stack.Screen name="DiseaseScreen" component={DiseaseScreen} />
-                <Stack.Screen name="AI_Chat" component={AI_Chat} />
-                <Stack.Screen name="UpdateUserScreen" component={UpdateUserScreen} />
-                <Stack.Screen name="CreateAppointmentScreen" component={CreateAppointmentScreen} />
-                <Stack.Screen name="DiseaseDetailScreen" component={DiseaseDetailScreen} />
+                <Stack.Screen name="CreateLogsScreen" component={CreateLogsScreen} options={{title:`Insert Pet Daily's Log`}} />
+                <Stack.Screen name="LogsScreen" component={LogsScreen} options={{title:`Pet's Log`}}/>
+                <Stack.Screen name="CreateVaccinationScreen" component={CreateVaccinationScreen} options={{title:`Insert Vaccination`}}/>
+                <Stack.Screen name="AppointmentScreen" component={AppointmentScreen} options={{title:`Appointments`}} />
+                <Stack.Screen name="ServiceScreen" component={ServiceScreen} options={{title:`Services`}}/>
+                <Stack.Screen name="DiseaseScreen" component={DiseaseScreen} options={{title:`Diseases`}}/>
+                <Stack.Screen name="AI_Chat" component={AI_Chat} options={{title:`Chat with AI`}}/>
+                <Stack.Screen name="UpdateUserScreen" component={UpdateUserScreen} options={{title:`Update User's Information`}}/>
+                <Stack.Screen name="CreateAppointmentScreen" component={CreateAppointmentScreen} options={{title:`Create Appointment`}}/>
+                <Stack.Screen name="DiseaseDetailScreen" component={DiseaseDetailScreen} options={{title:`Disease Detail`}}/>
+                <Stack.Screen name="VaccinationDetailScreen" component={VaccinationDetailScreen} options={{title:`Vaccination Detail`}}/>
               </>
             </>
           ) : (

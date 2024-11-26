@@ -29,11 +29,13 @@ interface PetDetails{
   birth_date: string,
   original_name: string,
   microchip_number: string,
+  gender: string,
+  healthnotes: string,
 }
 const usePets = () => {
   const { userInfo } = useContext(AuthContext);
   const [pets, setPets] = useState([]);
-  const [petDetails, setPetDetails] = useState();
+  const [petDetails, setPetDetails] = useState<PetDetails>();
   const [isLoading, setIsLoading] = useState(false);
 
   const getPets = async () => {

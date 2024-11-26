@@ -128,7 +128,7 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ schedule, updateActivePetSc
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#F8F9FA',
-    borderRadius: 10,
+    borderRadius: 12,
     flexDirection: 'row',
     padding: 10,
     justifyContent: 'space-between',
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.2,
     shadowRadius: 1,
-    elevation: 3, // For Android shadow
+    // elevation: 3, // For Android shadow
   },
   leftContainer: {
     flexDirection: 'column',

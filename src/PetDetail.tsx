@@ -22,12 +22,15 @@ interface PetDetails {
     data_image: string;
     original_name: string;
     microchip_number: string;
+    gender: string;
+    healthnotes: string;
 }
 
 
 const PetDetail = () => {
     const navigation = useNavigation<any>();
 
+   
     const route = useRoute();
     const { petid } = route.params as { petid: string };
     // const { petidSchedule } = route.params as { petidSchedule: string };

@@ -4,6 +4,8 @@ import { useNavigation, NavigationProp, useFocusEffect } from '@react-navigation
 import usePetSchedule from '../../hooks/usePetSchedule';
 import PetReminderCard from '../../components/reminder/PetReminderCard';
 import { createNotification, cancelNotification } from '../../services/Notification';
+// import usePets from "../../hooks/usePets";
+
 
 interface Schedule {
   id: string,
@@ -19,6 +21,7 @@ interface Schedule {
 
 const ReminderScreen = () => {
   const { getSchedulesOfUser, scheduleLoading, schedules, petSchedules, updateActivePetSchedule, deletePetSchedule, } = usePetSchedule();
+  // const {getPetDetails, petDetails} = usePetSchedule();
 
   const renderItem = ({ item }: { item: any }) => (
     <PetReminderCard
@@ -27,6 +30,7 @@ const ReminderScreen = () => {
       deletePetSchedule={deletePetSchedule}
       refreshLogs={onRefresh}/>
   );
+ 
 
   const [refreshing, setRefreshing] = useState(false);
 
