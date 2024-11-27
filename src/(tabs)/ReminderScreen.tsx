@@ -97,8 +97,8 @@ const ReminderScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingLeft: 6,
-    paddingRight: 6,
+    paddingLeft: 10,
+    paddingRight: 10,
 
     justifyContent: 'flex-start',
     // alignItems: 'center',
