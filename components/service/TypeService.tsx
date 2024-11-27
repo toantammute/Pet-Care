@@ -1,6 +1,10 @@
 import { View, Text, StyleSheet, FlatList } from 'react-native'
 import React from 'react'
 import ServiceCard from './ServiceCard'
+import FontAwesome6 from 'react-native-vector-icons/FontAwesome6'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
 interface ServiceType {
     id: string,
@@ -18,7 +22,10 @@ const TypeService: React.FC<ServiceTypeCardProps> = ({ serviceType }) => {
     )
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>{serviceType.type_name}</Text>
+            <View>
+                <Text style={styles.title}>{serviceType.type_name}</Text>
+            </View>
+
             <FlatList
                 scrollEnabled={false}
                 data={serviceType.services}
@@ -50,7 +57,7 @@ const styles = StyleSheet.create({
         color: '#333',
     },
     separator: {
-        height: 8,
+        height: 15,
     },
     emptyText: {
         textAlign: 'center',

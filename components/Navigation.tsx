@@ -26,6 +26,7 @@ import UpdatePetScreen from '../src/UpdatePetScreen';
 import CreateAppointmentScreen from '../src/CreateAppointmentScreen';
 import DiseaseDetailScreen from '../src/DiseaseDetailScreen';
 import VaccinationDetailScreen from '../src/VaccinationDetailScreen';
+import VaccinationScreen from '../src/VaccinationScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -63,6 +64,7 @@ const Navigation = () => {
                 <Stack.Screen name="CreateAppointmentScreen" component={CreateAppointmentScreen} options={{title:`Create Appointment`}}/>
                 <Stack.Screen name="DiseaseDetailScreen" component={DiseaseDetailScreen} options={{title:`Disease Detail`}}/>
                 <Stack.Screen name="VaccinationDetailScreen" component={VaccinationDetailScreen} options={{title:`Vaccination Detail`}}/>
+                <Stack.Screen name="VaccinationScreen" component={VaccinationScreen} options={{title:`Vaccinations`}}/>
               </>
             </>
           ) : (

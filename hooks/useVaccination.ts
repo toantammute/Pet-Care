@@ -25,12 +25,16 @@ const useVaccination = () => {
     //     getVaccinations();
     // },[]);
 
-    const getVaccinationsByPet = async (petid: any) => {
+    const getVaccinationsByPet = async (petid: any, pageSize: any, pageNum: any) => {
         setVaccinationLoading(true);
         try {
             const response = await axios.get(`${API_URL}/vaccination/pet/${petid}`, {
                 headers: {
                     Authorization: `Bearer ${userInfo.access_token}`,
+                },
+                params: {
+                    page: pageNum,
+                    pageSize
                 }
             });
             console.log('Vaccinations:', response.data);

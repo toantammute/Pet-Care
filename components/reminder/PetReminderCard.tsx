@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
         padding: 8,
         borderRadius: 10,
         width: '100%',
-        backgroundColor: '#999',
+        backgroundColor: '#E8F7FE',
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
         borderBottomLeftRadius: 0,

@@ -32,14 +32,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 10,
+    padding: 20,
     backgroundColor: '#f0f0f0',
     borderRadius: 10,
-    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    marginBottom: 12,
   },
   diseaseName:{
     fontSize: 16,
-    fontWeight: '400',
+    fontWeight: '500',
+
   }
 })
 export default DiseaseCard;
