@@ -44,7 +44,7 @@ const PetDetail = () => {
         setRefreshing(true);
         await getPetDetails(petid); // Fetch pets data
         await getLogsbyPet(petid, 3, 1);
-        await getVaccinationsByPet(petid);
+        await getVaccinationsByPet(petid, 3, 1);
         setRefreshing(false);
     }
 
@@ -53,7 +53,7 @@ const PetDetail = () => {
             console.log('Screen focused, fetching pet detail');
             getPetDetails(petid);
             getLogsbyPet(petid, 3, 1);
-            getVaccinationsByPet(petid);
+            getVaccinationsByPet(petid, 3, 1);
         }, [])
     );
 
@@ -126,7 +126,7 @@ const PetDetail = () => {
                 />
 
                 <TouchableOpacity style={styles.footerContainer}
-                onPress={() => navigation.navigate('LogsScreen', { petid: pet.petid })}>
+                onPress={() => navigation.navigate('VaccinationScreen', { petid: pet.petid })}>
                     <Text style={{ textAlign: 'center' }}>See all</Text>
                 </TouchableOpacity>
             </View>

@@ -114,7 +114,7 @@ const LogsScreen: React.FC = () => {
     return (
       <Swipeable renderRightActions={renderRightActions}>
         <TouchableOpacity onPress={handleEdit} style={{ marginRight: 10, marginTop: 17 }}>
-          <Card>
+          <Card style={{backgroundColor:'#E8F7FE', borderRadius:10, }}>
             <Card.Content>
               <View
                 style={{

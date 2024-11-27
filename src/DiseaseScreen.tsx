@@ -7,11 +7,32 @@ import { useFocusEffect } from '@react-navigation/native'
 import filter from 'lodash.filter'
 
 interface Disease{
-  disease_id: string;
+  disease_id: number;
   disease_name: string;
   description: string;
+  symptoms: string[];
+  treatment_phases: TreatmentPhase[];
 }
 
+interface Medicine {
+  medicine_id: number;
+  medicine_name: string;
+  usage: string;
+  dosage: string;
+  frequency: string;
+  duration: string;
+  side_effects: string;
+}
+
+interface TreatmentPhase {
+  phase_id: number;
+  phase_number: number;
+  phase_name: string;
+  duration: string;
+  phase_description: string;
+  phase_notes: string;
+  medicines: Medicine[];
+}
 const DiseaseScreen = () => {
   const { diseases, diseaseLoading, getDiseases } = useDisease();
   const [refreshing, setRefreshing] = useState(false);
@@ -43,12 +64,22 @@ const DiseaseScreen = () => {
     return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   };
 
+  // const handleSearch = (query: string) => {
+  //   setSearchQuery(query);
+  //   const normalizedQuery = removeDiacritics(query.toLowerCase());
+  //   const filtered = diseases.filter(disease =>
+  //     removeDiacritics(disease.disease_name.toLowerCase()).includes(normalizedQuery)
+  //   );
+  //   setFilteredDiseases(filtered);
+  // };
   const handleSearch = (query: string) => {
     setSearchQuery(query);
     const normalizedQuery = removeDiacritics(query.toLowerCase());
-    const filtered = diseases.filter(disease =>
-      removeDiacritics(disease.disease_name.toLowerCase()).includes(normalizedQuery)
-    );
+    const filtered = diseases.filter(disease => {
+      const normalizedDiseaseName = removeDiacritics(disease.disease_name.toLowerCase());
+      const normalizedSymptoms = removeDiacritics(disease.symptoms.join(' ').toLowerCase());
+      return normalizedDiseaseName.includes(normalizedQuery) || normalizedSymptoms.includes(normalizedQuery);
+    });
     setFilteredDiseases(filtered);
   };
 
