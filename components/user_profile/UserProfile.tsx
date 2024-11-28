@@ -44,9 +44,11 @@ const PLACEHOLDER_IMAGE = require('../../assets/images/person.png');
 const UserDataProfile: React.FC<UserCardProps> = ({ userData }) => {
   const { image, imageFile, pickImage } = useImagePicker(); // Dùng hook để chọn ảnh
   const { updateUserAvatar } = useUser();
-  const navigation = useNavigation<NavigationProp<{ UpdateUserScreen: undefined }>>();
+  const navigation = useNavigation<NavigationProp<{ UpdateUserScreen: undefined; ChangePass: undefined }>>();
 
-
+  const handleChangePasswordPress = () => {
+    navigation.navigate('ChangePass');
+  };
 
   const getImageSource = () => {
     try {
@@ -123,7 +125,10 @@ const UserDataProfile: React.FC<UserCardProps> = ({ userData }) => {
           value={userData?.address || 'Not set'}
         />
       </View>
-
+ {/* Change Password Button */}
+ <TouchableOpacity style={styles.changePasswordButton} onPress={handleChangePasswordPress}>
+        <Text style={styles.changePasswordButtonText}>Change Password</Text>
+      </TouchableOpacity>
 
     </View>
   );
@@ -176,6 +181,18 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     backgroundColor: '#F3F4F6',
+  },changePasswordButton: {
+    backgroundColor: '#3B82F6',
+    borderRadius: 12,
+    padding: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  changePasswordButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '600',
   },
   cameraButton: {
     position: 'absolute',
