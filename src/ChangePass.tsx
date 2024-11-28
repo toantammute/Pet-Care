@@ -15,7 +15,7 @@ const ChangePass = () => {
     const [showOldPassword, setShowOldPassword] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const navigation = useNavigation<NavigationProp<{ Login: undefined }>>();
+    // const navigation = useNavigation<NavigationProp<{ Login: undefined }>>();
     const { updatePassword } = useUser();
     const {Logout} = useContext(AuthContext);
 
@@ -42,7 +42,7 @@ const ChangePass = () => {
             'Password has been changed successfully',
             [{ text: 'OK', onPress: () => {
               Logout();
-              navigation.navigate('Login');
+              // navigation.navigate('Login');
             }}]
           );
         } catch (error) {
@@ -138,7 +138,7 @@ const ChangePass = () => {
   
           <TouchableOpacity
             style={styles.backButton}
-            onPress={() => navigation.goBack()}
+            // onPress={() => navigation.goBack()}
           >
             <Text style={styles.backButtonText}>Cancel</Text>
           </TouchableOpacity>
