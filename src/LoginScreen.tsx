@@ -8,6 +8,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 const LoginScreen = () => {
     const navigation = useNavigation<NavigationProp<{ Register: undefined }>>();
+    const navigation1 = useNavigation<NavigationProp<{ ForgotPass: undefined }>>();
   
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   
@@ -63,6 +64,14 @@ const LoginScreen = () => {
           >
             <Text style={styles.loginButtonText}>Sign In</Text>
           </TouchableOpacity>
+
+          <TouchableOpacity 
+          style={styles.forgotPasswordButton}
+          onPress={() => navigation1.navigate('ForgotPass')}
+          >
+            <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+          </TouchableOpacity>
+
   
           <View style={styles.registerContainer}>
             <Text style={styles.registerText}>Don't have an account? </Text>
@@ -149,6 +158,14 @@ const LoginScreen = () => {
       fontSize: 14,
     },
     registerLink: {
+      color: '#007AFF',
+      fontSize: 14,
+      fontWeight: '500',
+    }, forgotPasswordButton: {
+      marginTop: 10,
+      alignItems: 'center',
+    },
+    forgotPasswordText: {
       color: '#007AFF',
       fontSize: 14,
       fontWeight: '500',

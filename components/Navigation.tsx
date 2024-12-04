@@ -27,6 +27,8 @@ import CreateAppointmentScreen from '../src/CreateAppointmentScreen';
 import DiseaseDetailScreen from '../src/DiseaseDetailScreen';
 import VaccinationDetailScreen from '../src/VaccinationDetailScreen';
 import VaccinationScreen from '../src/VaccinationScreen';
+import ForgotPass from '../src/ForgotPass';
+import ChangePass from '../src/ChangePass';
 
 const Stack = createNativeStackNavigator();
 
@@ -64,14 +66,18 @@ const Navigation = () => {
                 <Stack.Screen name="CreateAppointmentScreen" component={CreateAppointmentScreen} options={{title:`Create Appointment`}}/>
                 <Stack.Screen name="DiseaseDetailScreen" component={DiseaseDetailScreen} options={{title:`Disease Detail`}}/>
                 <Stack.Screen name="VaccinationDetailScreen" component={VaccinationDetailScreen} options={{title:`Vaccination Detail`}}/>
-                <Stack.Screen name="VaccinationScreen" component={VaccinationScreen} options={{title:`Vaccinations`}}/>
+                <Stack.Screen name="VaccinationScreen" component={VaccinationScreen} options={{ title: `Vaccinations` }} />
+                <Stack.Screen name="ChangePass" component={ChangePass} options={{ title: `Update password` }} />
+
               </>
             </>
           ) : (
             <>
               <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }} />
               <Stack.Screen name='Register' component={RegisterScreen} options={{ headerShown: false }} />
-              <Stack.Screen name="OTPVerification" component={OTPScreen} options={{ headerShown: false }} />
+                <Stack.Screen name="OTPVerification" component={OTPScreen} options={{ headerShown: false }} />
+                <Stack.Screen name="ForgotPass" component={ForgotPass} options={{headerShown: false }}/>
+
             </>
 
           )}

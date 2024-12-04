@@ -85,13 +85,10 @@ const useUser = () => {
             type: imageFile.type,
         });
       }
-  
-
         await axios.put(`${API_URL}/user/avatar`, formData, {
         headers: {
           Authorization: `Bearer ${userInfo.access_token}`,
           'Content-Type': 'multipart/form-data',
-
         },
       });
 
@@ -106,7 +103,69 @@ const useUser = () => {
       setIsLoading(false);
     }
   };
+
+  const resetPassword = async (email: string) => {
+    setIsLoading(true);
+    try {  
+      const payload = {
+        email: email,
+      };
+      const response = await axios.put(`${API_URL}/user/reset-password`, payload, {
+        headers: {
+          Authorization: `Bearer ${userInfo.access_token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+       // Check if the response indicates success
+       if (response.data && response.data.code === 'S') {
+        return true;
+      } else {
+        console.error('Error reset password:', response.data);
+        return false;
+      }
+
+      // Update local user state with the updated data
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error('Error reset password:', error.response?.data || error.message);
+      } else {
+        console.error('Error reset password:', error);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
               
+  
+  const updatePassword = async (old_password: string, password : string) => {
+    setIsLoading(true);
+    try {
+      // Prepare the request payload
+      const payload = {
+        old_password: old_password,
+        password: password,
+      };
+
+      const response = await axios.put(`${API_URL}/user/change-password`, payload, {
+        headers: {
+          Authorization: `Bearer ${userInfo.access_token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      // Update local user state with the updated data
+      setUser(response.data.data);
+      console.log('User updated successfully:', response.data.data);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error('Error updating user:', error.response?.data || error.message);
+      } else {
+        console.error('Error updating user:', error);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     getUser();
@@ -120,7 +179,9 @@ const useUser = () => {
     isLoading,
     getUser,
     updateUser,
-    updateUserAvatar
+    updateUserAvatar,
+    resetPassword,
+    updatePassword
   };
 };
 
