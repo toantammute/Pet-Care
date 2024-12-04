@@ -108,28 +108,62 @@ export const createNotification = async (
                 else {
                     if (schedule.event_repeat === 'DAILY') {
                         console.log('Notification date is in the past but have daily', schedule);
-                        date.setDate(currentDate.getDate() + 1);
-                        const trigger: TimestampTrigger = {
-                            type: TriggerType.TIMESTAMP,
-                            timestamp: date.getTime(),
-                            repeatFrequency: RepeatFrequency.DAILY,
-                        };
-                        await notifee.createTriggerNotification(
-                            {
-                                id: `SCHE${schedule.id.toString()}`,
-                                title: schedule.title,
-                                body: schedule.notes,
-                                android: {
-                                    channelId: channelId,
-                                    smallIcon: 'ic_launcher',
-                                    pressAction: {
-                                        id: 'default',
+                        // date.setDate(currentDate.getDate() + 1);
+                        // const trigger: TimestampTrigger = {
+                        //     type: TriggerType.TIMESTAMP,
+                        //     timestamp: date.getTime(),
+                        //     repeatFrequency: RepeatFrequency.DAILY,
+                        // };
+                        // await notifee.createTriggerNotification(
+                        //     {
+                        //         id: `SCHE${schedule.id.toString()}`,
+                        //         title: schedule.title,
+                        //         body: schedule.notes,
+                        //         android: {
+                        //             channelId: channelId,
+                        //             smallIcon: 'ic_launcher',
+                        //             pressAction: {
+                        //                 id: 'default',
+                        //             },
+                        //         },
+                        //     },
+                        //     trigger,
+                        // );
+                        // console.log('Notification created successfully:', schedule);
+                        while (date < currentDate) {
+                            date.setDate(date.getDate() + 1);
+                        }
+                        console.log('Sau khi them 1 ngay:', date);
+                        //Nếu sau khi thêm < enddate thì
+                        if (endDate !== null && date > endDate) {
+                            console.log("Không được vì lớn hơn EndDate");
+                            updateActivePetSchedule(schedule.id, false); // Set schedule as inactive
+                            return;
+                        }
+                        else {
+                            const trigger: TimestampTrigger = {
+                                type: TriggerType.TIMESTAMP,
+                                timestamp: date.getTime(),
+                                repeatFrequency: RepeatFrequency.DAILY,
+                            };
+                            await notifee.createTriggerNotification(
+                                {
+                                    id: `SCHE${schedule.id.toString()}`,
+                                    title: schedule.title,
+                                    body: schedule.notes,
+                                    android: {
+                                        channelId: channelId,
+                                        smallIcon: 'ic_launcher',
+                                        pressAction: {
+                                            id: 'default',
+                                        },
                                     },
                                 },
-                            },
-                            trigger,
-                        );
-                        console.log('Notification created successfully:', schedule);
+                                trigger,
+                            );
+                            console.log('Notification created successfully:', schedule);
+                        }
+
                     }
                     else if (schedule.event_repeat === 'WEEKLY') {
                         console.log('Notification date is in the past but have weekly', schedule);
