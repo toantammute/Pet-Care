@@ -11,8 +11,6 @@ interface Schedule {
     is_active: boolean;
 }
 
-//Lấy ngày hiện tại
-const crtDate = new Date();
 
 export const createNotification = async (
     schedule: Schedule,
