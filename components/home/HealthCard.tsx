@@ -28,9 +28,10 @@ const HealthCard = () => {
                     </TouchableOpacity>
                     <TouchableOpacity
                     style={StyleSheet.compose(styles.serviceBtn, { backgroundColor: '#E8F7FE' })}
+                    onPress={() => navigation.navigate('ProductsScreens')}
                     >
                         <MaterialCommunityIcons name='pill' size={30} color='#71A8B6' />
-                        <Text style={styles.text}>Medicine</Text>
+                        <Text style={styles.text}>Products</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.rowServiceContainer}>

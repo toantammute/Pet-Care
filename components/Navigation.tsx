@@ -29,6 +29,9 @@ import VaccinationDetailScreen from '../src/VaccinationDetailScreen';
 import VaccinationScreen from '../src/VaccinationScreen';
 import ForgotPass from '../src/ForgotPass';
 import ChangePass from '../src/ChangePass';
+import ProductsScreens from '../src/ProductsScreens';
+import CartScreen from '../src/CartScreen';
+import CheckoutScreen from '../src/CheckoutScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -68,7 +71,9 @@ const Navigation = () => {
                 <Stack.Screen name="VaccinationDetailScreen" component={VaccinationDetailScreen} options={{title:`Vaccination Detail`}}/>
                 <Stack.Screen name="VaccinationScreen" component={VaccinationScreen} options={{ title: `Vaccinations` }} />
                 <Stack.Screen name="ChangePass" component={ChangePass} options={{ title: `Update password` }} />
-
+                <Stack.Screen name="ProductsScreens" component={ProductsScreens} options={{ title: `Products` }} />
+                <Stack.Screen name="CartScreen" component={CartScreen} options={{ title: `Cart` }} />
+                <Stack.Screen name="CheckoutScreen" component={CheckoutScreen} options={{ title: `Checkout Detail` }} />
               </>
             </>
           ) : (
