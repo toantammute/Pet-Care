@@ -85,7 +85,7 @@ const useCart = () => {
             });
             setcartLoading(false);
             console.log(res.data);
-            Alert.alert('Success', 'Product added to cart');
+            // Alert.alert('Success', 'Product added to cart');
         } catch (error) {
             setcartLoading(false);
             console.log(error);
@@ -142,6 +142,7 @@ const useCart = () => {
             setCheckoutDetail(res.data.data);
             setcartLoading(false);
             console.log(res.data);
+            return res.data.data;
         } catch (error) {
             setcartLoading(false);
             console.log(error);

@@ -10,25 +10,40 @@ const CheckoutScreen = () => {
   const { CheckoutDetail, getCheckoutDetail } = useCart();
   const { makePayment, paymentRes } = usePayment();
 
-  const paymentData = {
-    accountNo: "220220222419",
-    accountName: "Pet Care Management App",
-    acqId: "970422",
-    amount: parseInt(CheckoutDetail?.total_amount?.toString() || '0', 10),
-    // amount: 2000,
-    addInfo: "Thanh toan don hang " + order_id,
-    format: "text",
-    template: "compact2",
-    order_id: parseInt(order_id, 10),
-  };
+  // const paymentData = {
+  //   accountNo: "220220222419",
+  //   accountName: "Pet Care Management App",
+  //   acqId: "970422",
+  //   amount: parseInt(CheckoutDetail?.total_amount?.toString() || '1', 10),
+  //   addInfo: "Thanh toan don hang " + order_id,
+  //   format: "text",
+  //   template: "compact2",
+  //   order_id: parseInt(order_id, 10),
+  // };
 
   useFocusEffect(
     React.useCallback(() => {
-      getCheckoutDetail(order_id);
-      makePayment(paymentData);
-    }, [])
-  )
+      const fetchData = async () => {
+        const checkoutDetail = await getCheckoutDetail(order_id);
 
+        const paymentData = {
+          accountNo: "220220222419",
+          accountName: "Pet Care Management App",
+          acqId: "970422",
+          amount: parseInt(checkoutDetail?.total_amount?.toString() || '1', 10),
+          addInfo: "Thanh toan don hang " + order_id,
+          format: "text",
+          template: "compact2",
+          order_id: parseInt(order_id, 10),
+        };
+
+        await makePayment(paymentData);
+      };
+
+      fetchData();
+    }, [order_id])
+  );
+  
   const base64Image = `data:image/png;base64,${paymentRes?.qrDataURL}`;
   console.log('Payment response:', base64Image);
   return (

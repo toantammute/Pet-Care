@@ -5,6 +5,7 @@ import Spinner from 'react-native-loading-spinner-overlay'
 import usePet from '../../hooks/usePets'
 import { useFocusEffect } from '@react-navigation/native'
 import FloatingAddButton from '../../components/pet/FloatingAddButton'
+import SplashScreen from '../SplashScreen'
 
 const PetScreen = () => {
   const { pets, isLoading, getPets, deletePet } = usePet();
@@ -32,9 +33,13 @@ const PetScreen = () => {
     refreshLogs={onRefresh}/>
   );
 
+  while (isLoading) {
+    return <SplashScreen/>;
+  }
+
   return (
     <View style={styles.container}>
-      <Spinner visible={isLoading} />
+      {/* <Spinner visible={isLoading} /> */}
       {/* <StatusBar barStyle="dark-content" /> */}
       <FlatList
         data={pets}

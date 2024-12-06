@@ -149,9 +149,9 @@ const HomeScreen = () => {
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Nearby Clinic</Text>
 
-          <TouchableOpacity style={styles.seeAllBtn}>
+          {/* <TouchableOpacity style={styles.seeAllBtn}>
             <Text style={styles.seeAllText}>See all</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <View style={styles.flatView}>
           <FlatList

@@ -28,7 +28,7 @@ const Header = () => {
         </View>
         <View style={styles.rightContainer}>
           <TouchableOpacity onPress={() => navigation.navigate('CartScreen')}>
-            <NotifyIcon name="notifications-outline" size={30} />
+            <NotifyIcon name="cart-outline" size={30} />
           </TouchableOpacity>
         </View>
       </View>
